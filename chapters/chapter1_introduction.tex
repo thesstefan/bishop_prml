@@ -1,0 +1,881 @@
+\chapter{Introduction}
+
+\section*{Exercise 1.1 $\star$}
+Consider the sum-of-squares error function given by (1.2) in 
+which the function $y(x, \mathbf{w})$ is given by the polynomial
+(1.1). Show that the coefficients $\mathbf{w} = \{ w_i \}$ that minimize
+this error function are given by the solution to the following
+set of linear equations
+\begin{equation}\label{eq:1.122}\tag{1.122}
+    \sum_{j=0}^{M} A_{ij}w_j = T_i
+\end{equation}
+where 
+\begin{equation}\label{eq:1.123}\tag{1.123}
+    A_{ij} = \sum_{n=1}^{N} (x_n)^{i + j}, \hspace{5em} T_i = \sum_{n=1}^{N} (x_n)^it_n.
+\end{equation}
+Here a suffix $i$ or $j$ denotes the index of a component, whereas
+$(x)^i$ denotes $x$ raised to the power of $i$.
+
+\vspace{1em}
+
+\begin{proof}
+    The function $y(x, \mathbf{w})$ is given by
+    \begin{equation*}\label{eq:1.1}\tag{1.1}
+        y(x, \mathbf{w}) = \sum_{j = 0}^M w_j x^j
+    \end{equation*}
+    and the error function is given by
+    \begin{equation*}\label{eq:1.2}\tag{1.2}
+        E(\mathbf{w}) = \frac{1}{2} \sum_{n = 1}^N \{y(x_n, \mathbf{w}) - t_n\}^2
+    \end{equation*}
+
+    Since we want to find the coefficients $\mathbf{w}$ for which
+    the error function is minimized, we compute its derivative with
+    respect to $\mathbf{w}$:
+    \begin{align*}
+        \dv{\mathbf{w}} E(\mathbf{w}) 
+        =& \dv{\mathbf{w}} \bigg(\frac{1}{2} \sum_{n = 1}^N \{y(x_n, \mathbf{w}) - t_n\}^2\bigg)
+        = \frac{1}{2} \sum_{n = 1}^{N} \dv{\mathbf{w}} \{y(x_n, \mathbf{w})^2 - 2t_ny(x_n, \mathbf{w}) + t_n^2\} \\
+        =& \sum_{n = 1}^N y(x_n, \mathbf{w}) \dv{\mathbf{w}} y(x_n, \mathbf{w})
+            - \sum_{n = 1}^N t_n \dv{\mathbf{w}} y(x_n, \mathbf{w}) \label{eq:1.1.1}\tag{1.1.1}
+    \end{align*}
+
+    We continue by computing the derivative of $y(x_n, \mathbf{w})$ separately and obtain that:
+    \begin{equation}\label{eq:1.1.2}\tag{1.1.2}
+        \dv{\mathbf{w}} y(x_n, \mathbf{w}) 
+        = \begin{bmatrix} 
+            \displaystyle \dv{w_0} y(x_n, \mathbf{w}) \\
+            \displaystyle \dv{w_1} y(x_n, \mathbf{w}) \\
+            \vdots \\
+            \displaystyle \dv{w_M} y(x_n, \mathbf{w}) \\
+        \end{bmatrix}
+        = \begin{bmatrix}
+            x_n^0 \\
+            x_n^1 \\
+            \vdots \\
+            x_n^M
+        \end{bmatrix}
+    \end{equation}
+
+    By substituting the result of ($\ref{eq:1.1.2}$) into ($\ref{eq:1.1.1}$) we get that:
+    \begin{equation}\label{eq:1.1.3}\tag{1.1.3}
+        \dv{\mathbf{w}} E(\mathbf{w}) = B - T
+    \end{equation}
+    where $T$ is given by (\ref{eq:1.123}) and
+    \[
+        B_i = \sum_{n = 1}^{N} x_n^i y(x_n, \mathbf{w})  
+    \] 
+
+    Now, we easily find that
+    \[
+        B_i = \sum_{n = 1}^{N} \bigg(x_n^i \sum_{j = 0}^M w_j x_n^j\bigg)
+        = \sum_{n = 1}^{N} \sum_{j = 0}^M x_n^{i + j} w_j
+        = A_i \mathbf{w}
+    \] 
+    where $A$ is given by ($\ref{eq:1.123}$). Now, the critical point of $E(\mathbf{w})$ 
+    is given by the equation:
+    \[
+        A_i \mathbf{w} = T_i
+    \] 
+    which is equivalent with $(\ref{eq:1.122})$.
+\end{proof}
+
+\section*{Exercise 1.2 $\star$}
+Write down the set of coupled linear equations, analogous to (\ref{eq:1.122}), satisfied
+by the coefficients $w_i$ which minimize the regularized sum-of-squares error
+function given by ($\ref{eq:1.4}$).
+    
+\vspace{1em}
+
+\begin{proof}
+    The regularized sum-of-squares error function is given by
+    \begin{equation}\label{eq:1.4}\tag{1.4}
+        \widetilde{E}(\mathbf{w}) = \frac{1}{2} \sum_{i = 1}^N 
+            \{y(x_n, \mathbf{w}) - t_n\}^2 + \frac{\lambda}{2} ||\mathbf{w}||^2
+    \end{equation}
+
+    We'll have a similar approach to the previous exercise, i.e. we compute
+    the derivative of the regularized error function and find the associated
+    critical point. We notice that
+    \[
+        \widetilde{E}(\mathbf{w}) = E(\mathbf{w}) + \frac{\lambda}{2} ||\mathbf{w}||^2
+    \] 
+    so
+    \[
+        \dv{\mathbf{w}} \widetilde{E}(\mathbf{w}) 
+        = \dv{\mathbf{w}} E(\mathbf{w}) + \frac{\lambda}{2} \cdot \dv{\mathbf{w}} ||\mathbf{w}||^2
+    \] 
+
+    One could easily prove that
+    \[
+        \dv{\mathbf{w}} ||\mathbf{w}||^2 = 2\mathbf{w}
+    \] 
+    so by using this and $(\ref{eq:1.1.3})$ (where we substitute $B = A\mathbf{w}$), we
+    have that:
+    \[
+        \dv{\mathbf{w}} \widetilde{E}(\mathbf{w}) 
+        = A\mathbf{w} + \lambda \mathbf{w} - T
+        = (A + \lambda I)\mathbf{w} - T
+    \] 
+
+    We obtain the critical point when the derivative is 0, so when
+    \[
+        (A + \lambda I) \mathbf{w} = T
+    \] 
+    which is equivalent with the system of linear equations
+    \[
+        \sum_{j=0}^{M} C_{ij} w_j = T_i
+    \] 
+    where 
+    \[
+        C_{ij} = A_{ij} + \lambda I_{ij} \hspace{2em}
+    \] 
+\end{proof}
+
+\section*{Exercise 1.3 $\star \star$}
+Suppose that we have three coloured boxes $r$ (red), $b$ (blue), and $g$ (green). Box
+$r$ contains 3 apples, 4 oranges and 3 limes, box $b$ contains 1 apple, 1 orange, and 0
+limes, and box $g$ contains 3 apples, 3 oranges, and 4 limes. If a box is chosen
+at random with probabilities $p(r) = 0.2$, $p(b) = 0.2$, $p(g) = 0.6$, and a picee 
+of fruit is removed from the box (with equal probability of selecting any of the items
+in the box), then what is the probability of selecting an apple? If we observe
+that the selected fruit is in fact an orange, what is the probability that it came from
+the green box?
+
+\vspace{1em}
+
+\begin{proof}
+    The conditional probabilities of obtaining a fruit knowing that we are 
+    searching in a certain box are easily found since the fruits are equally
+    likely to be extracted. We also now the probabilities of choosing a specific box,
+    so we can simply apply the sum rule to obtain the probability of getting an apple:
+    \[
+        p(\text{apple}) 
+        = p(\text{apple} | r)p(r) + p(\text{apple} | b)p(b) + p(\text{apple} | g)p(g) 
+        = \frac{3}{10} \cdot 0.2 + \frac{1}{2} \cdot 0.2 + \frac{3}{10} \cdot 0.6
+        = 34\%
+    \] 
+
+    If we know the selected fruit is an orange, the probability that it came from
+    the green box is given by the Bayes' theorem:
+
+    \begin{equation*}\label{eq:1.3.1}\tag{1.3.1}
+        p(g | \text{orange}) = \frac{p(g)p(\text{orange} | g)}{p(\text{orange})}
+    \end{equation*}
+
+    The probability of choosing the green box is known and the probability of getting
+    an orange from the green box is also easily found. We only need to find the probability
+    of extracting an orange in the general case:
+    \[
+        p(\text{orange}) 
+        = p(\text{orange} | r)p(r) + p(\text{orange} | b)p(b) + p(\text{orange} | g)p(g) 
+        = \frac{4}{10} \cdot 0.2 + \frac{1}{2} \cdot 0.2 + \frac{3}{10} \cdot 0.6
+        = 36\%
+    \]
+
+    The needed probability is now found by substituting the values in $(\ref{eq:1.3.1})$:
+    \[
+        p(g | \text{orange}) = \frac{0.6 \cdot \frac{3}{10}}{\frac{36}{100}} = \frac{1}{2} = 50\%
+    \] 
+\end{proof}
+
+\section*{Exercise 1.4 $\star \star$ TODO}
+Consider a probability density $p_x(x)$ defined over a continuous variable
+$x$, and suppose that we make a nonlinear change of variable using $x = g(y)$,
+so that the density transforms according to (1.27). By differentiating (1.27),
+show that the location  $\widehat{y}$ of the maximum of the density in
+$y$ is not in general related to the location $\widehat{x}$ of the maximum of the
+density over $x$ by the simple functional relation $\widehat{x} = g(\widehat{y})$ 
+as a consequence of the Jacobian factor. This shows that the maximum of a probability
+density (in contrast to a simple function) is dependent of the choice of variable.
+Verify that, in the case of a linear transformation, the location of the maximum
+transforms in the same way as the variable itself.
+
+\vspace{1em}
+
+\begin{proof}
+    If we make a nonlinear change of variable $x = g(y)$ in the probbability density 
+    $p_x(x)$, it transforms according to
+    \begin{equation}\label{eq:1.27}\tag{1.27}
+        p_y(y) = p_x(g(y)) |g'(y)|
+    \end{equation}
+
+    We assume that the mode of $p_x(x)$ is given by an unique $\widehat{x}$, i.e.
+     \[
+         p_x'(x) = 0 \iff x = \widehat{x}
+    \] 
+
+    Now, let $s \in \{-1, 1\}$ such that $g'(y) = sg'(y)$. 
+    The derivative of  $(\ref{eq:1.27})$ with respect to $y$ is given by:
+    \[
+        p_y'(y) = sp'x(g(y))\{g'(y)\}^2 + sp_x(g(y))g''(y)
+    \] 
+
+    For a linear change of variable, we have that $g''(y) = 0$, so the mode of $p_y(y)$ 
+    is given by $g'(y) = 0$ and since $x = g(y)$, respectively $x' = g'(y)$ we have that
+    $\widehat{x} = g(\widehat{y})$. Therefore, for a linear change of variable, the location
+    of the maximum transforms in the same way as the variable itself.
+
+    For a nonlinear change of variable, the second derivative will not be generally 0, so
+    the mode is not given by $g'(y) = 0$ anymore. As a result, in general $\widehat{x} \neq g(\widehat{y})$,
+    so the location of the mode will transform differently from the variable itself.
+\end{proof}
+
+\section*{Exercise 1.5 $\star$}
+Using the definition ($\ref{eq:1.38}$) show that var$[f(x)]$ satisfies ($\ref{eq:1.39}$).
+
+\vspace{1em}
+
+\begin{proof}
+    The variance is defined by 
+    \begin{equation}\label{eq:1.38}\tag{1.38}
+        \text{var}[f] = \mathbb{E}\big[(f(x) - \mathbb{E}[f(x)])^2\big]
+    \end{equation}
+
+    We expand the square and then use the linearity of expectation to obtain:
+    \[
+        \text{var}[f] 
+        = \mathbb{E}\big[f(x)^2 - 2f(x)\mathbb{E}[f(x)] + \mathbb{E}[f(x)]^2\big]
+        = \mathbb{E}[f(x)^2] - 2\mathbb{E}\big[f(x)\mathbb{E}[f(x)]\big] + \mathbb{E}\big[\mathbb{E}[f(x)]^2\big]
+    \] 
+
+    Since $\mathbb{E}[f(x)]$ is a constant, the expression of the variance becomes:
+    \begin{equation}\label{eq:1.39}\tag{1.39}
+        \text{var}[f] 
+        = \mathbb{E}[f(x)^2] - 2\mathbb{E}[f(x)]^2 + \mathbb{E}[f(x)]^2
+        = \mathbb{E}[f(x)^2] - \mathbb{E}[f(x)]^2
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 1.6 $\star$}
+Show that if two variables $x$ and $y$ are independent, then their covariance is zero.
+
+\vspace{1em}
+
+\begin{proof}
+    The covariance of two random variables is given by:
+    \begin{equation}\label{eq:1.41}\tag{1.41}
+        \text{cov}[x, y] = \mathbb{E}_{x, y} [xy] - E[x]E[y]
+    \end{equation}
+
+    We assume that the variables are continuous, but the discrete case result is similarly obtained.
+    If $x$ and $y$ are independent, we have that $p(x, y) = p(x)p(y)$, so
+     \[
+         E_{x, y}[xy] = \iint p(x, y) xy \hspace{0.25em} dxdy 
+         = \iint p(x) p(y) xy \hspace{0.25em} dxdy
+         = \bigg(\int p(x) x \hspace{0.25em} dx\bigg) \bigg(\int p(y) y \hspace{0.25em} dy\bigg)
+         = E[x]E[y]
+    \] 
+    and ($\ref{eq:1.41}$) becomes 0.
+\end{proof}
+
+\section*{Exercise 1.7 $\star \star$}
+In this exercise, we prove the normalization condition (1.48) for the univariate
+Gaussian. To do this consider the integral
+\begin{equation}\label{eq:1.124}\tag{1.124}
+    I = \int_{-\infty}^{\infty} \exp\bigg(-\frac{1}{2\sigma^2}x^2\bigg) \hspace{0.25em} dx
+\end{equation}
+which we can evaluate by first writing its square in the form
+\begin{equation}\label{eq:1.125}\tag{1.125}
+    I^2 = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \exp 
+        \bigg(-\frac{1}{2\sigma^2}x^2 - \frac{1}{2\sigma^2}y^2\bigg) \hspace{0.25em} dxdy
+\end{equation}
+
+Now make the transformation from Cartesian coordinates $(x, y)$ to polar coordinates $(r, \theta)$ 
+and then substitute $u = r^2$. Show that, by performing the integrals over $\theta$ and $u$,
+and then takinng the square root of both sides, we obtain
+\begin{equation}\label{eq:1.126}\tag{1.126}
+    I = (2\pi\sigma^2)^{1/2}
+\end{equation}
+
+Finally, use this result to show that the Gaussian distribution $\mathcal{N}(x | \mu, \sigma^2)$ is 
+normalized.
+
+\vspace{1em}
+
+\begin{proof}
+    We transform $(\ref{eq:1.125})$ from Cartesian coordinates to polar coordinates and obtain:
+\[
+    I^2 = \int_{0}^{2\pi} \int_0^\infty \exp 
+        \bigg(-\frac{r^2\sin^2 \theta + r^2\cos^2 \theta}{2\sigma^2}\bigg) rdrd\theta
+        = \int_{0}^{2\pi} \int_{0}^{\infty} \exp \bigg(-\frac{r^2}{2\sigma^2}\bigg) rdrd\theta
+    \] 
+
+    We use the substitution $u = r^2$ and then compute the integral to get:
+    \[
+        I^2 = \frac{1}{2} \int_{0}^{2\pi} \int_{0}^{\infty} \exp\bigg(-\frac{u}{2\sigma^2}\bigg) dud\theta
+        = \frac{1}{2} \int_0^{2\pi} -2\sigma^2 \exp\bigg(-\frac{u}{2\sigma^2}\bigg)\bigg|_0^\infty d\theta
+        = \sigma^2 \int_{0}^{2\pi} d\theta = 2\pi\sigma^2
+    \] 
+
+    If we take the square root of this we see that
+    \begin{equation}\tag{1.126}
+        I = (2\pi\sigma^2)^{1/2}
+    \end{equation}
+
+    We can assume without loss of generality that the mean of the Gaussian is 0,
+    as we could make the change of variable $y = x - \mu$. Therefore, by using
+    $(\ref{eq:1.126})$ we obtain
+    \[
+        \mathcal{N}(x | \mu, \sigma^2) 
+        = \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} \exp\bigg(-\frac{x}{2\sigma^2}\bigg) dx
+        = \frac{I}{\sqrt{2\pi\sigma^2}} = 1
+    \] 
+    which shows that the Gaussian distribution is normailized.
+\end{proof}
+
+\section*{Exercise 1.8 $\star \star$}
+By using a change of variables, verify that the univariate Gaussian
+given by (1.46) satisfies ($\ref{eq:1.49}$). Next, by differentiating both sides
+of the normalization condition
+\begin{equation*}\label{eq:1.127}\tag{1.127}
+    \int_{-\infty}^{\infty} \mathcal{N} (x | \mu, \sigma^2) dx = 1
+\end{equation*}
+with respect to $\sigma^2$, verify that the Gaussian satisfies (1.50). Finally,
+show that (1.51) holds.
+
+\vspace{1em}
+\begin{proof}
+    We start by computing the expected value of the Gaussian:
+    \[
+        \mathbb{E}[x] = \int_{-\infty}^{\infty} \mathcal{N}(x | \mu, \sigma^2) x \diff x
+        = \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} 
+            \exp \bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\} x \diff x
+    \] 
+
+    We do a little trick to prepare for the substitution $u = (x - \mu)^2$:
+    \[
+        \mathbb{E}[x] = \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} 
+        \exp\bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\} (x - \mu) \diff x 
+        + \frac{\mu}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} \exp\bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\} \diff x
+    \] 
+
+    Since the Gaussian is normalized, the second term of the expression will be $\mu$.
+    By using the substitution $u = (x - \mu)^2$, the expected value becomes:
+    \[
+        \mathbb{E}[x] 
+        = \frac{1}{2\sqrt{2\pi\sigma^2}} \int_{\infty}^{\infty} \exp\bigg(-\frac{u}{2\sigma^2}\bigg) \diff u + \mu
+    \] 
+
+    We notice that the endpoints of the integral are "equal" (one could rewrite it as a
+    limit of an integral with actual equal endpoints), so its value is 0. Therefore,
+    \begin{equation}\label{eq:1.49}\tag{1.49}
+        \mathbb{E}[x] = \mu
+    \end{equation}
+
+    Now, we take the derivative of ($\ref{eq:1.127}$) with respect to $\sigma^2$ and obtain:
+    \begin{align*}
+        \pdv{\sigma^2} \bigg(\frac{1}{\sqrt{2\pi \sigma^2}} 
+        \int_{-\infty}^{\infty} \exp \bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\} \diff x\bigg) &= 0 \\
+        -\frac{I}{2\sigma^3\sqrt{2\pi}} + 
+        \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} \pdv{\sigma^2} 
+        \exp \bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\} \diff x &= 0 \\
+        -\frac{1}{2\sigma^2} + 
+        \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty}
+        \frac{(x - \mu)^2}{2\sigma^4} \exp\bigg\{-\frac{(x + \mu)^2}{2\sigma^2}\bigg\} \diff x &= 0
+    \end{align*}
+
+    We let $J$ be the integral term and compute it separately:
+    \begin{align*}
+        J &= \frac{1}{2\sigma^4} \int_{-\infty}^{\infty} (x - \mu)^2 \exp \bigg\{-\frac{(x + \mu)^2}{2\sigma^2}\bigg\} \diff x \\
+          &= \frac{1}{2\sigma^4} \int_{-\infty}^{\infty} x^2 
+            \exp \bigg\{-\frac{(x+\mu)^2}{2\sigma^2}\bigg\} \diff x
+        - \frac{2\mu}{2\sigma^4} \int_{-\infty}^{\infty} x 
+            \exp \bigg\{-\frac{(x+\mu)^2}{2\sigma^2}\bigg\} \diff x
+        + \frac{\mu^2}{2\sigma^4} I
+    \end{align*}
+
+    If we multiply by the normalization constants, the integrals become expected values and the
+    $I$ factor vanishes. Therefore:
+    \[
+        J = \sqrt{2\pi \sigma^2} \bigg(\frac{1}{2\sigma^4} \mathbb{E}[x^2] - \frac{2\mu}{2\sigma^4} \mathbb{E}[x] + \frac{\mu^2}{2\sigma^4}\bigg)
+    \] 
+
+    We substitute $J$ back in the initial expression to obtain:
+    \[
+        -\frac{1}{2\sigma^2} + \frac{1}{2\sigma^4}(\mathbb{E}[x^2] - 2\mu^2 + \mu^2) = 0
+    \] 
+    from which is straightforard to show that 
+    \begin{equation}\label{eq:1.50}\tag{1.50}
+        E[x^2] = \sigma^2 + \mu^2
+    \end{equation}
+
+    Finally, one can easily see that:
+    \begin{equation}\label{eq:1.51}\tag{1.51}
+        \text{var}[x] = E[x^2] - E[x]^2 = \sigma^2
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 1.9 $\star$}
+Show that the mode (i.e. the maximum) of the Gaussian distribution (1.46) is
+given by $\mu$. Similarly, show that the mode of the multivariate Gaussian
+(1.52) is given by $\bm{\mu}$. 
+
+\vspace{1em}
+
+\begin{proof}
+    In the univariate case, we start by taking the derivative of (1.46) with
+    respect to $x$ :
+    \[
+        \pdv{x} \mathcal{N} (x | \mu, \sigma^2)
+        = \frac{1}{\sqrt{2\pi \sigma^2}} \bigg(\pdv{x} \exp \bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\}\bigg)
+        = \frac{1}{\sqrt{2\pi \sigma^2}} \frac{(x - \mu)^2}{2\sigma^4} \exp \bigg\{-\frac{(x - \mu)^2}{2\sigma^2}\bigg\}
+    \] 
+
+    We notice that the derivative is 0, for $x = \mu$, so the mode of the univariate Gaussian is 
+    given by the mean. 
+
+    \vspace{1em}
+
+    Analogously, we take the derivative of (1.52) with respect to $\mathbf{x}$ and get:
+    \[
+        \pdv{\mathbf{x}} \mathcal{N} (\mathbf{x} | \bm{\mu}, \mathbf{\Sigma})
+        = \frac{1}{(2\pi)^{D/2}} \frac{1}{|\mathbf{\Sigma}|^{1/2}}
+        \bigg(\pdv{\mathbf{x}} \exp \bigg\{-\frac{1}{2} 
+            (\mathbf{x} - \bm{\mu})^T \mathbf{\Sigma}^{-1} (\mathbf{x} - \bm{\mu})\bigg\}\bigg)
+    \] 
+
+    The covariance matrix $\mathbf{\Sigma}$ is both nonsingular and symmetric, so one
+    can easily show that $\mathbf{\Sigma}^{-1}$ 
+    will be symmetric too. Therefore, we have that (see matrix cookbook):
+    \[
+        \pdv{\mathbf{x}} (\mathbf{x} - \bm{\mu})^T \mathbf{\Sigma}^{-1}(\mathbf{x} - \bm{\mu})
+        = 2\mathbf{\Sigma}^{-1}(\mathbf{x} - \bm{\mu})
+    \] 
+
+    As a result, our derivative becomes
+    \[
+        \pdv{\mathbf{x}} \mathcal{N} (\mathbf{x} | \bm{\mu}, \mathbf{\Sigma})
+        = -\frac{1}{(2\pi)^{D/2}} \frac{1}{|\mathbf{\Sigma}|^{1/2}}
+        \exp \bigg\{-\frac{1}{2} 
+            (\mathbf{x} - \bm{\mu})^T \mathbf{\Sigma}^{-1} (\mathbf{x} - \bm{\mu})\bigg\}
+            \mathbf{\Sigma}^{-1}(\mathbf{x} - \bm{\mu})
+    \]
+    and is 0 for $\mathbf{x} = \bm{\mu}$, so like in the case of the univariate distribution,
+    the mode of the multivariate distribution is given by the mean $\bm{\mu}$.
+\end{proof}
+
+\section*{Exercise 1.10 $\star$}
+Suppose that the two variables $x$ and $z$ are statistically independent. Show that
+the mean and variance of their sum satisfies
+\begin{equation}\label{eq:1.128}\tag{1.128}
+    \mathbb{E}[x + z] = \mathbb{E}[x] + \mathbb{E}[z]
+\end{equation}
+\vspace{-1em}
+\begin{equation}\label{eq:1.129}\tag{1.129}
+    \text{var}[x + z] = \text{var}[x] + \text{var}[z]
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    Since the variables are independent, we have that $p(x, z) = p(x)p(z)$. Therefore,
+    by using this, the expression of the expected value and the fact that the distributions
+    are normalized, we have that
+    \begin{align*}
+         \mathbb{E}[x + z] 
+        &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(x, z) (x + z) \diff x \diff z \\
+        &= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} p(x)p(z) x + p(x)p(z)z \diff x \diff z \\
+        &= \int_{-\infty}^{\infty} p(z) \bigg(\int_{-\infty}^{\infty} p(x) x \diff x\bigg) + p(z) z \bigg(\int_{-\infty}^{\infty} p(x) \diff x\bigg) \diff z \\
+        &= \int_{-\infty}^{\infty} p(z) \mathbb{E}[x] + p(z)z \diff z \\
+        &= \mathbb{E}[x] \int_{-\infty}^{\infty} p(z) \diff z + \int_{-\infty}^{\infty} p(z) z \diff z \\
+        &= \mathbb{E}[x] + \mathbb{E}[z] \tag{\ref{eq:1.128}}
+    \end{align*}
+
+    Analogously, we can solve the discrete case. Now, by using all the available tools,
+    i.e. $(\ref{eq:1.39})$ and $(\ref{eq:1.128})$, the linearity of the expectation
+    and the independence of variables, we have that the variance of the sum is given by:
+    \begin{align*}
+        \text{var}[x + z] 
+        &= \mathbb{E}[(x + z)^2] - \mathbb{E}[x + z]^2
+        = \mathbb{E}[x^2 + 2xz + z^2] - (\mathbb{E}[x] + \mathbb{E}[z])^2 \\
+        &= \mathbb{E}[x^2] + 2\mathbb{E}[x]\mathbb{E}[z] + \mathbb{E}[z^2] - \mathbb{E}[x]^2 
+        - \mathbb{E}[x^2 + 2xz + z^2] - E[z]^2 \\
+        &= E[x^2] - E[x]^2 + E[z^2] - E[z]^2 \\
+        &= \text{var}[x] + \text{var}[z] \tag{\ref{eq:1.129}}
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 1.11 $\star$}
+By setting the derivatives of the log likelihood function ($\ref{eq:1.54}$) with respect to $\mu$
+and $\sigma^2$ equal to zero, verify the results $(\ref{eq:1.55})$ and ($\ref{eq:1.56}$).
+
+\vspace{1em}
+
+\begin{proof}
+    The log likelihood of the Gaussian is given by:
+    \begin{equation}\label{eq:1.54}\tag{1.54}
+        \ln p(\mathbf{x} | \mu, \sigma^2) = -\frac{1}{2\sigma^2} \sum_{n = 1}^{N} (x_n - \mu)^2 
+        -\frac{N}{2}\ln\sigma^2 - \frac{N}{2} \ln(2\pi)
+    \end{equation}
+
+    By taking the derivative of $(\ref{eq:1.54})$ with respect to $\mu$ we
+    get that:
+    \begin{align*}
+        \pdv{\mu} \ln p(\mathbf{x} | \mu, \sigma^2) 
+        &= -\frac{1}{2\sigma^2} 
+            \bigg\{\pdv{\mu} \sum_{n = 1}^{N} (x_n - \mu)^2\bigg\}
+        = -\frac{1}{2\sigma^2} 
+            \bigg\{\pdv{\mu} \bigg(\sum_{n=1}^{N} x_n^2 - 2\sum_{n=1}^{N} x_n \mu + N\mu^2\bigg)\bigg\} \\
+        &= \frac{1}{\sigma^2} \bigg(\sum_{n=1}^{N} x_n - N\mu \bigg)
+    \end{align*}
+    which is 0 for the maximum point:
+    \begin{equation}\label{eq:1.55}\tag{1.55}
+        \mu_{ML} = \frac{1}{N} \sum_{n = 1}^{N} x_n
+    \end{equation}
+
+    Now, we want the variance that maximizes the log likelihood, so we take
+    the derivative of $(\ref{eq:1.54})$ (by using $\mu_{ML}$) with respect to $\sigma^2$:
+    \[
+        \pdv{\sigma^2} \ln p(\mathbf{x} | \mu_{ML}, \sigma^2) 
+        = \frac{1}{2\sigma^4} \sum_{n=1}^{N} (x_n - \mu_{ML})^2 - \frac{N}{2\sigma^2}
+        = \frac{1}{2\sigma^4}\bigg(\sum_{n=1}^{N} (x_n - \mu_{ML})^2 - N\sigma^2\bigg)
+    \] 
+
+    The derivative is 0 for the maximum point
+    \begin{equation}\label{eq:1.56}\tag{1.56}
+        \sigma^2_{ML} = \frac{1}{N}\sum_{n = 1}^{N} (x_n - \mu_{ML})^2
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 1.12 $\star \star$}
+Using the results $(\ref{eq:1.49})$ and $(\ref{eq:1.50})$, show that
+\begin{equation}\label{eq:1.130}\tag{1.130}
+    \mathbb{E}[x_nx_m] = \mu^2 + I_{nm}\sigma^2
+\end{equation}
+where $x_n$ and $x_m$ denote data points sampled from a Gaussian distribution
+with mean $\mu$ and variance $\sigma^2$, and $I_{nm}$ satisfies $I_{nm} = 1$ 
+if $n = m$ and $I_{nm} = 0$ otherwise. Hence prove the results ($\ref{eq:1.57}$)
+and  $(\ref{eq:1.58})$.
+
+\vspace{1em}
+
+\begin{proof}
+    We assume that the data points are i.i.d, so we have that the variables
+    $x_n$ and $x_m$ are not independent for $n \neq m$ and independent for $n = m$.
+    Therefore,  
+    \[
+        \mathbb{E}[x_nx_m] = 
+        \begin{cases}
+            \mu^2 & n \neq m \\
+            \mu^2 + \sigma^2 & n = m \\
+
+        \end{cases}
+    \] 
+    which is equivalent with ($\ref{eq:1.130})$.
+    Now, the expectation of $\mu_{ML}$ is given by:
+    \begin{equation}\label{eq:1.57}\tag{1.57}
+         \mathbb{E}[\mu_{ML}] 
+         = \mathbb{E} \bigg[\frac{1}{N} \sum_{n=1}^{N} x_n\bigg]
+         = \frac{1}{N} \sum_{n=1}^{N} \mathbb{E}[x_n] = \mu
+    \end{equation}
+
+    Similarly, the expectation of $\sigma_{ML}^2$ is given by: 
+    \begin{align*}
+        \mathbb{E}[\sigma_{ML}^2] 
+        &= \mathbb{E}\bigg[\frac{1}{N} \sum_{n=1}^{N} (x_n - \mu_{ML})^2\bigg]
+        = \frac{1}{N} \sum_{n=1}^{N} \mathbb{E} [x_n^2 - 2x_n\mu_{ML} + \mu_{ML}^2] \\
+        &= \frac{1}{N} \sum_{n=1}^{N} (\mu^2 + \sigma^2 - 2\mathbb{E}[x_n\mu_{ML}] + \mathbb{E}[\mu_{ML}^2])
+    \end{align*}
+
+    We compute each expectation separately and get:
+    \[
+    E[\mu_{ML}^2]
+    = \frac{1}{N^2} \mathbb{E} \bigg[\sum_{n=1}^{N} x_n^2 + 2\sum_{i=1}^{N-1} \sum_{j=i+1}^{N} x_ix_j\bigg]
+    = \frac{1}{N^2} \sum_{n=1}^{N} \mathbb{E}[x_n^2] + 
+        \frac{2}{N^2} \sum_{i=1}^{N-1} \sum_{j = i+1}^{N} \mathbb{E}[x_ix_j]
+    = \frac{\sigma^2}{N} + \mu^2
+    \] 
+    \[
+        E[x_n\mu_{ML}] = \frac{1}{N} \mathbb{E}\bigg[x_n \sum_{i=1}^{N} x_i\bigg]
+        = \frac{1}{N} (\sigma^2 + N\mu^2) = \frac{\sigma^2}{N} + \mu^2
+    \]
+
+    By putting everything together, we obtain
+    \begin{equation}\label{eq:1.58}\tag{1.58}
+        \mathbb{E}[\sigma_{ML}^2] = \bigg(\frac{N - 1}{N}\bigg) \sigma^2
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 1.13 $\star$}
+Suppose that the variance of a Gaussian is estimated using the result ($\ref{eq:1.56}$) but
+with the maximum likelihood estimate $\mu_{ML}$ replaced with the true value $\mu$ of
+the mean. Show that this estimator has the property that its expectation is given by the
+true variance $\sigma^2$.
+
+\vspace{1em}
+
+\begin{proof}
+Let 
+ \[
+     {\sigma_{ML}^*}^2 = \frac{1}{N} \sum_{n=1}^{N} (x_n - \mu)^2
+\] 
+be the estimator described in the hypothesis. It's straightforward to show that the
+expectation of the estimator is the actual variance:
+\[
+    \mathbb{E}[{\sigma_{ML}^*}^2] = \frac{1}{N} \sum_{n=1}^{N} 
+        \bigg(\mathbb{E}[x_n^2] - 2\mathbb{E}[x_n \mu] + \mathbb{E}[\mu^2]\bigg)
+        =\frac{1}{N} \sum_{n=1}^{N} (\sigma^2 + \mu^2 - 2\mu^2 + \mu^2) = \sigma^2
+\] 
+\end{proof}
+
+\section*{Exercise 1.14 $\star \star$} Show that an arbitrary square matrix with elements $w_{ij}$ can
+be written in the form $w_{ij} = w_{ij}^S + w_{ij}^A$ where $w_{ij}^S$ and $w_{ij}^A$ are
+symmetric and anti-symmetric matrices, respectively, satisfying $w_{ij}^S = w_{ji}^S$ and
+$w_{ij}^A = -w_{ji}^A$ for all $i$ and $j$. Now consider the second order term in a higher
+order polynomial in $D$ dimensions, given by
+\begin{equation}\label{eq:1.131}\tag{1.131}
+    \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}x_ix_j
+\end{equation}
+
+Show that 
+\begin{equation}\label{eq:1.132}\tag{1.132}
+    \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}x_ix_j = \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}^S x_ix_j
+\end{equation}
+so that the contribution from the anti-symmetric vanishes. We therefore see
+that, without loss of generality, the matrix of coefficients $w_{ij}$ can be chosen
+to be symmetric, and so not all of the $D^2$ elements of this matrix can be chosen
+independently. Show that the number of independent parameters in the matrix $w_{ij}^S$
+is given by  $D(D+1)/2$.
+
+\vspace{1em}
+
+\begin{proof}
+    If we consider the system of equations
+    \[
+        w_{ij} = w_{ij}^S + w_{ij}^A 
+        \hspace{3em}
+        w_{ji} = w_{ij}^S - w_{ij}^A
+    \]
+    we quickly reach the conclusion that the solutions are given by
+    \begin{equation}\label{eq:1.14.1}\tag{1.14.1}
+        w_{ij}^S = \frac{w_{ij} + w_{ji}}{2}
+        \hspace{3em}
+        w_{ij}^A = \frac{w_{ij} - w_{ji}}{2}
+    \end{equation}
+    such that for all $i$ and $j$, 
+    \[
+        w_{ij} = w_{ij}^S + w_{ij}^A 
+    \] 
+
+    The coefficient matrix $w$ associated with the second order higher order polynomial 
+    in $D$ dimensions is actually a $D \times D$ $\emph{symmetric}$ matrix. Therefore, from
+    $(\ref{eq:1.14.1})$ we'd have that $w^S = w$ and $w_A = 0_D$, where $0_D$ is the null
+    matrix of dimension $D$, so $(\ref{eq:1.132})$ definitely holds as the anti-symmetric
+    contribution vanishes.
+
+    We consider as independent parameters of the matrix $w$ the elements on and above the diagonal,
+    since the ones under the diagonal are reflections of the ones above. There are  
+    \[
+        \sum_{i=1}^{D} (D - i + 1) = D^2 + D - \sum_{i=1}^{D} i = D^2 + D - \frac{D(D+1)}{2} = \frac{D(D+1)}{2}
+    \] 
+    such independent parameters
+\end{proof}
+
+\section*{Exercise 1.15 $\star \star \star$ TODO}
+In this exercise and the next, we explore how the number of independent
+parameters in a polynomial grows with the order $M$ of the polynomial and with
+the dimensionality $D$ of the input space. We start by writing down the $M^{\text{th}}$ order
+term for a polynomial in $D$ dimensions in the form
+\begin{equation}\label{eq:1.133}\tag{1.133}
+    \sum_{i_1=1}^{D} \sum_{i_2=1}^{D} \ldots \sum_{i_M=1}^{D} 
+        w_{i_1,i_2,\ldots,i_M}x_{i_1}x_{i_2} \cdot \ldots x_{i_M} 
+\end{equation}
+
+The coefficients $w_{i_1, i_2, \ldots i_M}$ compromise $D^M$ elements, but the number
+of independent parameters is significantly fewer due to the many interchange symmetries
+of the factor $x_{i_1}, x_{i_2} \ldots x_{i_M}$. Begin by showing that the redundancy in the
+coefficients can be removed by rewriting the $M^\text{th}$ order term in the form
+\begin{equation}\label{eq:1.134}\tag{1.134}
+    \sum_{i_1=1}^{D} \sum_{i_2=1}^{i_1} \ldots \sum_{i_M=1}^{i_{M-1}} 
+        \widetilde{w}_{i_1,i_2,\ldots,i_M}x_{i_1}x_{i_2} \cdot \ldots x_{i_M} 
+\end{equation}
+
+Note that the precise relationship between the $\widetilde{w}$ coefficients and
+ $w$ coefficients need not be made explicit. Use this result to show that the number
+ of $\emph{independent}$ parameters $n(D, M)$, which appear at order $M$, satisfies
+ the following recursion relation
+ \begin{equation}\label{eq:1.135}\tag{1.135}
+    n(D, M) = \sum_{i=1}^{D} n(i, M - 1) 
+\end{equation}
+
+Next use proof by induction to show that the following result holds
+\begin{equation}\label{eq:1.136}\tag{1.136}
+    \sum_{i=1}^{D} \frac{(i + M - 2)!}{(i - 1)!(M - 1)!} = \frac{(D + M - 1)!}{(D - 1)!M!}
+\end{equation}
+which can be done by first proving the result for $D = 1$ and arbitrary $M$ by
+making use of the result $0! = 1$, then assuming it is correct for dimension $D$ 
+and verifying that it is correct for dimension $D + 1$. Finally, use the two previous
+results, together with proof by induction, to show
+\begin{equation}\label{eq:1.137}\tag{1.137}
+    n(D, M) = \frac{(D + M - 1)!}{(D - 1)!M!}
+\end{equation}
+
+To do this, first show that the result is true for $M = 2$, and any value of $D \geq 1$,
+by comparison with the result of Exercise 1.14. Then make use of ($\ref{eq:1.135}$), together
+with ($\ref{eq:1.136}$), to show that, if the result holds at order $M - 1$, then it will
+also hold at order $M$.
+
+\vspace{1em}
+
+\begin{proof}
+    
+\end{proof}
+
+\section*{Exercise 1.17 $\star \star$}
+The gamma function is defined by 
+\begin{equation}\label{eq:1.141}\tag{1.141}
+    \Gamma(x) = \int_{0}^{\infty} u^{x - 1}e^{-u} \diff u 
+\end{equation}
+
+Using integration by parts, prove the relation $\Gamma(x + 1) = x\Gamma(x)$. Show
+also that $\Gamma(1) = 1$ and hence that $\Gamma(x + 1) = x!$ when $x$ is
+an integer.
+
+\vspace{1em}
+
+\begin{proof}
+    Knowing that $-u^xe^{-u} \to 0$ as $u \to \infty$, 
+    we integrate $\Gamma(x + 1)$ by parts and obtain:
+     \[
+         \Gamma(x+1) = \int_{0}^{\infty} u^x (-e^{-u})' \diff u
+         = -u^x e^{-u} \bigg|_0^\infty + x \int_{0}^\infty u^{x - 1} e^{-u} \diff u
+         = x\Gamma(x)
+    \] 
+
+    Computing $\Gamma(1)$ is also easily done by integrating by parts:
+    \[
+        \Gamma(1) = \int_{0}^{\infty} ue^{-u} \diff u
+        = \int_{0}^{\infty} u(-e^{-u})' \diff u
+        = -ue^{-u}\bigg|_0^\infty + \int_{0}^{\infty} e^{-u} \diff u 
+        = 1
+    \] 
+
+    We can prove by induction that $\Gamma(x + 1) = x!$ when $x$ 
+    is an integer. This is obviously valid for $x = 0$, since $0! = 1$.
+    Now, assume that $\Gamma(k) = (k - 1)!$, for $k \in \mathbb{N}$. Then,
+     \[
+         \Gamma(k + 1) = k\Gamma(k) = k \cdot (k - 1)! = k!
+    \] 
+
+    Therefore, $\Gamma(n + 1) = n!$ for all $n \in \mathbb{N}$.
+\end{proof}
+
+\section*{Exercise 1.18 $\star \star$}
+We can use the result $(\ref{eq:1.126})$ to derive an expression for the
+surface area $S_D$ and the volume $V_D$, of a sphere of unit radius in  
+$D$ dimensions. To do this, consider the following result, which is obtained
+by transforming from Cartesian to polar coordinates
+\begin{equation}\label{eq:1.142}\tag{1.142}
+    \prod_{i = 1}^D \int_{-\infty}^{\infty} e^{-x_i^2} \diff x_i 
+    = S_D \int_{0}^{\infty} e^{-r^2} r^{D - 1} \diff r 
+\end{equation}
+
+Using the definition ($\ref{eq:1.141}$) of the Gamma function, together with
+$(\ref{eq:1.126})$, evaluate both sides of this equation, and hence show that
+\begin{equation}\label{eq:1.143}\tag{1.143}
+    S_D =\frac{2\pi^{D/2}}{\Gamma(D/2)}
+\end{equation}
+
+Next, by integrating with respect to radius from 0 to 1, show that the volume
+of the unit sphere in $D$ dimensions is given by
+\begin{equation}\label{eq:1.144}\tag{1.144}
+    V_D = \frac{S_D}{D}
+\end{equation}
+
+Finally, use the results $\Gamma(1) = 1$ and $\Gamma(3/2) = \sqrt{\pi}/2$ to show
+that ($\ref{eq:1.143}$) and ($\ref{eq:1.144}$) reduce to the usual
+expressions for $D = 2$ and $D = 3$.
+
+\vspace{1em}
+
+\begin{proof}
+    We observe that the left side factor of ($\ref{eq:1.142}$) looks like 
+    $(\ref{eq:1.126})$ for $\sigma^2 = 1/2$. Therefore,
+    \[
+        \prod_{i = 1}^D \int_{-\infty}^{\infty} e^{-x_i^2} \diff x_i
+        = \prod_{i = 1}^D \pi^{1/2} 
+        = \pi^{D/2}
+    \] 
+
+    One can easily notice that the integral in the right side of ($\ref{eq:1.142}$)
+    can be written as:
+     \[
+         \int_{0}^{\infty} e^{-r^2}r^{D - 1} \diff r
+         = \int_{0}^{\infty} e^{-r^2} (r^2)^{(D - 2) / 2} r \diff r
+         = \frac{1}{2}\int_{0}^{\infty} e^{-u} u^{(D - 2)/2} \diff u
+         = \frac{1}{2} \Gamma(D/2) \diff u
+    \] 
+    where we made the substitution $u = r^2$.
+
+    Therefore, from those results and from $(\ref{eq:1.142})$, we find that
+    \begin{equation}\tag{1.143}
+        S_D =\frac{2\pi^{D/2}}{\Gamma(D/2)}
+    \end{equation}
+
+    The volume of the unit hypersphere is now given by the integral
+    \begin{equation}\tag{1.144}
+        V_D = \int_{0}^{1} S_D r^{D - 1} \diff r = \frac{S_D}{D}
+    \end{equation}
+
+    Now, we get the expected results for $D = 2$ and $D = 3$:
+    \[
+        S_2 = \frac{2\pi}{\Gamma(1)} = 2\pi 
+        \hspace{2em}
+        V_2 = \pi
+        \hspace{2em}
+        S_3 = \frac{2\pi^{3/2}}{\Gamma(\frac{3}{2})} = 4\pi
+        \hspace{2em}
+        V_3 = \frac{4\pi}{3}
+    \] 
+\end{proof}
+
+\section*{Exercise 1.19 $\star \star$}
+Consider a sphere of radius $a$ in $D$-dimensions together with
+the concentric hypercube of side $2a$, so that the sphere touches
+the hypercube at the centres of each of its sides. By using the results
+of Exercise 1.18, show that the ratio of the volume of the sphere
+to the volume of the cube is given by
+\begin{equation}\label{eq:1.145}\tag{1.145}
+    \frac{\text{volume of sphere}}{\text{volume of cube}} 
+    = \frac{\pi^{D/2}}{D2^{D - 1}\Gamma(D/2)}
+\end{equation}
+
+Now, make use of Stirling's formula in the form
+\begin{equation}\label{eq:1.145}\tag{1.145}
+    \Gamma(x + 1) \simeq (2\pi)^{1/2} e^{-x} x^{x + 1/2}
+\end{equation}
+which is valid for $x \gg 1$, to show that, as $D \to \infty$, the
+ratio ($\ref{eq:1.145}$) goes to zero. Show also that the ratio
+of the distance from the centre of the hypercube to one
+of the corners, divided by the perpendicular distance to one of the
+sides, is $\sqrt{D}$, which therefore goes to $\infty$ as $D \to \infty$.
+From these results we see that, in a space of high dimensionality,
+most of the volume of a cube is concentrated in a large number
+of corners, which themselves become very lone 'spikes'!
+
+\vspace{1em}
+
+\begin{proof}
+    Using the results of Exercise 1.18, we have that the volume of 
+    $D$-dimensional hypersphere of radius $a$ is 
+    \[
+        V_{D_{\text{sphere}}}(a) = \frac{2\pi^{D/2} a^D}{D\Gamma(D/2)}
+    \] 
+
+    We also know that the volume of the $D-$hypercube of size $2a$ 
+    is given by:
+    \[
+        V_{D_{\text{cube}}(2a)} = (2a)^D = 2^D a^D
+    \] 
+
+    Therefore the ratio of the volumes is given by
+    \begin{equation}\tag{1.145}
+        \frac{V_{D_{\text{sphere}}(a)}}{V_{D_{\text{cube}}}(a)} = \frac{\pi^{D/2}}{D 2^{D - 1}\Gamma(D/2)}
+    \end{equation}
+
+    By using Stirling's formula, we have that
+    \[
+        \lim_{D \to \infty} \frac{\pi^{D/2}}{D 2^{D - 1}\Gamma(D/2)}
+    = \lim_{D \to \infty} \frac{\pi^{D/2}}{D 2^{D - 1} (2\pi)^{1/2}e^{1 - D/2} (D/2 - 1)^{D/2 - 1/2}} = 0
+    \] 
+\end{proof}
