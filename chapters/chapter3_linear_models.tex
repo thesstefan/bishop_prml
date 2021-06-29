@@ -1,0 +1,55 @@
+\chapter{Linear Models for Regression}
+
+\section*{Exercise 3.1 $\star$}
+Show that the $\tanh$ function and the logistic
+sigmoid function ($\ref{eq:3.6}$) are related by 
+\begin{equation}\label{eq:3.100}\tag{3.100}
+    \tanh(a) = 2\sigma(2a) - 1
+\end{equation}
+Hence show that a general linear combination of logistic sigmoid functions
+of the form
+\begin{equation}\label{eq:3.101}\tag{3.101}
+    y(x, \mathbf{w}) = w_0 + \sum_{j=1}^{M} w_j \sigma\bigg(\frac{x-\mu_j}{s}\bigg)
+\end{equation}
+is equivalent to a linear combination of $\tanh$ functions of the form
+\begin{equation}\label{eq:3.102}\tag{3.102}
+    y(x, \mathbf{u}) = u_0 + \sum_{j=1}^{M} u_j \tanh\bigg(\frac{x-\mu_j}{2s}\bigg)
+\end{equation}
+and find expressions to relate the new parameters $\{u_1, \ldots, u_M\}$
+to the original parameters $\{w_1, \ldots, w_M\}$.
+
+\vspace{1em}
+
+\begin{proof}
+    The logistic sigmoid function is given by
+    \begin{equation}\label{eq:3.6}\tag{3.6}
+        \sigma(x) = \frac{1}{1 + \exp(-x)}
+    \end{equation}
+    and the $\tanh$ function is given by
+    \begin{equation}
+        \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} = \frac{e^{2x} - 1}{e^{2x} + 1}
+    \end{equation}
+    By starting from the right-hand side of ($\ref{eq:3.100}$) and then 
+    using the fact that $\tanh$ is odd, we obtain 
+    \begin{equation}\tag{3.100}
+        2\sigma(2a) - 1 = \frac{2}{e^{-2a}} - 1 = \frac{1 - e^{-2a}}{1 + e^{-2a}}
+        = -\tanh(-a) = \tanh(a)
+    \end{equation}
+    Now, we can express the logistic sigmoid functions as
+    \[
+        \sigma(x) = \frac{1}{2}\tanh\frac{x}{2} + \frac{1}{2}
+    \] 
+    By substituting this in (\ref{eq:3.101}), we have that
+    \begin{align*}
+        y(x, \mathbf{w}) = w_0 + \frac{M}{2} +  
+        \sum_{j=1}^{M} \frac{w_j}{2} \tanh\bigg(\frac{x - \mu_j}{2s}\bigg)
+        = y(x, \mathbf{u})
+    \end{align*}
+    where
+    \[
+        u_0 = w_0 + \frac{M}{2} 
+        \hspace{5em}
+        u_j = \frac{1}{2} w_j, j \geq 1
+    \] 
+    Therefore, we proved that ($\ref{eq:3.101}$) is equivalent to ($\ref{eq:3.102}$).
+\end{proof}

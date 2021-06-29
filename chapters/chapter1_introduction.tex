@@ -1,5 +1,7 @@
 \chapter{Introduction}
 
+\textbf{TODO: 1.15, 1.16, 1.20, 1.26, 1.27 + CALCULUS OF VARIATIONS: 1.25, 1.34}
+
 \section*{Exercise 1.1 $\star$}
 Consider the sum-of-squares error function given by (1.2) in 
 which the function $y(x, \mathbf{w})$ is given by the polynomial
@@ -42,14 +44,7 @@ $(x)^i$ denotes $x$ raised to the power of $i$.
     We continue by computing the derivative of $y(x_n, \mathbf{w})$ separately and obtain that:
     \begin{equation}\label{eq:1.1.2}\tag{1.1.2}
         \dv{\mathbf{w}} y(x_n, \mathbf{w}) 
-        = \begin{bmatrix} 
-            \displaystyle \dv{w_0} y(x_n, \mathbf{w}) \\
-            \displaystyle \dv{w_1} y(x_n, \mathbf{w}) \\
-            \vdots \\
-            \displaystyle \dv{w_M} y(x_n, \mathbf{w}) \\
-        \end{bmatrix}
         = \begin{bmatrix}
-            x_n^0 \\
             x_n^1 \\
             \vdots \\
             x_n^M
@@ -260,9 +255,9 @@ Show that if two variables $x$ and $y$ are independent, then their covariance is
     We assume that the variables are continuous, but the discrete case result is similarly obtained.
     If $x$ and $y$ are independent, we have that $p(x, y) = p(x)p(y)$, so
      \[
-         E_{x, y}[xy] = \iint p(x, y) xy \hspace{0.25em} dxdy 
-         = \iint p(x) p(y) xy \hspace{0.25em} dxdy
-         = \bigg(\int p(x) x \hspace{0.25em} dx\bigg) \bigg(\int p(y) y \hspace{0.25em} dy\bigg)
+         E_{x, y}[xy] = \iint p(x, y) xy \hspace{0.25em} \diff x \diff y 
+         = \iint p(x) p(y) xy \hspace{0.25em} \diff x \diff y
+         = \bigg(\int p(x) x \hspace{0.25em} \diff x\bigg) \bigg(\int p(y) y \hspace{0.25em} \diff y\bigg)
          = E[x]E[y]
     \] 
     and ($\ref{eq:1.41}$) becomes 0.
@@ -272,12 +267,12 @@ Show that if two variables $x$ and $y$ are independent, then their covariance is
 In this exercise, we prove the normalization condition (1.48) for the univariate
 Gaussian. To do this consider the integral
 \begin{equation}\label{eq:1.124}\tag{1.124}
-    I = \int_{-\infty}^{\infty} \exp\bigg(-\frac{1}{2\sigma^2}x^2\bigg) \hspace{0.25em} dx
+    I = \int_{-\infty}^{\infty} \exp\bigg(-\frac{1}{2\sigma^2}x^2\bigg) \hspace{0.25em} \diff x
 \end{equation}
 which we can evaluate by first writing its square in the form
 \begin{equation}\label{eq:1.125}\tag{1.125}
     I^2 = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \exp 
-        \bigg(-\frac{1}{2\sigma^2}x^2 - \frac{1}{2\sigma^2}y^2\bigg) \hspace{0.25em} dxdy
+        \bigg(-\frac{1}{2\sigma^2}x^2 - \frac{1}{2\sigma^2}y^2\bigg) \hspace{0.25em} \diff x\diff y
 \end{equation}
 
 Now make the transformation from Cartesian coordinates $(x, y)$ to polar coordinates $(r, \theta)$ 
@@ -296,15 +291,15 @@ normalized.
     We transform $(\ref{eq:1.125})$ from Cartesian coordinates to polar coordinates and obtain:
 \[
     I^2 = \int_{0}^{2\pi} \int_0^\infty \exp 
-        \bigg(-\frac{r^2\sin^2 \theta + r^2\cos^2 \theta}{2\sigma^2}\bigg) rdrd\theta
-        = \int_{0}^{2\pi} \int_{0}^{\infty} \exp \bigg(-\frac{r^2}{2\sigma^2}\bigg) rdrd\theta
+        \bigg(-\frac{r^2\sin^2 \theta + r^2\cos^2 \theta}{2\sigma^2}\bigg) r\diff r\diff \theta
+        = \int_{0}^{2\pi} \int_{0}^{\infty} \exp \bigg(-\frac{r^2}{2\sigma^2}\bigg) r\diff r\diff \theta
     \] 
 
     We use the substitution $u = r^2$ and then compute the integral to get:
     \[
-        I^2 = \frac{1}{2} \int_{0}^{2\pi} \int_{0}^{\infty} \exp\bigg(-\frac{u}{2\sigma^2}\bigg) dud\theta
-        = \frac{1}{2} \int_0^{2\pi} -2\sigma^2 \exp\bigg(-\frac{u}{2\sigma^2}\bigg)\bigg|_0^\infty d\theta
-        = \sigma^2 \int_{0}^{2\pi} d\theta = 2\pi\sigma^2
+        I^2 = \frac{1}{2} \int_{0}^{2\pi} \int_{0}^{\infty} \exp\bigg(-\frac{u}{2\sigma^2}\bigg) du\diff \theta
+        = \frac{1}{2} \int_0^{2\pi} -2\sigma^2 \exp\bigg(-\frac{u}{2\sigma^2}\bigg)\bigg|_0^\infty \diff \theta
+        = \sigma^2 \int_{0}^{2\pi} \diff \theta = 2\pi\sigma^2
     \] 
 
     If we take the square root of this we see that
@@ -317,7 +312,7 @@ normalized.
     $(\ref{eq:1.126})$ we obtain
     \[
         \mathcal{N}(x | \mu, \sigma^2) 
-        = \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} \exp\bigg(-\frac{x}{2\sigma^2}\bigg) dx
+        = \frac{1}{\sqrt{2\pi\sigma^2}} \int_{-\infty}^{\infty} \exp\bigg(-\frac{x}{2\sigma^2}\bigg) \diff x
         = \frac{I}{\sqrt{2\pi\sigma^2}} = 1
     \] 
     which shows that the Gaussian distribution is normailized.
@@ -328,7 +323,7 @@ By using a change of variables, verify that the univariate Gaussian
 given by (1.46) satisfies ($\ref{eq:1.49}$). Next, by differentiating both sides
 of the normalization condition
 \begin{equation*}\label{eq:1.127}\tag{1.127}
-    \int_{-\infty}^{\infty} \mathcal{N} (x | \mu, \sigma^2) dx = 1
+    \int_{-\infty}^{\infty} \mathcal{N} (x | \mu, \sigma^2) \diff x = 1
 \end{equation*}
 with respect to $\sigma^2$, verify that the Gaussian satisfies (1.50). Finally,
 show that (1.51) holds.
@@ -1035,7 +1030,7 @@ threshold $\theta$?
     in Section 1.5.3.
 \end{proof}
 
-\section*{Exercise 1.25 $\star$ TODO}
+\section*{Exercise 1.25 $\star$ CALCULUS OF VARIATIONS}
 Consider the generalization of the squared loss function (1.87) for
 a single target variable $t$ to the case of multiple target variables
 described by the vector $\mathbf{t}$ given by
@@ -1055,7 +1050,24 @@ $(1.90)$, and hence show that the function $\mathbf{y}(\mathbf{x})$ that
 minimizes the expected square loss for the case of a vector $\mathbf{t}$ 
 of target variables is again given by the conditional expectation of $\mathbf{t}$.
 
-\section*{Exercise 1.28 $\star$ TODO}
+\section*{Exercise 1.27 $\star \star$ TODO}
+Consider the expected loss for regression problems under the $L_q$ loss
+function given by $(\ref{eq:1.91})$. Write down the condition that $y(\mathbf{x})$ 
+must satisfy in order to minimize $\mathbb{E}[L_q]$. Show that, for $q = 1$,
+this solution represents the conditional median, i.e., the function 
+$y(\mathbf{x})$ such that the probability mass for $t < y(\mathbf{x})$ 
+is the same for $t \geq y(\mathbf{x})$. Also show that the minimum expected
+$L_q$ loss for $q \to 0$ is given by the conditional mode, i.e., by
+the function $y(\mathbf{x})$ equal to the value $t$ that maximizes 
+$p(t | \mathbf{x})$ for each  $\mathbf{x}$.
+
+\vspace{1em}
+
+\begin{proof}
+    
+\end{proof}
+
+\section*{Exercise 1.28 $\star$}
 In Section 1.6, we introduced the idea of entropy $h(x)$ as the information
 gained on observing the value of a random variable  $x$ having distribution
 $p(x)$. We saw that, for independent variables $x$ and $y$ for which
@@ -1070,6 +1082,69 @@ a positive real number. Finally, show that this implies $h(p)$ must take
 the form  $h(p) \propto \ln p$.
 
 \vspace{1em}
+
+\begin{proof}
+    For independent variables $x$ and $y$ we have that:
+    \[
+        h(x, y) = -\log_2 p(x, y) = -\log_2 p(x) p(y) = -\log_2 p(x) -\log_2 p(y) = h(x) + h(y)
+    \] 
+
+    Next, we show that:
+    \[
+        h(p^2) = -\log_2 p^2 = -2 \log_2 p = 2h(p)
+    \] 
+    and more generally for a positive integer $n$:
+    \[
+        h(p^n) = -\log_2 p^n = -n \log_2 p = nh(p)
+    \] 
+
+    This can be extended to rational number by letting $n, m \in \mathbb{N}$ and
+    showing that:
+     \[
+         h(p^{n/m}) = -\log_2 p^{n/m} = -\frac{n}{m} \log_2 p = \frac{n}{m} h(p)
+    \] 
+
+    Finally, since
+    \[
+        h(p) = -\log_2 p = -\frac{1}{\ln 2} \ln p
+    \] 
+    
+    we have that $h(p) \propto \ln p$.
+\end{proof}
+
+\vspace{1em}
+
+\section*{Exercise 1.29}
+Consider an $M$-state  discrete random variable $x$, and use Jensen's inequality
+in the form ($\ref{eq:1.115}$) to show that the entropy of the distribution
+$p(x)$ satisfies $H[x] \leq \ln M$.
+
+\vspace{1em}
+
+\begin{proof}
+    The entropy of the distribution $p(x)$ is given by:
+    \[
+        H[x] = - \sum_{i=1}^{M} p(x_i) \ln p(x_i) 
+    \] 
+
+    We apply Jensen's inequality with $\lambda_i = p(x_i)$ and the convex
+    function $f(x) = \ln(x)$ to obtain:
+    \begin{equation}\label{eq:1.29.1}\tag{1.29.1}
+        H[x] \leq -\ln\bigg(\sum_{i=1}^{M} p(x)^2\bigg)
+    \end{equation}
+
+    One can prove by using Lagrange multipliers that
+    \[
+        \sum_{i=1}^{M} p(x)^2 \leq \frac{1}{M}
+    \] 
+
+    Therefore, by substituting into $(\ref{eq:1.29.1})$ and using 
+    the fact that $\ln x$ is strictly increasing on $(0, \infty)$,
+    we have that
+    \[
+        H[x] \leq \ln M
+    \] 
+\end{proof}
 
 \section*{Exercise 1.30 $\star \star$}
 Evaluate the Kullback-Leibler divergence ($\ref{eq:1.113}$) between two Gaussians
@@ -1206,7 +1281,7 @@ where $|\mathbf{A}|$ denotes the determinant of $\mathbf{A}$.
     \end{align*}
 \end{proof}
 
-\section*{Exercise 1.33 $\star \star$ TODO}
+\section*{Exercise 1.33 $\star \star$}
 Suppose that the conditional entropy $H[y | x]$ between
 two discrete random variables $x$ and $y$ is zero. Show that,
 for all  values of $x$ such that $p(x) > 0$, the variable $y$ 
@@ -1214,6 +1289,31 @@ must be a function of $x$, in other words for each $x$ there is
 only one value of $y$ such that $p(y | x) \neq 0$.
 
 \vspace{1em}
+
+\begin{proof}
+    Assuming $x, y$ have $N$ respectively $M$ outcomes,
+    we can rewrite the conditional entropy as:
+    \[
+        H[y | x] 
+        = -\sum_{i}^N  \sum_{j}^{M} p(x_i, y_j) \ln p(y_j | x_i)
+        = -\sum_{i}^{N} p(x_i) \sum_{j}^{M} p(y_j | x_i) \ln p(y_j | x_i)
+    \] 
+
+    Since all the sum terms have the same sign, the entropy
+    is 0 if each term is 0. Therefore, the entropy is 0 if
+    for each $p(x_i) > 0$, the inner sum terms are 0. This
+    happens only for $p(y_j | x_i) = 0$ or $\ln p(y_j | x_i) = 0$,
+    which means that $p(y_j | x_i) \in \{0, 1\}$. Since $\displaystyle
+    \sum_{j = 1}^{M} p(y_j | x_i) = 1$, we have that for each
+    $x_i$ there is an unique $y_j$ such that $p(y_j | x_i) = 1$, which
+    proves our hypothesis.
+\end{proof}
+
+\section*{Exercise 1.34 $\star \star$ CALCULUS OF VARIATIONS}
+Use the calculus of variations to show that the stationary point
+of the functional (1.108) is given by (1.108). Then use the constraints
+(1.105), (1.106) and (1.107) to eliminate de Lagrange multipliers and
+hence show that the maximum entropy solution is given by the Gaussian (1.109).
 
 \section*{Exercise 1.35 $\star$}
 Use the results (1.106) and (1.107) to show that the entropy of the 
@@ -1244,6 +1344,37 @@ univariate Gaussian (1.109) is given by ($\ref{eq:1.110}$).
         - \frac{2\mu}{2\sigma^2} \mathbb{E}[x]
         = \frac{1}{2} \bigg\{1 - \frac{1}{2} \ln(2\pi \sigma^2)\bigg\} \label{eq:1.110}\tag{1.110}
     \]
+\end{proof}
+
+\section*{Exercise 1.36 $\star$}
+A strictly convex function is defined as one for which every chord lies
+above the function. Show that this is equivalent to the condition that
+the second derivative of the function be positive.
+
+\vspace{1em}
+
+\begin{proof}
+    Suppose that $f$ is a twice differentiable function. By 
+    summing the Taylor expansions of $f(x + h)$ and $f(x - h)$, 
+    one can show that
+    \[
+        f''(x) = \lim_{h \to 0} \frac{f(x + h) + f(x - h) - 2f(x)}{h^2}
+    \] 
+
+    Therefore, we have that
+    \begin{align*}
+        f''(x) > 0 
+        &\iff f(x + h) + f(x - h) - 2f(x) > 0 \\
+        & \iff \frac{1}{2} f(x + h) + \frac{1}{2} f(x - h) - f(x) > 0
+    \end{align*}
+
+    If $f$ is strictly convex, we can apply $(\ref{eq:1.114})$ in a strict form to obtain 
+    \[
+        \frac{1}{2} f(x + h) + \frac{1}{2} f(x - h) - f(x) >
+        f\bigg(\frac{1}{2}(x+h) + \frac{1}{2}(x - h)\bigg) - f(x) = 0
+    \] 
+
+    Therefore, the second derivative of a strictly convex function is positive.
 \end{proof}
 
 \section*{Exercise 1.37 $\star$}
@@ -1289,29 +1420,28 @@ convex functions implies the result ($\ref{eq:1.115}$).
     \begin{equation}\label{eq:1.114}\tag{1.114}
         f(\lambda a + (1 - \lambda)b) \leq \lambda f(a) + (1 - \lambda) f(b)
     \end{equation}
-    for $N = 2, x_1 = a, x_2 = b, \lambda_1 = \lambda, \lambda_2 = 1 - \lambda$, 
-    which is valid for any convex function $f$. Now,
-    we assume that the general case with $K$ elements,
-    where $\lambda_i \geq 0, \displaystyle \sum_{i = 1}^K{\lambda_i} = 1$ 
-    is true. Therefore, 
+
+    Now, we assume that Jensen's inequality is true for a
+    set of $N$ points and want to prove that it's also true for
+    $N + 1$ points. Since $\displaystyle \sum_{i=1}^{N} \lambda_i = 1$,
+    there exists at least one $\lambda_i \leq 1$. We can assume
+    without loss of generality that this is $\lambda_1$.
+    Therefore, we have that
     \[
-        f\bigg(\sum_{i=1}^{K} \lambda_i x_i\bigg) \leq \sum_{i=1}^{K} \lambda_i f(x_i)
+        f\bigg(\sum_{i=1}^{N+1} \lambda_i x_i\bigg)
+        = f\bigg(\lambda_1 x_1 + (1 - \lambda_1) \sum_{i=2}^{N+1} \frac{\lambda_i}{1 - \lambda_1} x_i\bigg)
     \] 
 
-    We want to deduce that this is true for $K + 1$ elements too.
-    Therefore, let $\lambda_{k + 1} \geq 0$ such that
-    \[
-        \lambda_i' = \lambda_i - \frac{1}{K} \lambda_{k + 1}
-    \] 
-    and 
-    \[
-        \sum_{i = 1}^{K} \lambda_i x_i = (1 - \lambda_{k + 1}) \sum_{i=1}^{K} \lambda_i' x_i
-    \] 
-    $\lambda_2 = 1 - \lambda_1$ such that $\lambda_1 + \lambda_2 = 1$.
-    By Jensens' inequality we have that:
-    \[
-        f\bigg(\sum_{i=1}^{K} \lambda_i x_i\bigg) \leq \sum_{i=1}^{K} \lambda_i f(x_i)
-    \] 
+    Since $\lambda_1$ and $1 - \lambda_1$ are both nonnegative and sum to 1,
+    we can apply ($\ref{eq:1.115}$) to the right-hand side of the equality to obtain:
+    \begin{align*}
+        f\bigg(\sum_{i=1}^{N+1} \lambda_i x_i\bigg)
+        &\leq \lambda_1 f(x_1) + (1 - \lambda_1) \sum_{i=2}^{N+1} \frac{\lambda_i}{1 - \lambda_1} f(x_i) \\
+        &\leq \lambda_1 f(x_1) + \sum_{i=2}^{N+1} f(x_i) \\
+        &\leq \sum_{i=1}^{N+1} \lambda_i f(x_i) \tag{1.115}
+    \end{align*}
+
+    Therefore, we proved Jensen's inequality by induction.
 \end{proof}
 
 \section*{Exercise 1.39 $\star \star \star$}
@@ -1379,7 +1509,7 @@ geometric mean.
     to obtain:
     \begin{align*}
         \ln \bigg(\frac{1}{N} \sum_{i=1}^{N} x_i\bigg) 
-        = \frac{1}{N} \sum_{i=1}^{N} \ln x_i
+        \leq \frac{1}{N} \sum_{i=1}^{N} \ln x_i
         = \frac{1}{N} \ln \bigg(\prod_{i = 1}^N x_i\bigg)
         = \ln \bigg\{\bigg(\prod_{i = 1}^N x_i\bigg)^{1/N}\bigg\}
     \end{align*}
@@ -1388,7 +1518,7 @@ geometric mean.
      \[
          \frac{1}{N} \sum_{i=1}^{N} x_i \leq \bigg({\prod_{i = 1}^n x_i}\bigg)^{1/N}
     \] 
-    which proves that the arithmetic mean of a set of real numebrs
+    which proves that the arithmetic mean of a set of real numbers 
     is never less than their geometric mean.
 \end{proof}
 
