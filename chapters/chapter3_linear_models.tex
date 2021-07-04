@@ -53,3 +53,88 @@ to the original parameters $\{w_1, \ldots, w_M\}$.
     \] 
     Therefore, we proved that ($\ref{eq:3.101}$) is equivalent to ($\ref{eq:3.102}$).
 \end{proof}
+
+\section*{Exercise 3.2 $\star \star$}
+Show that the matrix 
+\begin{equation}\label{eq:3.103}\tag{3.103}
+    \mathbf{\Phi}(\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T
+\end{equation}
+takes any vector $\mathbf{v}$ and projects it onto the space spanned by the columns
+of $\mathbf{\Phi}$. Use this result to show that the least-squares solution 
+($\ref{eq:3.15}$) corresponds to an orthogonal projection of the vector $\mathbf{t}$ onto
+the manifold $\mathcal{S}$ as shown in Figure 3.2.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $\mathbf{p}$ be the projection of $\mathbf{v}$ onto the space spanned by the
+    columns of $\mathbf{\Phi}$. We then have that $\mathbf{p}$ is contained by
+    the space, so $\mathbf{p}$ can be written as a linear combination
+    of the columns of $\mathbf{\Phi}$, i.e. there exists $\mathbf{x}$
+    such that  $\mathbf{p} = \mathbf{\Phi}\mathbf{x}$. By using this
+    and the fact that $\mathbf{p} - \mathbf{v}$ is orthogonal
+    to the space, we have that
+    \begin{align*}
+        \mathbf{\Phi}^T(\mathbf{p} - \mathbf{v}) &= \mathbf{0} \\
+        \mathbf{\Phi}^T(\mathbf{\Phi}\mathbf{x} - \mathbf{v}) &= \mathbf{0} \\
+        \mathbf{\Phi}^T\mathbf{\Phi}\mathbf{x} &= \mathbf{\Phi}^T\mathbf{v} \\
+        \mathbf{x} &= (\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T\mathbf{v}
+    \end{align*}
+    and since $\mathbf{p} = \mathbf{\Phi}\mathbf{x}$, this proves our hypothesis,
+    i.e. 
+    \[
+        \mathbf{p} = \mathbf{\Phi}(\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T\mathbf{v}
+    \] 
+
+    This translates directly to the least-squares geometry described 
+    in Section 3.1.3, where the manifold $\mathcal{S}$ is the space spanned
+    by the columns of $\mathbf{\Phi}$. From what we proved above,
+    the projection of $\mathbf{t}$ onto the manifold $\mathcal{S}$ 
+    is given by $\mathbf{y} = \mathbf{\Phi}\mathbf{w}_{\text{ML}}$,
+    where 
+    \begin{equation}\label{eq:3.15}\tag{3.15}
+        \mathbf{w}_{\text{ML}} = (\mathbf{\Phi}^T \mathbf{\Phi})^{-1} \mathbf{\Phi}^T \mathbf{t}
+    \end{equation}
+    is the least-squares solution.
+\end{proof}
+
+\section*{Exercise 3.3 $\star$}
+Consider a data set in which each data point $t_n$ is associated with a weighting
+factor $r_n > 0$, so that the sum of squares error function becomes
+\begin{equation}\label{eq:3.104}\tag{3.104}
+    E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
+    r_n\{t_n - \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\}^2
+\end{equation}
+Find an expression for the solution $\mathbf{w}^\star$ that minimizes this error function.
+Give two alternative interpretations of the weighted sum-of-squares error function
+in terms of (i) data dependent noise variance and (ii) replicated data points.
+
+\vspace{1em}
+
+\begin{proof}
+    Since the least-squares error function is convex,
+    the function is minimized in its only critical 
+    point. Similarly to (3.13), the derivative is given by:
+    \begin{align*}
+        \pdv{\mathbf{w}} E_D(\mathbf{w})
+        &= \frac{1}{2} \sum_{n=1}^{N} r_n \bigg(\pdv{\mathbf{w}} 
+        \{t_n - \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\}^2\bigg) \\
+        &= \sum_{n=1}^N r_n \{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n) - t_n\} 
+        \bm{\phi}(\mathbf{x}_n)^T \\
+        &= \mathbf{w}^T 
+        \bigg(\sum_{i=1}^{N} r_n \bm{\phi}(\mathbf{x}_n)
+        \bm{\phi}(\mathbf{x}_n)^T\bigg) -
+        \sum_{n=1}^{N} r_n t_n \bm{\phi}(\mathbf{x}_n)^T
+    \end{align*}
+    By defining the matrix $R = \text{diag}(r_1, r_2, \ldots, r_n)$
+    and then setting the derivative to 0, we obtain the equality
+    \[
+        \mathbf{w}^T R\mathbf{\Phi}\mathbf{\Phi}^T
+        = R\mathbf{t}^T\mathbf{\Phi}
+    \] 
+    which gives the weighted least-squares solution (we get the
+    column vector form):
+    \[
+        \mathbf{w}^\star = (\mathbf{\Phi}^T\mathbf{\Phi}R)^{-1} \mathbf{\Phi}^T \mathbf{t} R 
+    \] 
+\end{proof}
