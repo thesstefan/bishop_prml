@@ -15,8 +15,8 @@ is equivalent to a linear combination of $\tanh$ functions of the form
 \begin{equation}\label{eq:3.102}\tag{3.102}
     y(x, \mathbf{u}) = u_0 + \sum_{j=1}^{M} u_j \tanh\bigg(\frac{x-\mu_j}{2s}\bigg)
 \end{equation}
-and find expressions to relate the new parameters $\{u_1, \ldots, u_M\}$
-to the original parameters $\{w_1, \ldots, w_M\}$.
+and find expressions to relate the new parameters $\{u_0, \ldots, u_M\}$
+to the original parameters $\{w_0, \ldots, w_M\}$.
 
 \vspace{1em}
 
@@ -111,6 +111,8 @@ in terms of (i) data dependent noise variance and (ii) replicated data points.
 
 \vspace{1em}
 
+\textbf{Method 1.}
+
 \begin{proof}
     Since the least-squares error function is convex,
     the function is minimized in its only critical 
@@ -129,12 +131,109 @@ in terms of (i) data dependent noise variance and (ii) replicated data points.
     By defining the matrix $R = \text{diag}(r_1, r_2, \ldots, r_n)$
     and then setting the derivative to 0, we obtain the equality
     \[
-        \mathbf{w}^T R\mathbf{\Phi}\mathbf{\Phi}^T
-        = R\mathbf{t}^T\mathbf{\Phi}
+        \mathbf{w}^T \mathbf{\Phi}^TR\mathbf{\Phi}^T
+        = \mathbf{t}^TR\mathbf{\Phi} 
     \] 
     which gives the weighted least-squares solution (we get the
     column vector form):
     \[
-        \mathbf{w}^\star = (\mathbf{\Phi}^T\mathbf{\Phi}R)^{-1} \mathbf{\Phi}^T \mathbf{t} R 
+        \mathbf{w}^\star = (\mathbf{\Phi}^TR\mathbf{\Phi})^{-1} \mathbf{\Phi}^T R \mathbf{t} 
     \] 
+\end{proof}
+
+\textbf{Method 2.}
+\begin{proof}
+
+    We define the diagonal matrices $R = \text{diag}(r_1, r_2, \ldots, r_n)$ and
+    $R^{1/2} = \text{diag}(\sqrt{r_1}, \sqrt{r_2}, \ldots, \sqrt{r_n})$
+    such that $R^{1/2}R^{1/2} = R$. We notice that we can rewrite ($\ref{eq:3.104}$) as:
+    \[
+        E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
+        \big(\sqrt{r_n}\{t_n - \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\}\big)^2
+    \] 
+    which we can translate into matrix notation as:
+    \[
+        E_D(\mathbf{w}) = \frac{1}{2} \big(R^{1/2}(\mathbf{t} - \mathbf{\Phi}\mathbf{w})\big)^T
+        \big(R^{1/2}(\mathbf{t} - \mathbf{\Phi}\mathbf{w})\big)
+    \] 
+    Since the least-squares error function is convex, the function
+    is minimized in its only critical point. The derivative is given by
+    \begin{align*}
+        \pdv{\mathbf{w}} E_D(\mathbf{w})
+        &= -\mathbf{\Phi}^T(R^{1/2})^T(R^{1/2}\mathbf{t} - R^{1/2}\mathbf{\Phi}\mathbf{w}) \\
+        &= \mathbf{\Phi}^TR\mathbf{\Phi}\mathbf{w} - \mathbf{\Phi}^TR\mathbf{t}
+    \end{align*}
+    By setting it to 0, we obtain the solution that minimizes the weighted
+    least-squares error function:
+    \[
+        \mathbf{w}^\star = (\mathbf{\Phi}^TR\mathbf{\Phi})^{-1} \mathbf{\Phi}^T R \mathbf{t} 
+    \] 
+\end{proof}
+
+\section*{Exercise 3.4 $\star$}
+Consider a linear model of the form
+\begin{equation}\label{eq:3.105}\tag{3.105}
+    y(\mathbf{x}, \mathbf{w}) = w_0 + \sum_{i=1}^{D} w_ix_i
+\end{equation}
+together with a sum-of-squares error function of 
+the form
+\begin{equation}\label{eq:3.106}\tag{3.106}
+    E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N}
+    \{y(\mathbf{x}_n, \mathbf{w}) - t_n\}^2
+\end{equation}
+Now suppose that Gaussian noise $\epsilon_i$ with zero
+mean and variance $\sigma^2$ is added independently
+to each of the input variables $x_i$. By making
+use of $\mathbb{E}[\epsilon_i] = 0$ and 
+$\mathbb{E}[\epsilon_i\epsilon_j] = \delta_{ij}\sigma^2$,
+show that minimizing $E_D$ averaged over the noise 
+distribution is equivalent to minimizing the 
+sum-of-squares error for noise-free input variables
+with the addition of a weight-decay regularization term,
+in which the bias parameter $w_0$ is omitted from
+the regularizer.
+
+\vspace{1em}
+
+\begin{proof}
+    Let the noise-free input variables be denoted by $\mathbf{x}^*$, such that
+    $x_i = x_i^* + \epsilon_i$. ($\ref{eq:3.105}$) will then be equivalent to
+    \[
+        y(\mathbf{x}, \mathbf{w}) = w_0 + \sum_{i=1}^{D} w_ix_i^* + \sum_{i=1}^{D} w_i\epsilon_i
+        = y(\mathbf{x}^*, \mathbf{w}) + \sum_{i=1}^{D} w_i\epsilon_i
+    \] 
+    Now, we aim to find the expression of $E_D$ averaged
+    over the noise distribution, that is:
+    \begin{align*}
+        \mathbb{E}[E_D(\mathbf{w})]
+        = \frac{1}{2} \sum_{n=1}^{N} \{\mathbb{E}[y(\mathbf{x}_n, \mathbf{w})^2]
+        - 2t_n\mathbb{E}[y(\mathbf{x}_n, \mathbf{w})] + t_n^2\}
+    \end{align*}
+    The individual expectations are straightforward to compute. Since
+    $\mathbb{E}[\epsilon_i] = 0$, we have that
+    \begin{align*}
+        \mathbb{E}[y(\mathbf{x}_n, \mathbf{w})] 
+        = \mathbb{E}[y(\mathbf{x}^*, \mathbf{w})] + \sum_{i=1}^{D} w_i\mathbb{E}[\epsilon_i]
+        = y(\mathbf{x}^*, \mathbf{w})
+    \end{align*}
+    Also, $\mathbb{E}[\epsilon_i\epsilon_j] = \delta_{ij} \sigma^2$, so
+    \begin{align*}
+        \mathbb{E}[y(\mathbf{x}_n, \mathbf{w})^2] 
+        &= \mathbb{E}\bigg[y(\mathbf{x}^*, \mathbf{w})^2 
+            + 2y(\mathbf{x}^*, \mathbf{w}) \sum_{i=1}^{D} w_i\epsilon_i
+            + \bigg(\sum_{i=1}^{D} w_i \epsilon_i\bigg)^2\bigg] \\
+        &= y(\mathbf{x}^*, \mathbf{w})^2 + \sum_{i=1}^{D} w_i^2 \mathbb{E}[\epsilon_i^2]
+            + 2\sum_{i=1}^{D} \sum_{j=i+1}^{D} w_iw_j \mathbb{E}[\epsilon_i\epsilon_j] \\
+        &= y(x^*, \mathbf{w})^2 + \sigma\sum_{n=1}^{D} w_i^2
+    \end{align*}
+    Therefore, we have that
+    \begin{align*}
+        \mathbb{E}[E_D({\mathbf{w}})]
+        = \frac{1}{2} \sum_{n=1}^{D} \{y(\mathbf{x}_n^*, \mathbf{w}) - t_n\}^2
+        + \frac{N\sigma}{2} \sum_{n=1}^{D} w_i^2
+    \end{align*}
+    which shows that $E_D$ averaged over the noise distribution
+    is equivalent to the regularized least-squares error function
+    with $\lambda = N\sigma$. Hence, since the expressions are equivalent,
+    minimizing them is also equivalent, proving our hypothesis.
 \end{proof}
