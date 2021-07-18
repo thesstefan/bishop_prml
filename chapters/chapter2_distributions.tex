@@ -1,0 +1,383 @@
+\chapter{Probability Distributions}
+
+\section*{Exercise 2.1 $\star$}
+Verify that the Bernoulli distribution (2.2) satisfies
+the following properties
+\begin{equation}\label{eq:2.257}\tag{2.257}
+    \sum_{x=0}^{1} p(x | \mu) = 1
+\end{equation}
+\vspace{-1em}
+\begin{equation}\label{eq:2.258}\tag{2.258}
+    \mathbb{E}[x] = \mu
+\end{equation}
+\vspace{-1em}
+\begin{equation}\label{eq:2.259}\tag{2.259}
+    \text{var}[x] = \mu(1 - \mu)
+\end{equation}
+Show that the entropy $H[x]$ of a Bernoulli distributed
+random binary variable $x$ is given by
+\begin{equation}\label{eq:2.260}\tag{2.260}
+    H[x] = -\mu \ln \mu - (1 - \mu) \ln(1 - \mu)
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    The Bernoulli distribution is given by
+    \begin{equation}\label{eq:2.2}\tag{2.2}
+        \text{Bern}(x | \mu) = \mu^x (1 - \mu)^{1-x}
+    \end{equation}
+    The properties are easily verified:
+    \[
+        \sum_{x=0}^{1} p(x | \mu) = p(x = 0 | \mu) + p(x = 1 | \mu)
+        = \mu^0(1 - \mu)^1 + \mu^1(1 - \mu)^0 = 1 \tag{2.257}
+    \] 
+    \[
+        \mathbb{E}[x] = \sum_{x=0}^{1} xp(x | \mu)
+        = 0 \cdot p(x = 0 | \mu) + 1 \cdot p(x = 1 | \mu)
+        = \mu \tag{2.258}
+    \] 
+    \[
+        \text{var}[x] = \mathbb{E}[x^2] - \mathbb{E}[x]^2
+        = \sum_{x=0}^{1} x^2 p(x|\mu) - \mu^2
+        = 0^2 \cdot p(x = 0 | \mu) + 1^2 \cdot p(x = 1 | \mu) - \mu^2
+        = \mu(1 - \mu) \tag{2.259}
+    \] 
+    The entropy is also straightforward to derive: 
+    \begin{align*}
+        H[x] = -\sum_{x=0}^{1} p(x | \mu) \ln p(x | \mu)
+        &= -p(x = 0 | \mu)\ln p(x = 0 | \mu) - p(x = 1 | \mu) \ln p(x = 1 | \mu) \\
+        &= -\mu \ln \mu - (1 - \mu) \ln(1 - \mu)
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 2.2 $\star \star$}
+The form of the Bernoulli distribution given by ($\ref{eq:2.2}$)
+is not symmetric between the two values of $x$. In some situations,
+it will be more convenient to use an equivalent formulation for which
+$x \in \{-1 , 1\}$, in which case the distribution can be written
+\begin{equation}\label{eq:2.261}\tag{2.261}
+    p(x | \mu) = \bigg(\frac{1 - \mu}{2}\bigg)^{(1 - x)/2} \bigg(\frac{1 + \mu}{2}\bigg)^{(1 + x)/2}
+\end{equation}
+where $\mu \in [-1, 1].$ Show that the distribution ($\ref{eq:2.261}$) is normalized,
+and evaluate its mean, variance and entropy.
+
+\vspace{1em}
+
+\begin{proof}
+    The distribution is normalized since
+    \[
+        \sum_{x} p(x | \mu) = p(x = -1 | \mu) + p(x = 1 | \mu) 
+        = \frac{1 - \mu}{2} + \frac{1 + \mu}{2} = 1
+    \] 
+    The other properties are also easily derived:
+    \[
+        \mathbb{E}[x] = \sum_{x} xp(x | \mu) 
+        = p(x = 1 | \mu) - p(x = -1 | \mu)
+        = \frac{1 + \mu}{2} - \frac{1 - \mu}{2}
+        = \mu
+    \] 
+    \begin{align*}
+        \text{var}[x] = \mathbb{E}[x^2] - \mathbb{E}[x]^2
+        &= \sum_{x} x^2 p(x | \mu) - \mu^2
+        = p(x = -1 | \mu) + p(x = 1 | \mu) - \mu^2 \\
+        &= \frac{1+\mu}{2} + \frac{1-\mu}{2} - \mu^2
+        = (1 - \mu)(1 + \mu)
+    \end{align*}
+
+    \begin{align*}
+        H[x] = -\sum_{x} p(x | \mu) \ln p(x | \mu)
+        &= -p(x = -1 | \mu) \ln p(x = -1 | \mu) - p(x = 1 | \mu) \ln p(x = 1 | \mu) \\
+        &= -\frac{1 - \mu}{2} \ln\bigg(\frac{1 - \mu}{2}\bigg)
+        - \frac{1 + \mu}{2} \ln\bigg(\frac{1 + \mu}{2}\bigg)
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 2.3 $\star \star$}
+In this exercise, we prove that the binomial distribution ($\ref{eq:2.9}$)
+is normalized. First use the definition (2.10) of the number of combinations of
+$m$ identical objects chosen from a total of $N$ to show that
+\begin{equation}\label{eq:2.262}\tag{2.262}
+    \binom{N}{m} + \binom{N}{m-1} = \binom{N+1}{m}
+\end{equation}
+Use this result to prove by induction the following result
+\begin{equation}\label{eq:2.263}\tag{2.263}
+    (1 + x)^N = \sum_{m=0}^{N} \binom{N}{m}x^m
+\end{equation}
+which is known as the $\emph{binomial theorem}$, and which is valid 
+for all real values of $x$. 
+Finally, show that the binomial distribution is normalized, so that
+\begin{equation}\label{eq:2.264}\tag{2.264}
+    \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m} = 1 
+\end{equation}
+which can be done by first pulling out a factor $(1 - \mu)^N$ out of the summation
+and then making use of the binomial theorem.
+
+\begin{proof}
+    The binomial distribution is given by
+    \begin{equation}\label{eq:2.9}\tag{2.9}
+        \text{Bin}(m | N, \mu) = \binom{N}{m} \mu^m (1-\mu)^{N - m}
+    \end{equation}
+    By using $(2.10)$, we prove ($\ref{eq:2.262}$)
+    \begin{align*}
+        \binom{N}{m} + \binom{N}{m - 1} 
+        &= \frac{N!}{(N - m)!m!} + \frac{N!}{(N - m + 1)!(m - 1)!} \\
+        &= \frac{(N - m + 1)N!}{(N - m + 1)!m!} + \frac{mN!}{(N - m + 1)!m!} \\
+        &= \frac{(N + 1)!}{(N - m + 1)!m!} \\
+        &= \binom{N + 1}{m} \tag{2.262}
+    \end{align*}
+    We aim to prove ($\ref{eq:2.263}$) by induction. The base 
+    case for $N=1$ is obviously true since $$1+x = \binom{1}{0} + \binom{1}{1}x$$
+    Now, suppose that the case for $N=k \in \mathbb{N}^*$ is true, i.e.
+    \[
+        (1 + x)^k = \sum_{m=0}^{k} \binom{k}{m} x^m 
+    \] 
+    By using this and $(\ref{eq:2.262})$, we show that 
+    \begin{align*}
+        (1 + x)^{k + 1} 
+        &= (1 + x) \sum_{m=0}^{k} \binom{k}{m} x^m \\
+        &= \sum_{m=0}^{k} \binom{k}{m} x^m + \sum_{m=0}^{k} \binom{k}{m} x^{m+1} \\
+        &= 1 + \sum_{m=1}^{k} \binom{k}{m} x^m + \sum_{m=1}^{k + 1} \binom{k}{m - 1} x^m \\
+        &= \binom{k+1}{0} + \binom{k+1}{k+1}x^{k + 1} + \sum_{m=1}^{k} \bigg\{\binom{k}{m} + \binom{k}{m-1}\bigg\}x^m \\
+        &= \sum_{m=0}^{k+1} \binom{k+1}{m} x^m 
+    \end{align*}
+    which by induction proves that $(\ref{eq:2.263})$ is indeed true. 
+
+    Finally, we use this result to show that the Binomial distribution is normalized:
+    \begin{align*}
+        \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m}
+        &= (1 - \mu)^N \sum_{m=0}^{N} \binom{N}{m} \bigg(\frac{\mu}{1 - \mu}\bigg)^m \\
+        &= (1 - \mu)^N \bigg(1 + \frac{\mu}{1 - \mu}\bigg)^N \\
+        &= 1 \tag{2.264}
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 2.4 $\star \star$}
+Show that the mean of the binomial distribution is given by
+($\ref{eq:2.11}$). To do this, differentiate both sides of the normalization condition
+($\ref{eq:2.264}$) with respect to $\mu$ and then rearrange to obtain an
+expression for the mean of $m$. Similarly, by differentiating ($\ref{eq:2.264}$)
+twice with respect to $\mu$ and making use of the result ($\ref{eq:2.11}$) for the mean
+of the binomial distribution prove the result (2.12) for the variance of the binomial.
+
+\begin{proof}
+    We start by differentiating both sides of ($\ref{eq:2.264}$)
+    with respect to $\mu$:
+    \begin{align*}
+        \pdv{\mu} \sum_{m=0}^{N} \binom{N}{m} \mu^m(1-\mu)^{N - m} &= 0 \\
+        \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m}
+        \bigg(\frac{m}{\mu} + \frac{m-N}{1-\mu}\bigg) &= 0 \\
+        \bigg(\frac{1}{\mu} + \frac{1}{1 - \mu}\bigg)
+        \sum_{m=0}^{N} m \binom{N}{m} \mu^m(1 - \mu)^{N - m} 
+        - \frac{N}{1-\mu} \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m} &= 0
+    \end{align*}
+    We recognize the expression of the binomial distribution and
+    use the fact that it is normalized, to obtain:
+    \begin{align*}
+        \bigg(\frac{1}{\mu} + \frac{1}{1 - \mu}\bigg)
+        \sum_{m=0}^{N} m\text{Bin}(m | N, \mu) 
+        &= \frac{N}{1-\mu} \sum_{m=0}^{N} \text{Bin}(m | N, \mu) \\
+        \bigg(\frac{1 - \mu}{\mu} + 1\bigg) \mathbb{E}[m] &= N
+    \end{align*}
+    which directly gives us the desired result, that is
+    \begin{equation}\label{eq:2.11}\tag{2.11}
+        \mathbb{E}[m] = \sum_{m=0}^{N} m\text{Bin}(m | N, \mu) = N\mu
+    \end{equation}
+
+    To derive the variance, we differentiate twice both sides
+    of ($\ref{eq:2.264}$), so
+    \begin{align*}
+        \pdv[2]{\mu} \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m} &= 0 \\
+        \frac{1}{\mu^2(1 - \mu)^2} \sum_{m=0}^{N} \text{Bin}(m | N, \mu) 
+            \{m^2 + m(2\mu - 2N\mu - 1) + (N - 1)N\mu^2\} &=0 \\
+        \sum_{m=0}^{N} \text{Bin}(m | N, \mu) (m - N\mu)^2
+            + (2\mu - 1)\sum_{m=0}^{N} m\text{Bin}(m | N, \mu)
+            - N\mu^2 \sum_{m=0}^{N} \text{Bin}(m | N, \mu) &= 0 \\
+        \text{var}[m] + (2\mu - 1)\mathbb{E}[m] - N\mu^2 &= 0
+    \end{align*}
+    which gives us the desired result, i.e.
+    \begin{equation}\label{eq:2.12}\tag{2.12}
+        \text{var}[m] \equiv \sum_{m=0}^{N} (m - \mathbb{E}[m])^2 \text{Bin}(m | N, \mu) = N\mu(1 - \mu)
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 2.5 $\star \star$}
+In this exercise, we prove that the beta distribution, given by
+($\ref{eq:2.13}$), is correctly normalized, so that (2.14) holds.
+This is equivalent to showing that
+\begin{equation}\label{eq:2.265}\tag{2.265}
+    \int_{0}^{1} \mu^{a-1}(1 - \mu)^{b - 1} \diff \mu = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
+\end{equation}
+From the definition ($\ref{eq:1.141}$) of the gamma function,
+we have 
+\begin{equation}\label{eq:2.266}\tag{2.266}
+    \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \exp(-x)x^{a - 1} \diff x +
+    \int_{0}^{\infty} \exp(-y)y^{b - 1} \diff y
+\end{equation}
+Use this expression to prove ($\ref{eq:2.265}$) as follows. First
+bring the integral over $y$ inside the integrand of the integral 
+over $x$, next make the change of variable $t = y + x$, where $x$
+is fixed, then interchange the order of the $x$ and $t$ integrations,
+and finally make the change of variable $x = t\mu$ where $t$ is fixed. 
+
+\vspace{1em}
+
+\begin{proof}
+    The problem is easily solved by following the provided steps.
+    By bringing the integral over $y$ inside the integrand of 
+    the integral over $x$ we obtain that
+    \[
+        \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \int_{0}^{\infty}
+        \exp\{-(x + y)\} x^{a - 1} y^{b - 1} \diff y \diff x
+    \] 
+    We know use the change of variable $t = y+x$ with $x$ fixed
+    to get
+    \[
+        \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \int_{0}^{\infty}
+        \exp(-t) x^{a - 1} (x - t)^{b - 1} \diff t \diff x
+    \] 
+    Interchanging the order of integrations yields
+    \[
+        \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \int_{0}^{\infty}
+        \exp(-t) x^{a - 1} (x - t)^{b - 1} \diff x \diff t
+    \] 
+    which by making the change of variable $x = t\mu$ with $t$ fixed
+    becomes
+    \[
+        \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \int_{0}^{\infty}
+        \exp(-t) (t\mu)^{a - 1} (t\mu - t)^{b - 1} t \diff \mu \diff t
+    \] 
+    By separating the $t$ terms from the first integral, we have that
+     \[
+         \Gamma(a)\Gamma(b) = \int_{0}^{\infty} 
+         \exp(-t) t^{a + b - 1} \diff t
+         \int_{0}^{\infty} \mu^{a - 1}(1 - \mu)^{b - 1} \diff \mu
+    \] 
+    Finally, we notice that the first integral is equal to $\Gamma(a+b)$ 
+    and by noting the fact that $\mu$ is a probability, so its
+    range is $[0, 1]$, we obtain the desired result:
+    \begin{equation}\label{eq:2.265}\tag{2.265}
+        \int_{0}^{1} \mu^{a-1}(1 - \mu)^{b - 1} \diff \mu = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 2.6 $\star$} 
+Make use of the result ($\ref{eq:2.265}$) to show that the mean,
+variance, and mode of the beta distribution ($\ref{eq:2.13}$) are given 
+respectively by 
+\begin{equation}\label{eq:2.267}\tag{2.267}
+    \mathbb{E}[\mu] = \frac{a}{a + b}
+\end{equation}
+\begin{equation}\label{eq:2.268}\tag{2.268}
+    \text{var}[\mu] = \frac{ab}{(a + b)^2(a + b + 1)}
+\end{equation}
+\begin{equation}\label{eq:2.269}\tag{2.269}
+    \text{mode}[\mu] = \frac{a - 1}{a + b - 2}
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    The beta distribution is given by
+    \begin{equation}\label{eq:2.13}\tag{2.13}
+        \text{Beta}(\mu | a, b) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \mu^{a - 1}(1 - \mu)^{b - 1}
+    \end{equation}
+    By using $(\ref{eq:2.265})$ and the fact that $\Gamma(x + 1) = x\Gamma(x)$, we 
+    obtain the mean of the Beta distribution:
+    \begin{align*}
+        \mathbb{E}[\mu] 
+        = \int_{0}^{1} \mu \text{Beta}(\mu | a, b) \diff \mu 
+        = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \int_{0}^{1} \mu^a (1 - \mu)^{b - 1} \diff \mu 
+        = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \cdot \frac{\Gamma(a + 1)\Gamma(b)}{\Gamma(a + b + 1)}
+        = \frac{a}{a + b}
+        \tag{2.267}
+    \end{align*}
+    From this result, we can also easily get the variance:
+    \begin{align*}
+        \text{var}[\mu] 
+        &= \int_{0}^{1} \bigg(\mu - \frac{a}{a + b}\bigg)^2 \text{Beta}(\mu | a,b) \diff \mu \\
+        &= \int_{0}^{1} \mu^2 \text{Beta}(\mu | a, b) \diff \mu 
+        - \frac{2a}{a + b} \int_{0}^{1} \mu\text{Beta}(\mu | a, b) \diff \mu
+        + \frac{a^2}{(a + b)^2} \int_{0}^{1} \text{Beta}(\mu | a, b) \diff \mu \\
+        &= \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \cdot \frac{\Gamma(a + 2)\Gamma(b)}{\Gamma(a + b + 2)}
+        - \frac{2a}{a+b} \cdot \frac{a}{a + b} + \frac{a^2}{(a+b)^2} \\
+        &= \frac{a(a + 1)}{(a + b)(a + b + 1)} - \frac{2a^2}{a + b} + \frac{a^2}{(a + b)^2} \\
+        &= \frac{ab}{(a + b)^2(a + b + 1)}
+        \tag{2.267}
+    \end{align*}
+    Finally, the mode of the distribution is given by getting the value of
+    $\mu$ for which the derivative of the distribution is 0,
+    \begin{align*}
+        \pdv{\mu} \text{Beta}(\mu | a, b) = 0 
+        &\iff \pdv{\mu} \mu^{a - 1}(1 - \mu)^{b - 1} = 0 \\
+        &\iff (a - 1)\mu^{a - 2}(1 - \mu)^{b - 1} + (b - 1)\mu^{a - 1}(1 - \mu)^{b - 2} = 0 \\
+        &\iff \mu^{a - 2}(1 - \mu)^{b - 2}\{(a - 1)(1 - \mu) + (b - 1)\mu\} = 0 \\
+        &\iff (a - 1)(1 - \mu) + (b - 1)\mu = 0 \\
+        &\iff \mu = \frac{a - 1}{a + b - 2}
+    \end{align*}
+    so indeed
+    \[
+        \text{mode}[\mu] = \frac{a - 1}{a + b - 2} \tag{2.268}
+    \] 
+\end{proof}
+
+\section*{Exercise 2.7 $\star \star$}
+Consider a binomial random variable $x$ given by $(\ref{eq:2.9})$, with
+prior distribution for $\mu$ given by the beta distribution $(\ref{eq:2.13})$,
+and suppose we have observed $m$ occurences of $x=1$ and $l$ occurences 
+of $x=0$. Show that the posterior mean value of $\mu$ lies between the prior
+mean and the maximum likelihood estimate for $\mu$. To do this,
+show that the posterior mean can be written as $\lambda$ times the prior
+mean plus $(1 - \lambda)$ times the maximum likelihood estimate, 
+where  $0 \leq \lambda \leq 1$. This illustrates the concept of
+the posterior distribution being a compromise between the prior
+distribution and the maximum likelihood solution.
+
+\begin{proof}
+    The prior mean is $\displaystyle \frac{a}{a + b}$, the posterior mean is 
+    $\displaystyle \frac{a + m}{a + m + b + l}$ and the maximum likelihood 
+    estimate is $\displaystyle \frac{m}{m + l}$. Suppose that our hypothesis
+    is true, i.e. there exists a $\lambda$ such that we can have our equality
+    and $0 \leq \lambda \leq 1$. Then we'd have that:
+    \begin{align*}
+        \frac{a + m}{a + m + b + l} &= \frac{\lambda m}{m + l} + \frac{(1 - \lambda)a}{a + b} \\
+        \frac{a + m}{a + m + b + l} - \frac{a}{a + b} &= \lambda\bigg(\frac{m}{m + l} + \frac{a}{a + b}\bigg) \\
+        \lambda &= \frac{bm - al}{(a + b)(a + m + b + l)} \cdot \frac{(a + b)(a + m)}{bm - al} \\
+        \lambda &= \frac{l + m}{a + m + b + l}
+    \end{align*}
+    This $\lambda$ obviously exists and $0 \leq \lambda \leq 1$, so our hypothesis is
+    true and the posterior mean value of $x$ lies between the prior mean
+    and the maximum likelihood estimate for $\mu$.
+\end{proof}
+
+\section*{Exercise 2.8 $\star$}
+Consider two variables $x$ and $y$ with joint distribution $p(x, y)$.
+Prove the following two results
+\begin{equation}\label{eq:2.270}\tag{2.270}
+    \mathbb{E}[x] = \mathbb{E}_y[\mathbb{E}_x[x | y]]
+\end{equation}
+\vspace{-1em}
+\begin{equation}\label{eq:2.271}\tag{2.271}
+    \text{var}[x] = \mathbb{E}_y[\text{var}_x[x | y]] + \text{var}_y[\mathbb{E}_x[x|y]]
+\end{equation}
+Here $\mathbb{E}_x[x | y]$ denotes the expectation of $x$ under the conditional
+distribution $p(x | y)$, with a similar notation for the conditional
+variance.
+
+\vspace{1em}
+
+\begin{proof}
+    The first is straightforward to derive:
+    \begin{align*}
+        \mathbb{E}[x] 
+        = \iint x p(x, y) \diff x \diff y
+        = \iint x p(x | y) p(y) \diff x \diff y
+        &= \int\bigg(\int x p(x | y) \diff x\bigg) p(y) \diff y \\
+        &= \int \mathbb{E}_x[x | y] p(y) \diff y 
+        = \mathbb{E}_y[\mathbb{E}_x[x | y]]
+        \tag{2.270}
+    \end{align*}
+    However, proving ($\ref{eq:2.271}$) is slightly more complicated.
+    We'll compute each term separately:
+    
+\end{proof}
