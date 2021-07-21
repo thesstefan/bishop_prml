@@ -381,3 +381,171 @@ variance.
     We'll compute each term separately:
     
 \end{proof}
+
+\section*{Exercise 2.10 $\star \star$}
+Using the property $\Gamma(x+1) = x\Gamma(x)$ of the gamma function,
+derive the following results for the mean, variance, and covariance
+of the Dirichlet distribution given by $(\ref{eq:2.38})$
+\begin{equation}\label{eq:2.273}\tag{2.273}
+    \mathbb{E}[\mu_j] = \frac{\alpha_j}{\alpha_j}
+\end{equation}
+\begin{equation}\label{eq:2.274}\tag{2.274}
+    \text{var}[\mu_j] = \frac{\alpha_j(\alpha_0 - \alpha_j)}{\alpha_0^2(\alpha_0 + 1)}
+\end{equation}
+\begin{equation}\label{eq:2.275}\tag{2.275}
+    \text{cov}[\mu_j\mu_l] = -\frac{\alpha_j\alpha_l}{\alpha_0^2(\alpha_0 + 1)},
+    \hspace{3em} j \neq l
+\end{equation}
+where $\alpha_0$ is defined by  (2.39).
+
+\vspace{1em}
+
+\begin{proof}
+    The Dirichlet distribution is given by
+    \begin{equation}\label{eq:2.38}\tag{2.38}
+        \text{Dir}(\bm{\mu} | \bm{\alpha})
+        = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\ldots\Gamma(\alpha_K)}
+        \prod_{k = 1}^K \mu_k^{\alpha_k - 1}
+    \end{equation}
+    Besides the property that $\Gamma(x+1) = x\Gamma(x)$, we'll be using the fact that the distribution is normalized,
+    specifically that
+    \[
+        \int \prod_{k = 1}^K \mu_k^{\alpha_k - 1} \diff \bm{\mu}
+        = \frac{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}{\Gamma(\alpha_0)},
+    \]
+    where $\alpha_0$ is defined by (2.39).
+
+    The expected value is then given by
+    \begin{align*}
+        \matbb{E}[\mu_j] 
+        &= \int \mu_j \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \int \mu_1^{\alpha_1 - 1}\dots\mu_j^{\alpha_j}\ldots\mu_K^{\alpha_K - 1} \diff \bm{\mu} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \cdot \frac{\Gamma(\alpha_1)\ldots\Gamma(\alpha_j + 1)\ldots\Gamma(\alpha_K)}
+        {\Gamma(\alpha_0 + 1)} \\
+        &= \frac{\alpha_j}{\alpha_0} 
+        \tag{2.273}
+    \end{align*}
+    This can now be used to derive the variance:
+    \begin{align*}
+        \text{var}[\mu_j] 
+        &= \int (\mu_j - \mathbb{E}[\mu_j])^2 \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
+        &= \int \bigg(\mu_j - \frac{\alpha_j}{\alpha_0}\bigg)^2 
+        \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
+        &= \int \mu_j^2 \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu}
+        - \frac{2\alpha_j}{\alpha_0}\int \mu_j\text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu}
+        + \frac{\alpha_j^2}{\alpha_0^2} \int \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \int \mu_1^{\alpha_1 - 1}\dots\mu_j^{\alpha_j + 1}\ldots\mu_K^{\alpha_K - 1} \diff \bm{\mu} 
+        - \frac{2\alpha_j}{\alpha_0} \mathbb{E}[\mu_j] + \frac{\alpha_j^2}{\alpha_0^2} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \cdot \frac{\Gamma(\alpha_1)\ldots\Gamma(\alpha_j + 2)\ldots\Gamma(\alpha_K)}
+        {\Gamma(\alpha_0 + 2)} - \frac{\alpha_j^2}{\alpha_0^2} \\
+        &= \frac{\alpha_j(\alpha_j + 1)}{\alpha_0(\alpha_0 + 1)} - \frac{\alpha_j^2}{\alpha_0^2} \\
+        &= \frac{\alpha_j(\alpha_0 - \alpha_j)}{\alpha_0^2(\alpha_0 + 1)}
+        \tag{2.275}
+    \end{align*}
+    The covariance is given by
+    \[
+    \text{cov}[\mu_j\mu_l] 
+    = \mathbb{E}[\mu_j\mu_l] - \mathbb{E}[\mu_j]\mathbb{E}[\mu_l]
+    = \mathbb{E}[\mu_j\mu_l] - \frac{\alpha_j\alpha_l}{\alpha_0^2}
+    \] 
+    By computing the expectation separately, we find that
+    \begin{align*}
+        \mathbb{E}[\mu_j\mu_l]
+        &= \int \mu_j\mu_l \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \int \mu_1^{\alpha_1 - 1}\dots\mu_j^{\alpha_j}\ldots\mu_l^{\alpha_l}
+        \ldots\mu_K^{\alpha_K - 1} \diff \bm{\mu} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \cdot \frac{\Gamma(\alpha_1)\ldots\Gamma(\alpha_j + 1)\ldots\Gamma(\alpha_l + 1)\ldots
+        \Gamma(\alpha_K)}{\Gamma(\alpha_0 + 2)}\\
+        &= \frac{\alpha_j\alpha_l}{\alpha_0(\alpha_0 + 1)}
+    \end{align*}
+    Finally, the covariance becomes
+    \[
+        \text{cov}[\mu_j\mu_l] 
+        = \frac{\alpha_j\alpha_l}{\alpha_0(\alpha_0 + 1)} - \frac{\alpha_j\alpha_l}{\alpha_0^2}
+        = -\frac{\alpha_j\alpha_l}{\alpha_0^2(\alpha_0 + 1)}
+        \tag{2.275}
+    \] 
+\end{proof}
+
+\section*{Exercise 2.11 $\star$}
+By expressing the expectation of $\ln \mu_j$ under the Dirichlet
+distribution ($\ref{eq:2.38}$) as a derivative with respect
+to $\alpha_j$, show that
+\begin{equation}\label{eq:2.276}\tag{2.276}
+    \mathbb{E}[\ln \mu_j] = \psi(\alpha_j) - \psi(\alpha_0)
+\end{equation}
+where $\alpha_0$ is given by (2.39) and
+\begin{equation}\label{eq:2.277}\tag{2.277}
+    \psi(a) \equiv \dv{a} \ln \Gamma(a)
+\end{equation}
+is the $\emph{digamma}$ function.
+
+\vspace{1em}
+
+\begin{proof}
+    We start by taking the partial derivative of the Dirichlet
+    distribution with respect to $\alpha_j$:
+    \begin{align*}
+        \pdv{\alpha_j} \text{Dir}(\bm{\mu} | \bm{\alpha})
+        &= \pdv{\alpha_j}\bigg(\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \prod_{k = 1}^K \mu_k^{\alpha_k - 1}\bigg) \\
+        &= \bigg(\pdv{\alpha_j}\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}\bigg) \prod_{k = 1}^K \mu_k^{\alpha_k - 1} +
+        \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \bigg(\pdv{\alpha_j}\prod_{k = 1}^K \mu_k^{\alpha_k - 1}\bigg)
+    \end{align*}
+    Our goal is to compute both terms separately. Firstly, since
+    a small change in one of the sum terms is equivalent to a small
+    change in the sum itself, i.e.
+    \[
+        \pdv{\alpha_j} \Gamma(\alpha_0) = \pdv{\alpha_0} \Gamma(\alpha_0)
+    \] 
+    we have that
+    \begin{align*}
+        \pdv{\alpha_j} \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_j)}
+        &= \frac{\pdv{\alpha_j}\Gamma(\alpha_0) - \pdv{\alpha_j}\Gamma(\alpha_j)}{\Gamma(\alpha_j)^2} \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_j)} \bigg(\frac{\pdv{\alpha_j} \Gamma(\alpha_0)}
+            {\Gamma(\alpha_0)} - \frac{\pdv{\alpha_j} \Gamma(\alpha_j)}{\Gamma(\alpha_j)}\bigg) \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_j)}
+        \bigg(\pdv{\alpha_0} \ln \Gamma(\alpha_0) - \pdv{\alpha_j} \ln \Gamma(\alpha_j)\bigg) \\
+        &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_j)}(\psi(\alpha_0) - \psi(\alpha_j))
+    \end{align*}
+    and therefore, that
+    \[
+        \bigg(\pdv{\alpha_j}\frac{\Gamma(\alpha_0)}
+        {\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}\bigg) 
+        \prod_{k = 1}^K \mu_k^{\alpha_k - 1}
+        = (\psi(\alpha_0) - \psi(\alpha_j))\text{Dir}(\bm{\mu} | \bm{\alpha})
+    \] 
+    Now, since 
+    \[
+        \pdv{\alpha_j} \prod_{k = 1}^K \mu_k^{\alpha_k - 1}
+        = (\mu_1^{\alpha_1 - 1}\ldots\mu_{j - 1}^{\alpha_{j - 1} - 1}
+        \mu_{j + 1}^{\alpha_{j + 1} - 1}
+        \ldots \mu_K^{\alpha_K - 1}) \pdv{\alpha_j} \mu_j^{\alpha_j - 1}
+        = \ln \mu_j \prod_{k = 1}^K \mu_k^{\alpha_k - 1}
+    \] 
+    it follows that
+    \[
+        \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
+        \bigg(\pdv{\alpha_j}\prod_{k = 1}^K \mu_k^{\alpha_k - 1}\bigg)
+        = \ln \mu_j \text{Dir}(\bm{\mu} | \bm{\alpha})
+    \] 
+    By substituting into the initial expression,
+    \[
+        \pdv{\alpha_j} \text{Dir}(\bm{\mu} | \bm{\alpha})
+        = \text{Dir}(\bm{\mu} | \bm{\alpha}) (\ln \mu_j + \psi(\alpha_0) - \psi(\alpha_j))
+    \] 
+    and then integrating with respect to $\bm{\mu}$, we obtain the 
+    desired result:
+    \[
+        \mathbb{E}[\ln{\mu_j}] = \psi(\alpha_j) - \psi(\alpha_0) 
+        \tag{2.276}
+    \] 
+\end{proof}
+

@@ -131,7 +131,7 @@ in terms of (i) data dependent noise variance and (ii) replicated data points.
     By defining the matrix $R = \text{diag}(r_1, r_2, \ldots, r_n)$
     and then setting the derivative to 0, we obtain the equality
     \[
-        \mathbf{w}^T \mathbf{\Phi}^TR\mathbf{\Phi}^T
+        \mathbf{w}^T \mathbf{\Phi}R\mathbf{\Phi}^T
         = \mathbf{t}^TR\mathbf{\Phi} 
     \] 
     which gives the weighted least-squares solution (we get the
@@ -236,4 +236,130 @@ the regularizer.
     is equivalent to the regularized least-squares error function
     with $\lambda = N\sigma$. Hence, since the expressions are equivalent,
     minimizing them is also equivalent, proving our hypothesis.
+\end{proof}
+
+\section*{Exercise 3.5 $\star$}
+Using the technique of Lagrange multipliers, discussed in Appendix E,
+show that minimization of the regularized error function (3.29)
+is equivalent to minimizing the unregularized sum-of-squares error (3.12)
+subject to the constraint (3.30). Discuss the relationship
+between the parameters $\eta$ and $\lambda$.
+
+\begin{proof}
+    To minimize the unregularized sum-of-squares error (3.12) subject to
+    the constraint (3.30), is equivalent to minimizing the Lagrangian
+    \[
+        L(\mathbf{x}, \lambda) = 
+        \frac{1}{2}\sum_{n=1}^{N} \{y(\mathbf{x}_n, \mathbf{w}) - t_n\}^2 
+        - \lambda\bigg(\eta - \sum_{j=1}^{M} |w_j|^q\bigg)
+    \] subject to the KKT conditions (see E.9, E.10, E.11 in Appendix E).
+    Our Lagrangian and the regularized sum-of-squares error have the same
+    dependency over $\mathbf{w}$, so their minimization is equivalent.
+    By following (E.11), we have that
+     \[
+         \lambda\bigg(\eta - \sum_{j=1}^{M} |w_j|^q\bigg) = 0
+    \] 
+    which means that if $\mathbf{w}^\star(\lambda)$ is the solution of minimization
+    for a fixed $\lambda > 0$, we then have that 
+     \[
+         \eta = \sum_{j=1}^{M} |w^\star(\lambda)_j|^q
+    \] 
+\end{proof}
+
+\section*{Exercise 3.6 $\star$}
+Consider a linear basis function regression model
+for a multivariate target variable $\mathbf{t}$ having 
+a Gaussian distribution of the form
+\begin{equation}\label{eq:3.107}\tag{3.107}
+    p(\mathbf{t} | \mathbf{W}, \mathbf{\Sigma})
+    = \mathcal{N}(\mathbf{t} | \mathbf{y}(\mathbf{x}, \mathbf{W}), \mathbf{\Sigma})
+\end{equation}
+where 
+\begin{equation}\label{eq:3.108}\tag{3.108}
+    \mathbf{y}(\mathbf{x}, \mathbf{W}) = \mathbf{W}^T \bm{\phi}(\mathbf{x})
+\end{equation}
+together with a training data set compromising input
+basis vectors $\bm{\phi}(\mathbf{x}_n)$ and corresponding
+target vectors $\mathbf{t}_n$, with $n = 1, \ldots, N$. Show
+that the maximum likelihood solution $\mathbf{W}_{\text{ML}}$ for
+the parameter matrix $\mathbf{W}$ has the property that each 
+column is given by an expression of the form ($\ref{eq:3.15}$),
+which was the solution for an isotropic noise distribution.
+Note that this is independent of the covariance matrix
+$\mathbf{\Sigma}$. Show that the maximum likelihood solution
+for $\mathbf{\Sigma}$ is given by
+\begin{equation}\label{eq:3.109}\tag{3.109}
+    \mathbf{\Sigma} = \frac{1}{N} \sum_{n=1}^{N} 
+    \big(\mathbf{t}_n - \mathbf{W}_{\text{ML}}^T\bm{\phi}(\mathbf{x}_n)\big)
+    \big(\mathbf{t}_n - \mathbf{W}_{\text{ML}}^T\bm{\phi}(\mathbf{x}_n)\big)^T
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    Similarly to what we did in Section 3.1.5, we combine
+    the set of target vectors into a matrix $\mathbf{T}$ of
+    size $N \cross K$ such that the $n^{\text{th}}$ row
+    is given by $\mathbf{t}_n^T$. We do the same for
+    $\mathbf{X}$. The log likelihood 
+    function is then given by
+    \begin{align*}
+        \ln p(\mathbf{T} | \mathbf{X}, \mathbf{W}, \mathbf{\Sigma})
+        &= \ln \prod_{n = 1}^N 
+            \mathcal{N}(\mathbf{t}_n | \mathbf{W}^T\bm{\phi}(\mathbf{x}_n), \mathbf{\Sigma}) \\
+        &= \sum_{n=1}^{N} 
+            \ln \mathcal{N}(\mathbf{t}_n | \mathbf{W}^T\bm{\phi}(\mathbf{x}_n), \mathbf{\Sigma}) \\
+        &= \sum_{n=1}^{N} \ln \bigg[\frac{1}{(2\pi)^{K/2}|\mathbf{\Sigma}|^{1/2}}
+            \exp\big\{\big(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)^T
+            \mathbf{\Sigma}^{-1}(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)
+        \big\}\bigg] \\
+        &= -\frac{NK}{2} \ln(2\pi) - \frac{1}{2} \ln|\mathbf{\Sigma}| 
+            + \sum_{n=1}^{N} \big(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)^T
+            \mathbf{\Sigma}^{-1}(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)
+    \end{align*}
+    Our goal is to maximizise this function with respect to $\mathbf{W}$.
+    We take the derivative of the likelihood and use the fact that
+    $\mathbf{\Sigma}^{-1}$ is symmetric and (88) from the 
+    \href{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}{matrix cookbook}
+    to obtain:
+    \begin{align*}
+        \pdv{\mathbf{W}} \ln p(\mathbf{T} | \mathbf{X}, \mathbf{W}, \mathbf{\Sigma})
+        &= \sum_{n=1}^{N} \pdv{\mathbf{W}} 
+            \big(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)^T
+            \mathbf{\Sigma}^{-1}(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big) \\
+        &= -2\mathbf{\Sigma}^{-1} \sum_{n=1}^{N} \big(\mathbf{t}_n - \mathbf{W}^T\bm{\phi}(\mathbf{x}_n)\big)
+            \bm{\phi}(\mathbf{x}_n)^T
+    \end{align*}
+    By setting the derivative equal to 0, we find the maximum likelihood
+    solution for $\mathbf{W}$:
+    \begin{align*}
+            -2\mathbf{\Sigma}^{-1} \sum_{n=1}^{N} \big(\mathbf{t}_n 
+            - \mathbf{W}_{\text{ML}}^T\bm{\phi}(\mathbf{x})\big) \bm{\phi}(\mathbf{x})^T 
+        &= 0 \\
+            \mathbf{\Sigma}^{-1} \sum_{n=1}^{N} \mathbf{t}_n \bm{\phi}(\mathbf{x}_n)^T
+        &= \mathbf{\Sigma}^{-1} \mathbf{W}_{\text{ML}}^T 
+            \sum_{n=1}^{N} \bm{\phi}(\mathbf{x}_n)\bm{\phi}(\mathbf{x}_n)^T \\
+            \mathbf{\Sigma}^{-1} \mathbf{T}^T \mathbf{\Phi} 
+        &= \mathbf{\Sigma}^{-1} \mathbf{W}_{\text{ML}}^T \mathbf{\Phi}^T\mathbf{\Phi} \\
+            \mathbf{\Phi}^T\mathbf{T}\mathbf{\Sigma}^{-1}
+        &= \mathbf{\Phi}^T\mathbf{\Phi}\mathbf{W}_{\text{ML}}\mathbf{\Sigma}^{-1}
+    \end{align*}
+    Note that $\mathbf{\Sigma}^{-1}$ reduces and we finally get that:
+     \[
+         \mathbf{W}_{\text{ML}} = (\mathbf{\Phi}^T\mathbf{\Phi})^{-1} \mathbf{\Phi}^T\mathbf{T}
+    \] 
+    Now, let $A, B$ be two matrices of size $N \cross M$ and let $b_1, b_2, \ldots, b_N$ 
+    be the column vectors of $B$. One could easily prove that
+     \[
+         AB = A \big(b_1 \hspace{0.25em} b_2 \hspace{0.25em} \ldots \hspace{0.25em} b_N\big)
+         = \big(Ab_1 \hspace{0.25em} Ab_2 \hspace{0.25em} \ldots \hspace{0.25em} Ab_N\big)
+    \] 
+    By using this for our case, i.e. to find the columns of $\mathbf{W}_{\text{ML}}$,
+    we'd find that they are of the form $(\ref{eq:3.15})$, i.e. the $n^{\text{th}}$
+    column of $\mathbf{W}_{\text{ML}}$ is given by
+    \[
+        \mathbf{W}_{\text{ML}}^{(n)} =
+        (\mathbf{\Phi}^T\mathbf{\Phi})^{-1} \mathbf{\Phi}^T\mathbf{T}^{(n)}
+    \] 
+    where $\mathbf{T}^{(n)}$ is the $n^{\text{th}}$ column of $\mathbf{T}$.
 \end{proof}
