@@ -317,7 +317,7 @@ for $\mathbf{\Sigma}$ is given by
             + \sum_{n=1}^{N} \big(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)^T
             \mathbf{\Sigma}^{-1}(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)
     \end{align*}
-    Our goal is to maximizise this function with respect to $\mathbf{W}$.
+    Our goal is to maximise this function with respect to $\mathbf{W}$.
     We take the derivative of the likelihood and use the fact that
     $\mathbf{\Sigma}^{-1}$ is symmetric and (88) from the 
     \href{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}{matrix cookbook}
@@ -344,7 +344,7 @@ for $\mathbf{\Sigma}$ is given by
             \mathbf{\Phi}^T\mathbf{T}\mathbf{\Sigma}^{-1}
         &= \mathbf{\Phi}^T\mathbf{\Phi}\mathbf{W}_{\text{ML}}\mathbf{\Sigma}^{-1}
     \end{align*}
-    Note that $\mathbf{\Sigma}^{-1}$ reduces and we finally get that:
+    Note that $\mathbf{\Sigma}^{-1}$ cancels out and we finally get that:
      \[
          \mathbf{W}_{\text{ML}} = (\mathbf{\Phi}^T\mathbf{\Phi})^{-1} \mathbf{\Phi}^T\mathbf{T}
     \] 
@@ -354,7 +354,7 @@ for $\mathbf{\Sigma}$ is given by
          AB = A \big(b_1 \hspace{0.25em} b_2 \hspace{0.25em} \ldots \hspace{0.25em} b_N\big)
          = \big(Ab_1 \hspace{0.25em} Ab_2 \hspace{0.25em} \ldots \hspace{0.25em} Ab_N\big)
     \] 
-    By using this for our case, i.e. to find the columns of $\mathbf{W}_{\text{ML}}$,
+    By using this for our case, that is to find the columns of $\mathbf{W}_{\text{ML}}$,
     we'd find that they are of the form $(\ref{eq:3.15})$, i.e. the $n^{\text{th}}$
     column of $\mathbf{W}_{\text{ML}}$ is given by
     \[
@@ -362,4 +362,440 @@ for $\mathbf{\Sigma}$ is given by
         (\mathbf{\Phi}^T\mathbf{\Phi})^{-1} \mathbf{\Phi}^T\mathbf{T}^{(n)}
     \] 
     where $\mathbf{T}^{(n)}$ is the $n^{\text{th}}$ column of $\mathbf{T}$.
+\end{proof}
+
+\section*{Exercise 3.7 $\star$}
+By using the technique of completing the square, verify the result $(\ref{eq:3.49})$ for
+the posterior distribution of the parameters $\mathbf{w}$ in the linear basis function
+model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$) and ($\ref{eq:3.51}$) respectively.
+
+\vspace{1em}
+
+\begin{proof}
+    Since 
+    \begin{align*}
+        p(\mathbf{w} | \mathbf{t})
+        &\propto p(\mathbf{w}) p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta^{-1}) \\
+        &\propto \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \mathbf{S}_0) 
+            \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+    \end{align*}
+    we have that
+    \begin{equation}\label{eq:3.7.1}\tag{3.7.1}
+        \ln p(\mathbf{w} | \mathbf{t})
+        = \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N) 
+            + \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1}) 
+            + \text{const}
+    \end{equation}
+    We compute the first logarithm, expand the square and keep only the terms that depend
+    on $\mathbf{w}$ to obtain:
+    \begin{align*}
+        \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \mathbf{S}_0)
+        &= -\frac{1}{2} \mathbf{w}^T \mathbf{S}_0^{-1} \mathbf{w} 
+            + \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0
+            + \text{const}
+    \end{align*}
+    By doing the same for the second term, we'll have that:
+    \begin{align*}
+        \ln \prod_{n = 1}^N \mathcal{N}(t_n | \mathbf{w}^T \bm{\phi}(\mathbf{x}_n), \beta^{-1})   
+        &= \sum_{n=1}^N \ln \mathcal{N}(t_n | \mathbf{w}^T \bm{\phi}(\mathbf{x}_n), \beta^{-1}) \\
+        &= -\beta \mathbf{w}^T \sum_{n=1}^N t_n \bm{\phi}(\mathbf{x}_n) 
+            - \frac{\beta}{2} \sum_{n=1}^N \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\bm{\phi}(\mathbf{x}_n)^T \mathbf{w} 
+            + \text{const} \\
+        &= -\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+            - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w} + \text{const}
+    \end{align*}
+    By replacing back into ($\ref{eq:3.7.1}$),
+    \begin{align*}
+        \ln p(\mathbf{w} | \mathbf{t}) 
+        &= -\frac{1}{2} \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w} 
+            + \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0
+            -\beta\mathbf{w}^T\mathbf{\Phi}^T\mathbf{t}
+            - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w} 
+            + \text{const} \\
+        &= -\frac{1}{2} \mathbf{w}(\mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi})\mathbf{w}^T
+            + \mathbf{w}^T (\mathbf{S}_0^{-1}\mathbf{m}_0 - \beta\mathbf{\Phi}^T\mathbf{t})
+            + \text{const}
+    \end{align*}
+    The quadratic term corresponds to a Gaussian with the covariance matrix $\mathbf{S}_N$, where
+    \begin{equation}\label{eq:3.51}\tag{3.51}
+        \mathbf{S}_N^{-1} = \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
+    \end{equation}
+    Now, since the mean is found in the linear term, we'd have that
+    \begin{equation*}
+        \mathbf{w}^T(\mathbf{S}_0^{-1}\mathbf{m}_0 - \beta\mathbf{\Phi}^T\mathbf{t})
+        = \mathbf{w}^T\mathbf{S}_N^{-1}\mathbf{m}_N
+    \end{equation*}
+    which gives
+    \begin{equation}\label{eq:3.50}\tag{3.50}
+        \mathbf{m}_N = \mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m_0} + \beta\mathbf{\Phi}^T\mathbf{t})
+    \end{equation}
+    Since we proved both $(\ref{eq:3.50})$ and $(\ref{eq:3.51})$, we showed that
+    \begin{equation}\label{eq:3.49}\tag{3.49}
+        p(\mathbf{w} | \mathbf{t}) = \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 3.8 $\star \star$}
+Consider the linear basis function model in Section 3.1, and suppose
+that we already have observed $N$ data points, so that the posterior
+distribution over $\mathbf{w}$ is given by ($\ref{eq:3.49}$). This posterior
+can be regarded as the prior for the next observation. By considering an additional
+data point $(\mathbf{x}_{N + 1}, t_{N + 1})$, and by completing the square in the
+exponential, show that the resulting posterior distribution is again
+given by ($\ref{eq:3.49}$) but with $\mathbf{S}_N$ replaced by $\mathbf{S}_{N + 1}$
+and $\mathbf{m}_N$ replaced by $\mathbf{m}_{N + 1}$.
+
+\vspace{1em}
+
+\begin{proof}
+    Our approach will be very similar to the previous exercise. The
+    posterior distribution is given by the proportionality relation
+    \begin{align*}
+        p(\mathbf{w} | \mathbf{t}) 
+        &\propto p(\mathbf{w}) p(t_{N + 1} | \mathbf{x}_{N + 1}, \mathbf{w}, \beta^{-1}) \\
+        &\propto \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N) 
+            \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_{N + 1}), \beta^{-1})
+    \end{align*}
+    , so
+    \begin{equation}\label{eq:3.8.1}\tag{3.8.1}
+        \ln p(\mathbf{w} | \mathbf{t})
+        = \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
+        + \ln \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_{N + 1}), \beta^{-1})
+        + \text{const}
+    \end{equation}
+    We now compute the log likelihood and keep only the terms depending on
+    $\mathbf{w}$ to obtain:
+    \begin{align*}
+        \ln \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_{N + 1}), \beta^{-1})
+        &= - \frac{\beta}{2} \mathbf{w}^T \bm{\phi}(\mathbf{x}_{N + 1})\bm{\phi}(\mathbf{x}_{N + 1})^T             \mathbf{w}
+            -\beta t_{N + 1} \mathbf{w}^T \bm{\phi}(\mathbf{x}_{N + 1})
+            + \text{const}
+    \end{align*}
+    By expanding the square and then doing the same with the prior, we have that:
+    \begin{align*}
+        \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_{N})
+        &= -\frac{1}{2} \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{w}
+            + \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{m}_N 
+            + \text{const}
+    \end{align*}
+    Substituting these results back into ($\ref{eq:3.8.1}$) yields:
+    \begin{align*}
+        \ln p(\mathbf{w} | \mathbf{t}) 
+        &= -\frac{1}{2} \mathbf{w}^T
+                \big(\mathbf{S}_N^{-1} - \beta \bm{\phi}(\mathbf{x}_{N + 1})\bm{\phi}
+                (\mathbf{x}_{N + 1})^T\big) \mathbf{w}
+            + \mathbf{w}^T \big(\mathbf{S}_N^{-1} \mathbf{m}_N 
+                - \beta t_{N + 1} \bm{\phi}(\mathbf{x}_{N + 1})\big)
+            + \text{const}
+    \end{align*}
+    which is equivalent to
+    \begin{equation*}
+        \ln p(\mathbf{w} | \mathbf{t}) = \mathcal{N}(\mathbf{w} | \mathbf{m}_{N + 1}, \mathbf{S}_{N + 1})
+    \end{equation*}
+    for
+    \begin{equation}\label{eq:3.8.2}\tag{3.8.2}
+        \mathbf{S}_{N + 1}^{-1}
+        = \mathbf{S}_N^{-1} + \beta \bm{\phi}(\mathbf{x}_{N + 1})\bm{\phi}(\mathbf{x}_{N + 1})^T
+    \end{equation}
+    and
+    \begin{equation*}
+        \mathbf{m}_{N + 1}
+        = \mathbf{S}_{N + 1}\big(\mathbf{S}_N^{-1} \mathbf{m}_N 
+             - \beta t_{N + 1} \bm{\phi}(\mathbf{x}_{N + 1})\big)
+    \end{equation*}
+\end{proof}
+
+\section*{Exercise 3.9 $\star \star$}
+Repeat the previous exercise but instead of completing the square by hand,
+make use of the general result for linear-Gaussian models given by 
+($\ref{eq:2.116}$).
+
+\vspace{1em}
+
+\begin{proof}
+    As shown in Section 2.3.3, given a marginal Gaussian distribution for 
+    $\mathbf{x}$ and a conditional Gaussian distribution for $\mathbf{y}$
+    given $\mathbf{x}$ in the form
+    \begin{equation}\label{eq:2.113}\tag{2.113}
+        p(\mathbf{x}) = \mathcal{N}(\mathbf{x} | \bm{\mu}, \mathbf{\Lambda}^{-1})
+    \end{equation}
+    \vspace{-1em}
+    \begin{equation}\label{eq:2.114}\tag{2.114}
+        p(\mathbf{y} | \mathbf{x}) 
+        = \mathcal{N}(\mathbf{y} | \mathbf{Ax} + \mathbf{b}, \mathbf{L}^{-1})
+    \end{equation}
+    the conditional distribution of $\mathbf{x}$ given $\mathbf{y}$ is given
+    by
+    \begin{equation}\label{eq:2.116}\tag{2.116}
+        p(\mathbf{x} | \mathbf{y}) 
+        = \mathcal{N}(\mathbf{x} | \mathbf{\Sigma}
+            \{\mathbf{A}^T\mathbf{L}(\mathbf{y} - \mathbf{b}) + \mathbf{\Lambda}\bm{\mu}\}, \mathbf{\Sigma})
+    \end{equation}
+    where
+    \begin{equation}\label{eq:2.117}\tag{2.117}
+        \mathbf{\Sigma} = (\mathbf{\Lambda} + \mathbf{A}^T\mathbf{L}\mathbf{A})^{-1}
+    \end{equation}
+    Our goal is to match these results with our model.
+    The prior is given by
+    \begin{equation*}
+        p(\mathbf{w}) = \mathcal{N}(\mathbf{m}_N, \mathbf{S}_N)
+    \end{equation*}
+    and the likelihood is
+    \begin{equation*}
+        p(t_{N + 1} | \mathbf{x}_{N + 1}, \mathbf{w}, \beta^{-1}) 
+        = \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+    \end{equation*}
+    By comparing those with ($\ref{eq:2.113}$) and ($\ref{eq:2.114}$), we'd have that
+    the variables are related as follows: 
+    \begin{equation*}
+        \mathbf{x} = \mathbf{w}
+        \hspace{2em}
+        \mathbf{y} = t_{N + 1}
+        \hspace{2em}
+        \bm{\mu} = \mathbf{m}_N
+        \hspace{2em}
+        \mathbf{\Lambda}^{-1} = \mathbf{S}_N
+        \hspace{2em}
+        \mathbf{A} = \bm{\phi}(\mathbf{x}_N)^T
+        \hspace{2em}
+        \mathbf{b} = 0
+        \hspace{2em}
+        \mathbf{L^{-1}} = \beta^{-1}
+    \end{equation*}
+    Therefore, the covariance matrix $\mathbf{\Sigma}$ of the conditional (the $\mathbf{S}_{N + 1}$ 
+    of our posterior) will be given by substituting our variables into ($\ref{eq:2.117}$), so
+    \begin{equation*}
+        \mathbf{S}_{N + 1}^{-1} = \mathbf{S}_N^{-1} + \beta \bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T
+    \end{equation*}
+    The mean can also be easily obtained from $(\ref{eq:2.116})$ as
+    \begin{equation*}
+        \mathbf{m}_{N + 1}
+        = \mathbf{S}_{N + 1}\big(\mathbf{S}_N^{-1} \mathbf{m}_N 
+             - \beta t_{N + 1} \bm{\phi}(\mathbf{x}_{N + 1})\big)
+    \end{equation*}
+\end{proof}
+
+\section*{Exercise 3.10}
+By making use of the result $(\ref{eq:2.115})$ to evaluate the integral
+in (3.57), verify that the predictive distribution for the Bayesian linear
+regression model is given by ($\ref{eq:3.58}$) in which the input-dependent variance is
+given by ($\ref{eq:3.59})$.
+
+\vspace{1em}
+
+\begin{proof}
+    We've seen in Section 2.3.3 that given a marginal Gaussian distribution
+    for $\mathbf{x}$ and a conditional Gaussian distribution for $\mathbf{y}$
+    given $\mathbf{x}$ in the forms ($\ref{eq:2.113}$) and ($\ref{eq:2.114}$),
+    we have that the marginal distribution of $\mathbf{y}$ is given by
+    \begin{equation}\label{eq:2.115}\tag{2.115}
+        p(\mathbf{y}) 
+        = \mathcal{N}(\mathbf{y} | \mathbf{A}\bm{\mu} + \mathbf{b}, \mathbf{L}^{-1}
+            + \mathbf{A\Lambda}^{-1} \mathbf{A}^T) 
+    \end{equation}
+    Therefore, if we consider the terms under the integral in (3.57),
+    we have that
+    \[
+        p(\mathbf{w} | \mathbf{t}, \mathbf{x}, \alpha, \beta) 
+        = \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
+    \] 
+    \[
+        p(t | \mathbf{w}, \mathbf{x}, \alpha, \beta) 
+        = \mathcal{N}(t | \mathbf{w}^T\bm{\phi}(\mathbf{x}), \beta^{-1}) 
+    \] 
+    so the marginal distribution of $t$ will be given by ($\ref{eq:2.115}$).
+    Our goal is to find the parameters of this distribution. By considering
+    the notation used in $(\ref{eq:2.113})$, $(\ref{eq:2.114})$, and $(\ref{eq:2.115}$),
+    we'd have that
+    \[
+        \bm{\mu} = \mathbf{m}_N 
+        \hspace{1em}
+        \mathbf{S}_N = \mathbf{\Lambda}^{-1}
+        \hspace{1em}
+        \mathbf{A} = \bm{\phi}(\mathbf{x})^T
+        \hspace{1em}
+        \mathbf{b} = 0
+        \hspace{1em}
+        \mathbf{L}^{-1} = \beta^{-1}
+    \] 
+    Finally, by substituting our values into $(\ref{eq:2.115})$, it is 
+    straightforward to see that the predictive distribution for the Bayesian 
+    linear regression model is given by
+    \begin{equation}\label{eq:3.58}\tag{3.58}
+        p(t | \mathbf{t}, \mathbf{x}, \alpha, \beta) 
+        = \mathcal{N}\big(t | \bm{\phi}(\mathbf{x})^T\mathbf{m}_N, \sigma^2_N(\mathbf{x})\big)
+    \end{equation}
+    where the input-dependent variance is given by
+    \begin{equation}\label{eq:3.59}\tag{3.59}
+        \sigma_{N}^2(\mathbf{x})
+        = \frac{1}{\beta} + \bm{\phi}(\mathbf{x})\mathbf{S}_N\bm{\phi}(\mathbf{x})^T
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 3.11}
+We have seen that, as the size of a data set increases, the uncertainty associated
+with the posterior distribution over model parameters decreases. Make use of the
+matrix identity (Appendix C)
+\begin{equation}\label{eq:3.110}\tag{3.110}
+    \big(\mathbf{M} + \mathbf{v}\mathbf{v}^T\big)^{-1}
+    = \mathbf{M}^{-1} - \frac{(\mathbf{M}^{-1}\mathbf{v})\big(\mathbf{v}^T\mathbf{M}^{-1}\big)}
+        {1 + \mathbf{v}^T\mathbf{M}^{-1}\mathbf{v}}
+\end{equation}
+to show that the uncertainty $\sigma^2_{N + 1}(\mathbf{x})$ associated with the
+linear regression function given by (\ref{eq:3.59}) satisfies
+\begin{equation}\label{eq:3.111}\tag{3.111}
+    \sigma^2_{N + 1}(\mathbf{x}) \leq \sigma^2_N(\mathbf{x})
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    By using (\ref{eq:3.59}) and then ($\ref{eq:3.8.2}$) we have that:
+     \[
+         \sigma_{N + 1}^2(\mathbf{x})
+         = \frac{1}{\beta} + \bm{\phi}(\mathbf{x})^T\mathbf{S}_{N + 1}\bm{\phi}(\mathbf{x})
+         = \frac{1}{\beta} \bm{\phi}(\mathbf{x})^T
+         \bigg[\mathbf{S}_N^{-1} + \beta \bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\bigg]^{-1}
+                \bm{\phi}(\mathbf{x})
+    \] 
+    We apply ($\ref{eq:3.110}$) with $\mathbf{M} = \mathbf{S}_N^{-1}$ 
+    and $\mathbf{v} = \beta^{1/2}\bm{\phi}(\mathbf{x})$ and get that
+    \begin{align*}
+        \sigma^{2}_{N + 1}(\mathbf{x})
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x})^T
+            \bigg[\mathbf{S}_N 
+            - \frac{\beta\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+            {1 + \beta \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}\bigg]
+        \bm{\phi}(\mathbf{x}) \\
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x})^T\mathbf{S}_N\bm{\phi}(\mathbf{x})
+            - \bm{\phi}(\mathbf{x})^T\frac{\mathbf{S}_N\bm{\phi}
+            (\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+            {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
+            \bm{\phi}(\mathbf{x}) \\
+        &= \sigma_{N}^2(\mathbf{x})
+            - \bm{\phi}(\mathbf{x})^T
+            \frac{\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+            {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
+            \bm{\phi}(\mathbf{x}) \\
+    \end{align*}
+    Therefore,
+    \begin{equation}\label{eq:3.11.1}\tag{3.11.1}
+        \sigma_N^2(\mathbf{x}) - \sigma_{N + 1}^2(\mathbf{x})
+        = \bm{\phi}(\mathbf{x})^T
+            \frac{\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+            {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
+            \bm{\phi}(\mathbf{x})
+    \end{equation}
+    Since $\mathbf{S}_N$ is a precision matrix, it is symmetric, so:
+    \[
+        \mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N
+        = \big(\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\big)^T\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N
+        = ||\mathbf{S}_N \bm{\phi}(\mathbf{x}_N)||^2 \geq 0
+    \] 
+    Even more, because $\mathbf{S}_N$ is a precision matrix, it is 
+    positive semidefinite. By using this and the fact that the noise
+    precision constant $\beta$ is positive, we have that:
+    \[
+        \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N) \geq 0
+    \] 
+    Hence, we finally have that 
+    \[
+        \bm{\phi}(\mathbf{x})^T
+        \frac{\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+        {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
+        \bm{\phi}(\mathbf{x}) 
+        = \frac{\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
+          {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
+          ||\bm{\phi}(\mathbf{x})||^2 \geq 0
+    \] 
+    which, by $(\ref{eq:3.11.1})$, becomes equivalent to $(\ref{eq:3.111})$.
+\end{proof}
+
+\section*{Exercise 3.12}
+We saw in Section 2.3.6 that the conjugate prior for a Gaussian distribution
+with unknown mean and unknown precision (inverse variance) is a normal-gamma
+distributuion. This property also holds for the case of the conditional
+Gaussian distribution $p(t | \mathbf{x}, \mathbf{w}, \beta)$ of the linear
+regression model. If we consider the likelihood function (3.10), then
+the conjugate prior for $\mathbf{w}$ and $\beta$ is given by
+\begin{equation}\label{eq:3.112}\tag{3.112}
+    p(\mathbf{w}, \beta) 
+    = \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) \text{Gam}(\beta | a_0, b_0)
+\end{equation}
+Show that the corresponding posterior distribution takes the same functional
+form, so that 
+\begin{equation}\label{eq:3.113}\tag{3.113}
+    p(\mathbf{w}, \beta | \mathbf{t}) 
+    = \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1} \mathbf{S}_N) \text{Gam}(\beta | a_N, b_N)
+\end{equation}
+and find expressions for the posterior parameters $\mathbf{m}_N$, $\mathbf{S}_N$, $a_N$, 
+and $b_N$.
+
+\vspace{1em}
+
+\begin{proof}
+    We have that
+    \begin{align*}
+        p(\mathbf{w}, \beta | \mathbf{t}) 
+        &\propto p(\mathbf{w}, \beta) p(\mathbf{t} | \mathbf{w}, \beta) \\
+        &\propto \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) 
+            \text{Gam}(\beta | a_0, b_0)
+            \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+    \end{align*}
+    so 
+    \[
+        \ln p(\mathbf{w}, \beta | \mathbf{t}) 
+        = \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) 
+            + \ln \text{Gam}(\beta | a_0, b_0)
+            + \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+            + \text{const}
+    \] 
+    We decompose each logarithm, this time keeping each term. 
+    The log likelihood is derived like in Exercise 3.7,
+    that is:
+    \[
+        \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+        = -\frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            -\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+            -\frac{\beta}{2} \mathbf{t}^T\mathbf{t}
+            
+    \] 
+    The logarithms of factors in the prior are given by:
+    \[
+        \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) 
+        &= -\frac{\beta}{2} \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w} 
+        + \beta \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0 
+            - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0
+    \] 
+    \[
+        \ln \text{Gam}(\beta | a_0, b_0)
+        = -\ln \Gamma(a_0) + a_0\ln b_0 + a_0 \ln \beta - \ln \beta - b_0 \beta
+    \] 
+    Now, the log of the posterior is given by:
+    \begin{align*}
+        \ln p(\mathbf{w}, \beta | \mathbf{t})
+        = -&\frac{1}{2} \mathbf{w}^T
+            (\beta \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}) \mathbf{w}
+            + \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+            - \frac{\beta}{2} \mathbf{t}^T\mathbf{t}
+            - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0 \\
+        +& (a_0 - 1)\ln \beta - b_0 \beta + \text{const}
+    \end{align*}
+    The covariance matrix of the posterior is easily found
+    from the quadratic term, that is:
+     \[
+         \mathbf{S}_N^{-1} = \beta \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
+    \] 
+    The mean is obtained from the linear term by using the fact that
+    \[
+        \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{m}_N
+        = \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+    \] 
+    so 
+    \[
+        \mathbf{m}_N = \mathbf{S}_N 
+            (\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+    \] 
+    Finally, the constant term with respect to $\mathbf{w}$ will give us the
+    parameters of the Gamma distribution.
 \end{proof}

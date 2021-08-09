@@ -256,7 +256,7 @@ and finally make the change of variable $x = t\mu$ where $t$ is fixed.
     Finally, we notice that the first integral is equal to $\Gamma(a+b)$ 
     and by noting the fact that $\mu$ is a probability, so its
     range is $[0, 1]$, we obtain the desired result:
-    \begin{equation}\label{eq:2.265}\tag{2.265}
+    \begin{equation}\tag{2.265}
         \int_{0}^{1} \mu^{a-1}(1 - \mu)^{b - 1} \diff \mu = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
     \end{equation}
 \end{proof}
@@ -417,7 +417,7 @@ where $\alpha_0$ is defined by  (2.39).
 
     The expected value is then given by
     \begin{align*}
-        \matbb{E}[\mu_j] 
+        \mathbb{E}[\mu_j] 
         &= \int \mu_j \text{Dir}(\bm{\mu} | \bm{\alpha}) \diff \bm{\mu} \\
         &= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\Gamma(\alpha_2)\ldots\Gamma(\alpha_K)}
         \int \mu_1^{\alpha_1 - 1}\dots\mu_j^{\alpha_j}\ldots\mu_K^{\alpha_K - 1} \diff \bm{\mu} \\
@@ -548,4 +548,5 @@ is the $\emph{digamma}$ function.
         \tag{2.276}
     \] 
 \end{proof}
+
 
