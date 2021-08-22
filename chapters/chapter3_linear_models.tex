@@ -577,7 +577,7 @@ make use of the general result for linear-Gaussian models given by
 
 \section*{Exercise 3.10}
 By making use of the result $(\ref{eq:2.115})$ to evaluate the integral
-in (3.57), verify that the predictive distribution for the Bayesian linear
+in (\ref{eq:3.57}), verify that the predictive distribution for the Bayesian linear
 regression model is given by ($\ref{eq:3.58}$) in which the input-dependent variance is
 given by ($\ref{eq:3.59})$.
 
@@ -593,7 +593,7 @@ given by ($\ref{eq:3.59})$.
         = \mathcal{N}(\mathbf{y} | \mathbf{A}\bm{\mu} + \mathbf{b}, \mathbf{L}^{-1}
             + \mathbf{A\Lambda}^{-1} \mathbf{A}^T) 
     \end{equation}
-    Therefore, if we consider the terms under the integral in (3.57),
+    Therefore, if we consider the terms under the integral in (\ref{eq:3.57}),
     we have that
     \[
         p(\mathbf{w} | \mathbf{t}, \mathbf{x}, \alpha, \beta) 
@@ -603,8 +603,16 @@ given by ($\ref{eq:3.59})$.
         p(t | \mathbf{w}, \mathbf{x}, \alpha, \beta) 
         = \mathcal{N}(t | \mathbf{w}^T\bm{\phi}(\mathbf{x}), \beta^{-1}) 
     \] 
-    so the marginal distribution of $t$ will be given by ($\ref{eq:2.115}$).
-    Our goal is to find the parameters of this distribution. By considering
+    so the integral now becomes:
+    \begin{align*}
+        p(t | \mathbf{x}, \mathbf{t}, \alpha, \beta)
+        &= \int p(t | \mathbf{x}, \mathbf{w}, \beta) \label{eq:3.57} \tag{3.57}
+            p(\mathbf{w} | \mathbf{t}, \mathbf{x}, \alpha, \beta) \diff \mathbf{w} \\
+        &= \int \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
+        \mathcal{N}(t | \mathbf{w}^T\bm{\phi}(\mathbf{x}), \beta^{-1}) \diff \mathbf{w}
+    \end{align*}
+    Our goal is to find the parameters of this distribution. Since 
+    the integral involves the convolution of two Gaussians, by following
     the notation used in $(\ref{eq:2.113})$, $(\ref{eq:2.114})$, and $(\ref{eq:2.115}$),
     we'd have that
     \[
@@ -750,15 +758,15 @@ and $b_N$.
             + \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
             + \text{const}
     \] 
-    We decompose each logarithm, this time keeping each term. 
-    The log likelihood is derived like in Exercise 3.7,
+    We decompose each logarithm, this time also keeping each term
+    depending on $\beta$. The log likelihood is derived like in Exercise 3.7,
     that is:
     \[
         \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
         = -\frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
             -\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
             -\frac{\beta}{2} \mathbf{t}^T\mathbf{t}
-            
+            + \frac{N}{2} \ln \beta
     \] 
     The logarithms of factors in the prior are given by:
     \[
@@ -779,7 +787,7 @@ and $b_N$.
             + \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
             - \frac{\beta}{2} \mathbf{t}^T\mathbf{t}
             - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0 \\
-        +& (a_0 - 1)\ln \beta - b_0 \beta + \text{const}
+        +& \frac{N}{2} \ln \beta + (a_0 - 1)\ln \beta - b_0 \beta + \text{const}
     \end{align*}
     The covariance matrix of the posterior is easily found
     from the quadratic term, that is:
@@ -796,6 +804,249 @@ and $b_N$.
         \mathbf{m}_N = \mathbf{S}_N 
             (\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
     \] 
-    Finally, the constant term with respect to $\mathbf{w}$ will give us the
-    parameters of the Gamma distribution.
+    From the constant terms with respect to $\mathbf{w}$ we'll obtain the
+    parameters of the Gamma distribution. $b_N$ is obtained by using the 
+    linear terms containing  $\beta$. Since we already know the covariance and the 
+    mean, we can deduce the linear terms of the posterior distribution, so we'll have
+    that:
+    \[
+        - \beta b_N
+        -\frac{\beta}{2} \mathbf{m}_N^T \mathbf{S}_N^{-1} \mathbf{m}_N
+        = -\frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+        -\frac{\beta}{2} \mathbf{m}_0^T \mathbf{S}_0^{-1} \mathbf{m}_0
+        -\beta b_0
+    \]
+    which gives
+    \[
+        b_N 
+        = \frac{1}{2} \big(
+            \mathbf{t}^T\mathbf{t} + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0
+            - \mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N\big)
+    \] 
+    Finally, $a_N$ is given by the terms containing $\ln \beta$. 
+    By knowing the $\ln \beta$ terms that will be used in the expansion of the 
+    log posterior, we have that
+    \[
+        (a_N - 1) \ln \beta = \frac{N}{2} \ln \beta + (a_0 - 1) \ln \beta
+    \] 
+    Hence, it is straightforward to obtain the result
+    \[
+        a_N = a_0 + \frac{N}{2}
+    \] 
+\end{proof}
+
+\section*{Exercise 3.13}
+Show that the predictive distribution $p(t | \mathbf{x}, \mathbf{t})$ for the 
+model discussed in Exercise 3.12 is given by a Student's t-distribution of
+the form
+\begin{equation}\label{eq:3.114}\tag{3.114}
+    p(t | \mathbf{x}, \mathbf{t}) = \text{St}(t | \mu, \lambda, \nu)
+\end{equation}
+and obtain expressions for $\mu, \lambda, \nu$.
+
+\vspace{1em}
+
+\begin{proof}
+    The Student's t-distribution is given by
+    \begin{equation}\label{eq:2.159}\tag{2.159}
+        \text{St}(x | \mu, \lambda, \nu)
+        = \frac{\Gamma(\nu/2 + 1/2)}{\Gamma(\nu/2)} \bigg(\frac{\lambda}{\pi \nu}\bigg)^{1/2}
+        \bigg[1 + \frac{\lambda(x - \mu)^2}{\nu}\bigg]^{-\nu/2 - 1/2}
+    \end{equation}
+    However, our goal is to obtain it in the form
+    \begin{equation}\label{eq:2.158}\tag{2.158}
+        \text{St}(x | \mu, \lambda, \nu)
+        = \int_{0}^{\infty} \mathcal{N}\big(x | \mu, (\eta\lambda)^{-1}\big)
+        \text{Gam}(\eta | \nu/2, \nu/2) \diff \eta
+    \end{equation}
+    which for $\nu = 2a$ and $\lambda = a/b$ is equivalent to ($\ref{eq:2.159}$). 
+
+    We have that the predictive distribution is given by
+    \[
+        p(t | \mathbf{x}, \mathbf{t}) 
+        = \iint p(t | \mathbf{x}, \mathbf{w}, \beta) p(\mathbf{w}, \beta | \mathbf{x}, \mathbf{t})
+        \diff \mathbf{w} \diff \beta
+    \] 
+    The factors under the integral are already known from (3.8) and 
+    $(\ref{eq:3.113})$, so
+    \begin{align*}
+        p(t | \mathbf{x}, \mathbf{t}) 
+        &= \iint \mathcal{N}(t | \mathbf{w}^T\bm{\phi}(\mathbf{x}), \beta^{-1}) 
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1} \mathbf{S}_N) 
+            \text{Gam}(\beta | a_N, b_N)
+            \diff \mathbf{w} \diff \beta \\
+        &= \int \bigg(\int \mathcal{N}(t | \mathbf{w}^T\bm{\phi}(\mathbf{x}), \beta^{-1}) 
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1} \mathbf{S}_N) 
+            \diff \mathbf{w}\bigg)
+            \text{Gam}(\beta | a_N, b_N)
+            \diff \beta
+    \end{align*}
+    The integral with respect to $\mathbf{w}$ is actually $(\ref{eq:3.57})$, so
+    we know that it's equal to ($\ref{eq:3.58}$). Knowing this, we have that
+    \[
+        p(t | \mathbf{x}, \mathbf{t}) 
+        = \int \mathcal{N}\big(t | \bm{\phi}(\mathbf{x})^T\mathbf{m}_N, 
+        \beta^{-1} \big[1 + \bm{\phi}(\mathbf{x})\mathbf{S}_N\bm{\phi}(\mathbf{x})^T\big]\big)
+        \text{Gam}(\beta | a_N, b_N) \diff \beta
+    \] 
+\end{proof}
+
+\section*{Exercise 3.14}
+In this exercise, we explore in more detail the properties of the equivalent
+kernel defined by ($\ref{eq:3.62}$), where $\mathbf{S}_N$ is defined by 
+$(\ref{eq:3.54})$. Suppose that the basis functions $\phi_j(\mathbf{x})$ are
+linearly independent and that the number $N$ of data points is greater
+than the number $M$ of basis functions. Furthermore, let one of the basis
+functions be constant, say $\phi_0(\mathbf{x}) = 1$. By taking suitable
+linear combinations of these basis functions, we can construct a new
+basis set $\psi_j(\mathbf{x})$ spanning the same space but orthonormal,
+so that 
+\begin{equation}\label{eq:3.115}\tag{3.115}
+    \sum_{n=1}^{N} \psi_j(\mathbf{x}_n)\psi_k(\mathbf{x}_n) = \mathbf{I}_{jk}
+\end{equation}
+where $\mathbf{I}_{jk}$ is defined to be 1 if $j = k$ and 0 otherwise,
+and we take $\psi_0(\mathbf{x}) = 1$. Show that for $\alpha = 0$,
+the equivalent kernel can be written as 
+$k(\mathbf{x}, \mathbf{x'}) = \bm{\psi}(\mathbf{x})^T\bm{\psi}(\mathbf{x'})$ 
+where $\bm{\psi} = (\psi_0, \ldots, \psi_{M - 1})^T$. Use this result
+to show that the kernel satisfies the summation constraint
+\begin{equation}\label{eq:3.116}\tag{3.116}
+    \sum_{n=1}^{N} k(\mathbf{x}, \mathbf{x}_n) = 1
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    The equivalent kernel is defined by
+    \begin{equation}\label{eq:3.62}\tag{3.62}
+        k(\mathbf{x}, \mathbf{x'}) 
+        = \beta \bm{\phi}(\mathbf{x})^T\mathbf{S}_N\bm{\phi}(\mathbf{x}')
+    \end{equation}
+    where 
+    \begin{equation}\label{eq:3.54}\tag{3.54}
+        \mathbf{S}_N^{-1} = \alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi}
+    \end{equation}
+    We'll use the newly defined basis set and
+    construct the coresponding \emph{design matrix},
+    whose elements are given by $\mathbf{\Psi}_{nj} = \psi_j({\mathbf{x}_n})$,
+    so that
+    \[
+        \mathbf{\Psi} =
+        \begin{pmatrix}
+            \psi_0(\mathbf{x}_1) & \psi_1(\mathbf{x}_1) & \cdots & \psi_{M - 1}(\mathbf{x}_1) \\
+            \psi_0(\mathbf{x}_2) & \psi_1(\mathbf{x}_2) & \cdots & \psi_{M - 1}(\mathbf{x}_2) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \psi_0(\mathbf{x}_N) & \psi_1(\mathbf{x}_N) & \cdots & \psi_{M - 1}(\mathbf{x}_N) \\
+        \end{pmatrix}
+    \] 
+    Since the basis set is orthonormal, we have that
+     \[
+         \mathbf{\Psi}^T \mathbf{\Psi} 
+         = \sum_{n=1}^{N} \bm{\psi}(\mathbf{x}_n) \bm{\psi}(\mathbf{x}_n)^T 
+         = \mathbf{I}
+    \] 
+    Now, for $\alpha = 0$, $\mathbf{S}_N$ becomes 
+    \[
+        \mathbf{S}_N = \big(\beta \mathbf{\Psi}^T \mathbf{\Psi}\big)^{-1} = \frac{1}{\beta}
+    \] 
+    Therefore, by following $(\ref{eq:3.62})$ the equivalent kernel can be written as
+    \[
+        k(\mathbf{x}, \mathbf{x'}) 
+        = \beta \bm{\psi}(\mathbf{x})^T \mathbf{S}_N \bm{\psi}(\mathbf{x'})
+        = \bm{\psi}(\mathbf{x})^T \bm{\psi}(\mathbf{x'})
+    \] 
+    Finally, the summation constraint ($\ref{eq:3.116}$) obviously holds, since
+    from $\psi_0(\mathbf{x}) = 1$, we have that
+    \begin{align*}
+        \sum_{n=1}^{N} k(\mathbf{x}, \mathbf{x}_n) 
+        = \sum_{n=1}^{N} \bm{\psi}(\mathbf{x})^T \bm{\psi}(\mathbf{x}_n)
+        = \sum_{n=1}^{N} \sum_{j=0}^{M - 1} \psi_j(\mathbf{x}) \psi_j(\mathbf{x}_n)  
+        &= \sum_{j=0}^{M - 1} \psi_j(\mathbf{x}) 
+        \sum_{n=1}^{N} \psi_j(\mathbf{x}_n) \psi_0(\mathbf{x}_n) \\
+        &= \sum_{j=0}^{M - 1} \psi_j(\mathbf{x}) \mathbf{I}_{j+1, 1} = 1
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 3.15}
+Consider a linear basis function model for regression in which the parameters
+$\alpha$ and $\beta$ are set using the evidence framework. Show that the
+function $E(\mathbf{m}_N)$ defined by $(\ref{eq:3.82})$ satisfies the relation
+$2E(\mathbf{m}_N) = N$.
+
+\vspace{1em}
+
+\begin{proof}
+    Our function is given by
+    \begin{equation}\label{eq:3.82}\tag{3.82}
+        E(\mathbf{m}_N) = \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{m}_N||^2
+        + \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N
+    \end{equation}
+    We will be using the quantity $\gamma$ defined in Section 3.5.2 to 
+    derive our result. From (3.92) we get that
+     \[
+         \mathbf{m}_N^T\mathbf{m}_N = \frac{\gamma}{\alpha}
+    \] 
+    and (3.95) gives
+    \[
+        ||\mathbf{t} - \mathbf{\Phi}\mathbf{m}_N||^2 = \frac{N - \gamma}{\beta}
+    \] 
+    Therefore,
+    \[
+        2E(\mathbf{m}_N) 
+        = \beta||\mathbf{t} - \mathbf{\Phi}\mathbf{m}_N||^2 + \alpha\mathbf{m}_N^T\mathbf{m}_N
+        = N - \gamma + \gamma = N
+    \] 
+\end{proof}
+
+\section*{Exercise 3.16}
+Derive the result $(\ref{eq:3.86})$ for the log evidence
+function $p(\mathbf{t} | \alpha, \beta)$ of the linear
+regression model by making use of $(\ref{eq:2.115})$ to
+evaluate the integral $(\ref{eq:3.77})$ directly.
+
+\section*{Exercise 3.17}
+Show that the evidence function for the Bayesian linear regression
+model can be written in the form $(\ref{eq:3.78})$ in which
+$E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
+
+\vspace{1em}
+
+\begin{proof}
+    The log likelihood is given by
+    \begin{equation}\label{eq:3.11}\tag{3.11}
+        \ln p(\mathbf{t} | \mathbf{w}, \beta) 
+        = \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi) - \beta E_D(\mathbf{w})
+    \end{equation}
+    By applying the exponential function on both sides of the expression, we obtain that
+    \[
+        p(\mathbf{t} | \mathbf{w}, \beta) 
+        = \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} \exp \{-\beta E_D(\mathbf{w})\}
+    \] 
+    By expanding the Gaussian in
+    \begin{equation}\label{eq:3.52}\tag{3.52}
+        p(\mathbf{w} | \alpha) = \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1} \mathbf{I})
+    \end{equation}
+    we have that
+    \[
+        p(\mathbf{w} | \alpha) 
+        = \bigg(\frac{\alpha}{2\pi}\bigg)^{M / 2} 
+            \exp\bigg\{-\frac{\alpha}{2} \mathbf{w}^T\mathbf{w}\bigg\}
+        = \bigg(\frac{\alpha}{2\pi}\bigg)^{M / 2}  \exp\{-\alpha E_W(\mathbf{w})\}
+    \] 
+    Therefore, by replacing into (3.77), we obtain
+    \begin{align*}
+        p(\mathbf{t} | \alpha, \beta)
+        = \int p(\mathbf{t} | \mathbf{w}, \beta) p(\mathbf{w} | \alpha) \diff \mathbf{w}
+        &= \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} \bigg(\frac{\alpha}{2\pi}\bigg)^{M/2}
+        \int \exp\{-\alpha E_W(\mathbf{w}) - \beta E_D(\mathbf{w})\} \diff w \\
+        &= \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} \bigg(\frac{\alpha}{2\pi}\bigg)^{M/2}
+        \int \exp\{-E(\mathbf{w})\} \diff \mathbf{w} \label{eq:3.78} \tag{3.78}
+    \end{align*}
+    where
+    \begin{equation}\label{eq:3.79}\tag{3.79}
+        E(\mathbf{w}) 
+        = \beta E_D(\mathbf{w}) + \alpha E_W(\mathbf{w})
+        = \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2 
+        + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w}
+    \end{equation}
 \end{proof}
