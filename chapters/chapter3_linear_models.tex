@@ -1022,11 +1022,11 @@ $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
         p(\mathbf{t} | \mathbf{w}, \beta) 
         = \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} \exp \{-\beta E_D(\mathbf{w})\}
     \] 
-    By expanding the Gaussian in
+    We continue by expanding the Gaussian
     \begin{equation}\label{eq:3.52}\tag{3.52}
         p(\mathbf{w} | \alpha) = \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1} \mathbf{I})
     \end{equation}
-    we have that
+    to get that
     \[
         p(\mathbf{w} | \alpha) 
         = \bigg(\frac{\alpha}{2\pi}\bigg)^{M / 2} 
@@ -1050,3 +1050,113 @@ $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
         + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w}
     \end{equation}
 \end{proof}
+
+\section*{Exercise 3.18}
+By completing the square over $\mathbf{w}$, show that the error function
+$(\ref{eq:3.79})$ in Bayesian linear regression can be written in the form
+$(\ref{eq:3.80})$.
+
+\vspace{1em}
+
+\begin{proof}
+    Our first step is expanding $E(\mathbf{w})$:
+    \begin{align*}
+        E(\mathbf{w})
+        &= \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2 
+            + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w} \tag{3.79} \\
+        &= \frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            - \frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{w} 
+            - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{t}
+            + \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w}
+    \end{align*}
+    We continue by doing the same for $E(\mathbf{m}_N)$ and obtain that:
+    \begin{align*}
+        E(\mathbf{m}_N)
+        &= \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{m}_N||^2 
+            + \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N \\
+        &= \frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            - \frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{m}_N 
+            - \frac{\beta}{2} \mathbf{m}_N^T\mathbf{\Phi}^T\mathbf{t}
+            + \frac{\beta}{2} \mathbf{m}_N^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{m}_N
+            + \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N
+    \end{align*}
+    $\mathbf{A}$ is a Hessian matrix, so it's symmetric. By using this
+    and the expressions
+    \begin{equation}\label{eq:3.81}\tag{3.81}
+        \mathbf{A} = \alpha \mathbf{I} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
+    \end{equation}
+    \vspace{-1em}
+    \begin{equation}\label{eq:3.84}\tag{3.84}
+        \mathbf{m}_N = \beta \mathbf{A}^{-1} \mathbf{\Phi}^T\mathbf{t}
+    \end{equation}
+    we notice that the negative terms in the expansions can be written as
+    \[
+        -\frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{w}
+            - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}\mathbf{t}
+        =  
+        -\frac{1}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{w}
+            -\frac{1}{2} \mathbf{w}^T\mathbf{A}\mathbf{m}_N
+        = 
+        -\mathbf{m}_N^T\mathbf{A}\mathbf{w}
+    \] 
+    \[
+        -\frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{m}_N
+            - \frac{\beta}{2} \mathbf{m}_N^T\mathbf{\Phi}\mathbf{t}
+        =  
+        -\frac{1}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+            -\frac{1}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+        = 
+        -\mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+    \] 
+    Hence, 
+    \[
+        E(\mathbf{w})
+        = \frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            -\mathbf{m}_N^T\mathbf{A}\mathbf{w}
+            + \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w}
+    \] 
+    \[
+        E(\mathbf{m}_N)
+        = \frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            -\mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+            + \frac{\beta}{2} \mathbf{m}_N^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{m}_N
+            + \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N
+    \]
+    By taking the difference of the error functions and then
+    repeatedly making use of $(\ref{eq:3.81})$, we reach a point
+    when we can complete the square:
+    \begin{align*}
+        E(\mathbf{w}) - E(\mathbf{m}_N)
+        &= -\mathbf{m}_N^T\mathbf{A}\mathbf{w} 
+            + \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+            + \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            - \frac{\beta}{2} \mathbf{m}_N^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{m}_N
+            + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w} 
+            - \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N \\
+        &= -\mathbf{m}_N^T\mathbf{A}\mathbf{w} 
+            + \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+            + \frac{1}{2} \mathbf{w}^T\big(
+                \alpha \mathbf{I} + \beta \mathbf{\Phi}^T\mathbf{\Phi}\big) 
+                \mathbf{w}
+            - \mathbf{m}_N^T\big( 
+                \alpha \mathbf{I} + \beta \mathbf{\Phi}^T\mathbf{\Phi}\big) 
+                \mathbf{m}_N \\
+        &= -\mathbf{m}_N^T\mathbf{A}\mathbf{w} 
+            + \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N
+            + \frac{1}{2} \mathbf{w}^T\mathbf{A}\mathbf{w}
+            - \frac{1}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N \\
+        &= \frac{1}{2} \mathbf{w}^T\mathbf{A}\mathbf{w}
+            -\frac{1}{2} \mathbf{m}_N^T \mathbf{A}\mathbf{w}
+            -\frac{1}{2} \mathbf{w}^T\mathbf{A}\mathbf{m}_N
+            + \frac{1}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N \\
+        &= \frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+    \end{align*}
+    which directly proves that $(\ref{eq:3.79})$ can be written as
+    \begin{equation}\label{eq:3.80}\tag{3.80}
+        E(\mathbf{w}) = E(\mathbf{m}_N) + 
+            \frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+    \end{equation}
+\end{proof}
+
