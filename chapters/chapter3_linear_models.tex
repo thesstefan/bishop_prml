@@ -1160,3 +1160,53 @@ $(\ref{eq:3.80})$.
     \end{equation}
 \end{proof}
 
+\section*{Exercise 3.19}
+Show that the integration over $\mathbf{w}$ in the Bayesian 
+linear regression model gives the result $(\ref{eq:3.85})$.
+Hence show that the log marginal likelihood is given by 
+$(\ref{eq:3.86})$.
+
+\vspace{1em}
+
+\begin{proof}
+    We start by rewriting $E(\mathbf{w})$ like in ($\ref{eq:3.80}$) and obtain that
+    \begin{align*}
+        \int \exp\{-E(\mathbf{w})\} \diff \mathbf{w}
+        &= \int \exp\bigg\{-E(\mathbf{m}_N) -
+            \frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+            \bigg\}\diff \mathbf{w} \\
+        &= \int \exp\{-E(\mathbf{m}_N)\}
+            \exp\bigg\{-\frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+            \bigg\}\diff \mathbf{w} \\
+        &= \exp\{-E(\mathbf{m}_N)\}  
+            \int \exp\bigg\{-\frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+            \bigg\}\diff \mathbf{w}
+    \end{align*}
+    The integral is easily solved by noticing that the quadratic 
+    term under the exponential term corresponds to a Gaussian of
+    the form $\mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{A}^{-1})$.
+    Because the Gaussian distribution is normalized, we then have that
+    \begin{align*}
+        \int &\exp\{-E(\mathbf{w})\} \diff \mathbf{w} \\
+        &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2}
+            \int\frac{1}{(2\pi)^{M/2}}\frac{1}{|\mathbf{A}|^{-1/2}}
+            \exp\bigg\{\frac{1}{2}
+                (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
+            \bigg\}\diff \mathbf{w} \\
+        &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2}
+            \int \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{A}^{-1}) \diff \mathbf{w} \\
+        &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2} \label{eq:3.85}\tag{3.85}
+    \end{align*}
+    By substituting this into $(\ref{eq:3.78})$, the evidence function becomes
+    \[
+        p(\mathbf{t} | \alpha, \beta) 
+        = \bigg(\frac{\beta}{2\pi}\bigg)^{N / 2} \alpha^{M/2} |\mathbf{A}|^{-1/2}
+            \exp\{-E(\mathbf{m}_N)\}
+    \] 
+    Hence, the log marginal likelihood is given by
+    \begin{equation}\label{eq:3.86}\tag{3.86}
+        \ln p(\mathbf{t} | \alpha, \beta)
+        = \frac{M}{2} \ln \alpha + \frac{N}{2} \ln \beta - E(\mathbf{m}_N)
+            -\frac{1}{2} \ln|\mathbf{A}| - \frac{N}{2} \ln(2\pi)
+    \end{equation}
+\end{proof}
