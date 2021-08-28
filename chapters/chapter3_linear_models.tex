@@ -782,10 +782,10 @@ and $b_N$.
     Now, the log of the posterior is given by:
     \begin{align*}
         \ln p(\mathbf{w}, \beta | \mathbf{t})
-        = -&\frac{1}{2} \mathbf{w}^T
-            (\beta \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}) \mathbf{w}
-            + \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 
-            + \beta \mathbf{\Phi}^T \mathbf{t})
+        = -&\frac{\beta}{2} \mathbf{w}^T
+            (\mathbf{S}_0^{-1} + \mathbf{\Phi}^T\mathbf{\Phi}) \mathbf{w}
+            + \beta\mathbf{w}^T(\mathbf{S}_0^{-1} \mathbf{m}_0 
+                + \mathbf{\Phi}^T \mathbf{t})
             - \frac{\beta}{2} \mathbf{t}^T\mathbf{t}
             - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0 \\
         +& \frac{N}{2} \ln \beta + (a_0 - 1)\ln \beta - b_0 \beta + \text{const}
@@ -793,17 +793,17 @@ and $b_N$.
     The covariance matrix of the posterior is easily found
     from the quadratic term, that is:
      \[
-         \mathbf{S}_N^{-1} = \beta \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
+         \mathbf{S}_N^{-1} = \mathbf{S}_0^{-1} + \mathbf{\Phi}^T\mathbf{\Phi}
     \] 
     The mean is obtained from the linear term by using the fact that
     \[
         \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{m}_N
-        = \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 + \beta \mathbf{\Phi}^T \mathbf{t})
+        = \mathbf{w}^T(\mathbf{S}_0^{-1} \mathbf{m}_0 + \mathbf{\Phi}^T \mathbf{t})
     \] 
     so 
     \[
         \mathbf{m}_N = \mathbf{S}_N 
-            (\beta \mathbf{S}_0^{-1} \mathbf{m}_0 + \beta \mathbf{\Phi}^T \mathbf{t})
+            (\mathbf{S}_0^{-1} \mathbf{m}_0 + \mathbf{\Phi}^T \mathbf{t})
     \] 
     From the constant terms with respect to $\mathbf{w}$ we'll obtain the
     parameters of the Gamma distribution. $b_N$ is obtained by using the 
@@ -1406,30 +1406,109 @@ respect to $\beta$.
             \text{Gam}(\beta | a_0, b_0) 
             \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I}) 
             \diff \mathbf{w}\diff\beta \\
-         &= \int \text{Gam}(\beta | a_0, b_0)
-         \bigg(\int 
+         &= \iint \text{Gam}(\beta | a_0, b_0)
             \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
             \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, 
-                \beta^{-1}\mathbf{I}) \diff \mathbf{w}\bigg) 
-            \diff \beta
-    \end{align*}
-    Once again, we deal with a convolution of Gaussians of the form
-    $(\ref{eq:2.113})$ and ($\ref{eq:2.114}$). Therefore, we can compute
-    the inner integral directly by using $(\ref{eq:2.115})$, so
-    \[
-         \int 
-            \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
-            \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w},
                 \beta^{-1}\mathbf{I}) \diff \mathbf{w}
-        = \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{m}_0, 
-            \beta^{-1}\mathbf{I} + \beta^{-1}\mathbf{\Phi}\mathbf{S}_0\mathbf{\Phi}^T)
-    \] 
-    Now, we'll try to find a nicer form for the precision matrix 
-    of this Gaussian by applying Woodbury's identity (C.7) and obtain:
-    \begin{align*}
-        (\beta^{-1}\mathbf{I} + \beta^{-1}\mathbf{\Phi}\mathbf{S}_0\mathbf{\Phi}^T)^{-1}
-        &= \beta\mathbf{I} - \beta^2\mathbf{\Phi}(\beta\mathbf{S}_0^{-1} 
-        + \beta\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T
+            \diff \beta \\
     \end{align*}
-    From (\ref{eq:3.54}) we have that the inverse term is actually $\mathbf{S}_N$.
+    By expanding the three distributions, we have that
+    \begin{align*}
+        p(\mathbf{t}) = &\frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+         \frac{1}{|\mathbf{S}_0|^{1/2}} \\
+        &\iint \beta^{a_0 - 1 + N/2 + M/2} \exp\{\beta b_0\}
+         \exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
+         \exp\bigg\{-\frac{\beta}{2}(\mathbf{w} - \mathbf{m}_0)^T
+             \mathbf{S}_0^{-1}(\mathbf{w} - \mathbf{m}_0)
+         \bigg\} \diff \mathbf{w} \diff \beta
+    \end{align*}
+    Let's expand the term under the $\mathbf{w}$ integral, and then use $(\ref{eq:3.50})$ and
+    $(\ref{eq:3.51})$ to complete the square:
+    \begin{align*}
+        \exp\bigg\{-\frac{\beta}{2} &||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
+        \exp\bigg\{-\frac{\beta}{2}(\mathbf{w} - \mathbf{m}_0)^T
+             \mathbf{S}_0^{-1}(\mathbf{w} - \mathbf{m}_0)
+         \bigg\} \\
+        &=\exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2
+        -\frac{\beta}{2}(\mathbf{w} - \mathbf{m}_0)^T
+             \mathbf{S}_0^{-1}(\mathbf{w} - \mathbf{m}_0)
+         \bigg\} \\
+        &= \exp\bigg\{-\frac{\beta}{2}\big(
+        \mathbf{t}^T\mathbf{t} 
+        - 2\mathbf{w}^T \mathbf{\Phi}^T \mathbf{t}
+        + \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+        + \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w}
+        - 2 \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0
+        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big)\bigg\} \\
+        &= \exp\bigg\{-\frac{\beta}{2}\big[
+        \mathbf{w}^T\big(\mathbf{S}_0^{-1} 
+            + \mathbf{\Phi}^T\mathbf{\Phi}\big)\mathbf{w}
+        - 2\mathbf{w}^T\big(\mathbf{S}_0^{-1}\mathbf{m}_0\big 
+            + \mathbf{\Phi}^T\mathbf{t}\big) 
+        + \mathbf{t}^T\mathbf{t}
+        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big]\bigg\} \\
+        &= \exp\bigg\{-\frac{\beta}{2}\big(
+        \mathbf{w}^T\mathbf{S}_N^{-1}\mathbf{w} 
+        - 2\mathbf{w}^T\mathbf{S}_N^{-1}\mathbf{m}_N
+        + \mathbf{t}^T\mathbf{t}
+        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big)\bigg\} \\
+        &= \exp\bigg\{-\frac{\beta}{2}\big[
+        (\mathbf{w} - \mathbf{m}_N)^T\mathbf{S}_N^{-1}(\mathbf{w} - \mathbf{m}_N)
+        -\mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N
+        + \mathbf{t}^T\mathbf{t}
+        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big]\bigg\} \\
+    \end{align*}
+    We proved in Exercise 3.12 that
+    \[
+        b_0 = b_N - \frac{1}{2} \mathbf{t}^T\mathbf{t} 
+        - \frac{1}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0 
+        + \frac{1}{2} \mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N
+    \]
+    Therefore, 
+    \begin{align*}
+        \exp\{\beta b_0\}
+         \exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
+         &\exp\bigg\{-\frac{\beta}{2}(\mathbf{w} - \mathbf{m}_0)^T
+             \mathbf{S}_0^{-1}(\mathbf{w} - \mathbf{m}_0)
+         \bigg\} \\
+         &= \exp\{\beta b_N\}\exp\bigg\{-\frac{\beta}{2} 
+            (\mathbf{w} - \mathbf{m}_N)^T\mathbf{S}_N^{-1}(\mathbf{w} - \mathbf{m}_N)\bigg\}
+    \end{align*}
+    and since both the Gaussian and Gamma distributions
+    are normalized, the marginal probability finally becomes
+    what we wanted:
+    \begin{align*}
+        p(\mathbf{t}) 
+        &= \frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+         \frac{1}{|\mathbf{S}_0|^{1/2}} 
+        \int \beta^{a_0 - 1 + N/2 + M/2} 
+        \int \exp{\beta b_N}\exp\bigg\{-\frac{\beta}{2}(\mathbf{w} 
+            - \mathbf{m}_N)^T\mathbf{S}_N^{-1}
+            (\mathbf{w} - \mathbf{m}_N)\bigg\} \diff \mathbf{w} \diff \beta \\
+        &= \frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+         \frac{1}{|\mathbf{S}_0|^{1/2}} 
+        \int \beta^{a_0 - 1+ N/2 + M/2} 
+        \int \bigg(\frac{2\pi}{\beta}\bigg)^{M/2} |\mathbf{S}_N|^{1/2}  
+        \exp\{\beta b_N\}
+        \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
+        \diff \mathbf{w} \diff \beta \\
+        &= \frac{1}{(2\pi)^{\frac{N}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+        \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}} 
+        \int \beta^{a_0 - 1 + N/2} 
+        \exp\{\beta b_N\}
+        \int\mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
+        \diff \mathbf{w} \diff \beta \\
+        &= \frac{1}{(2\pi)^{\frac{N}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+        \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}} 
+        \int \beta^{a_0 - 1 + N/2} 
+        \exp\{\beta b_N\} \diff \beta \\
+        &= \frac{1}{(2\pi)^{\frac{N}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+        \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}} 
+        \int\frac{\Gamma(a_N)}{b_N^{a_N}} \text{Gam}(\beta | a_N, b_N) \diff \beta \\
+        &= \frac{1}{(2\pi)^{N / 2}} \frac{b_0^{a_0}}{b_N^{a_N}}
+        \frac{\Gamma(a_N)}{\Gamma(a_0)} \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}}
+        \tag{3.118}
+    \end{align*}
+    where $a_N$ and $b_N$ were derived in Exercise 3.12 and are
+    given by 
 \end{proof}
