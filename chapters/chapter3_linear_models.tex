@@ -398,10 +398,10 @@ model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$
     \begin{align*}
         \ln \prod_{n = 1}^N \mathcal{N}(t_n | \mathbf{w}^T \bm{\phi}(\mathbf{x}_n), \beta^{-1})   
         &= \sum_{n=1}^N \ln \mathcal{N}(t_n | \mathbf{w}^T \bm{\phi}(\mathbf{x}_n), \beta^{-1}) \\
-        &= -\beta \mathbf{w}^T \sum_{n=1}^N t_n \bm{\phi}(\mathbf{x}_n) 
+        &= \beta \mathbf{w}^T \sum_{n=1}^N t_n \bm{\phi}(\mathbf{x}_n) 
             - \frac{\beta}{2} \sum_{n=1}^N \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\bm{\phi}(\mathbf{x}_n)^T \mathbf{w} 
             + \text{const} \\
-        &= -\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+        &= \beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
             - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w} + \text{const}
     \end{align*}
     By replacing back into ($\ref{eq:3.7.1}$),
@@ -409,11 +409,11 @@ model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$
         \ln p(\mathbf{w} | \mathbf{t}) 
         &= -\frac{1}{2} \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w} 
             + \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0
-            -\beta\mathbf{w}^T\mathbf{\Phi}^T\mathbf{t}
+            +\beta\mathbf{w}^T\mathbf{\Phi}^T\mathbf{t}
             - \frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w} 
             + \text{const} \\
         &= -\frac{1}{2} \mathbf{w}(\mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi})\mathbf{w}^T
-            + \mathbf{w}^T (\mathbf{S}_0^{-1}\mathbf{m}_0 - \beta\mathbf{\Phi}^T\mathbf{t})
+            + \mathbf{w}^T (\mathbf{S}_0^{-1}\mathbf{m}_0 + \beta\mathbf{\Phi}^T\mathbf{t})
             + \text{const}
     \end{align*}
     The quadratic term corresponds to a Gaussian with the covariance matrix $\mathbf{S}_N$, where
@@ -422,7 +422,7 @@ model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$
     \end{equation}
     Now, since the mean is found in the linear term, we'd have that
     \begin{equation*}
-        \mathbf{w}^T(\mathbf{S}_0^{-1}\mathbf{m}_0 - \beta\mathbf{\Phi}^T\mathbf{t})
+        \mathbf{w}^T(\mathbf{S}_0^{-1}\mathbf{m}_0 + \beta\mathbf{\Phi}^T\mathbf{t})
         = \mathbf{w}^T\mathbf{S}_N^{-1}\mathbf{m}_N
     \end{equation*}
     which gives
@@ -764,7 +764,7 @@ and $b_N$.
     \[
         \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
         = -\frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
-            -\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+            + \beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
             -\frac{\beta}{2} \mathbf{t}^T\mathbf{t}
             + \frac{N}{2} \ln \beta
     \] 
@@ -784,7 +784,8 @@ and $b_N$.
         \ln p(\mathbf{w}, \beta | \mathbf{t})
         = -&\frac{1}{2} \mathbf{w}^T
             (\beta \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}) \mathbf{w}
-            + \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+            + \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 
+            + \beta \mathbf{\Phi}^T \mathbf{t})
             - \frac{\beta}{2} \mathbf{t}^T\mathbf{t}
             - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0 \\
         +& \frac{N}{2} \ln \beta + (a_0 - 1)\ln \beta - b_0 \beta + \text{const}
@@ -797,12 +798,12 @@ and $b_N$.
     The mean is obtained from the linear term by using the fact that
     \[
         \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{m}_N
-        = \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+        = \mathbf{w}^T(\beta \mathbf{S}_0^{-1} \mathbf{m}_0 + \beta \mathbf{\Phi}^T \mathbf{t})
     \] 
     so 
     \[
         \mathbf{m}_N = \mathbf{S}_N 
-            (\beta \mathbf{S}_0^{-1} \mathbf{m}_0 - \beta \mathbf{\Phi}^T \mathbf{t})
+            (\beta \mathbf{S}_0^{-1} \mathbf{m}_0 + \beta \mathbf{\Phi}^T \mathbf{t})
     \] 
     From the constant terms with respect to $\mathbf{w}$ we'll obtain the
     parameters of the Gamma distribution. $b_N$ is obtained by using the 
@@ -819,7 +820,7 @@ and $b_N$.
     which gives
     \[
         b_N 
-        = \frac{1}{2} \big(
+        = b_0 + \frac{1}{2} \big(
             \mathbf{t}^T\mathbf{t} + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0
             - \mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N\big)
     \] 
@@ -886,7 +887,7 @@ and obtain expressions for $\mu, \lambda, \nu$.
     \[
         p(t | \mathbf{x}, \mathbf{t}) 
         = \int \mathcal{N}\big(t | \bm{\phi}(\mathbf{x})^T\mathbf{m}_N, 
-        \beta^{-1} \big[1 + \bm{\phi}(\mathbf{x})\mathbf{S}_N\bm{\phi}(\mathbf{x})^T\big]\big)
+        \beta^{-1} \big[1 + \bm{\phi}(\mathbf{x})^T\mathbf{S}_N\bm{\phi}(\mathbf{x})\big]\big)
         \text{Gam}(\beta | a_N, b_N) \diff \beta
     \] 
 \end{proof}
@@ -1003,6 +1004,158 @@ Derive the result $(\ref{eq:3.86})$ for the log evidence
 function $p(\mathbf{t} | \alpha, \beta)$ of the linear
 regression model by making use of $(\ref{eq:2.115})$ to
 evaluate the integral $(\ref{eq:3.77})$ directly.
+
+\vspace{1em}
+
+\begin{proof}
+    The marginal likelihood function is given
+    by the integral
+    \begin{equation}\label{eq:3.77}\tag{3.77}
+        p(\mathbf{t} | \alpha, \beta)
+        = \int p(\mathbf{t} | \mathbf{w}, \beta) p(\mathbf{w} | \alpha) \diff \mathbf{w} 
+    \end{equation}
+    The first factor under the integral is the likelihood
+    (3.10), while the second factor is given
+    by (\ref{eq:3.52}). Therefore, the evidence function becomes
+    \[
+        p(\mathbf{t} | \alpha, \beta) 
+        = \int \prod_{n = 1}^N p(t_n | \mathbf{w}\bm{\phi}(\mathbf{x}_N), \beta^{-1}) 
+        \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1}\mathbf{I}) \diff \mathbf{w}
+    \] 
+    Our aim is to find a proportional Gaussian form for the 
+    likelihood term and then use $(\ref{eq:2.115})$ to 
+    evaluate the integral directly. We've seen in Exercise 3.12
+    that 
+    \[
+        \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+        = -\frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            +\beta \mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+            -\frac{\beta}{2} \mathbf{t}^T\mathbf{t}
+            + \text{const}
+    \]
+    This can be rewritten as a quadratic form which corresponds to a Gaussian:
+    \begin{align*}
+        \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+        &= -\frac{\beta}{2} \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}
+            +\frac{\beta}{2}\mathbf{w}^T \mathbf{\Phi}^T \mathbf{t} 
+            +\frac{\beta}{2}\mathbf{t}^T \mathbf{\Phi} \mathbf{w} 
+            -\frac{\beta}{2} \mathbf{t}^T\mathbf{t}
+            + \text{const} \\
+        &=  -\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2 + \text{const} \\
+        &=  -\frac{1}{2} (\mathbf{t} - \mathbf{\Phi}\mathbf{w})^T
+            (\beta \mathbf{I})(\mathbf{t} - \mathbf{\Phi}\mathbf{w}) + \text{const} \\
+        &= \ln \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})
+            + \text{const}
+    \end{align*}
+    Therefore,
+    \[
+        p(\mathbf{t} | \mathbf{w}, \beta) 
+        = \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
+        \propto \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})
+    \] 
+    so the evidence function is now given by
+    \[
+        p(\mathbf{t} | \alpha, \beta) 
+        \propto \int \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})
+        \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1}\mathbf{I}) \diff \mathbf{w}
+    \] 
+    Since the integral involves the convolution of two
+    Gaussians, by following the notation used in ($\ref{eq:2.113}$)
+    and  $(\ref{eq:2.114})$, we'd have that
+     \[
+         \mathbf{x} = \mathbf{w}
+         \hspace{2em}
+         \mathbf{y} = \mathbf{t}
+         \hspace{2em}
+         \bm{\mu} = \mathbf{0} 
+         \hspace{2em}
+         \mathbf{\Lambda}^{-1} = \alpha \mathbf{I}
+         \hspace{2em}
+         \mathbf{A} = \mathbf{\Phi}
+         \hspace{2em}
+         \mathbf{b} = 0
+         \hspace{2em}
+         \mathbf{L}^{-1} = \beta\mathbf{I}
+    \] 
+    Applying $(\ref{eq:2.115})$ yields the Gaussian form of the evidence function:
+    \[
+        p(\mathbf{t} | \alpha, \beta) 
+        \propto \mathcal{N}(\mathbf{t} | \mathbf{0}, \beta^{-1}\mathbf{I} + 
+        \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T)
+    \] 
+    By applying the Woodbury identity (C.7) with 
+    \[ 
+        \mathbf{A} = \beta^{-1}\mathbf{I}
+        \hspace{2em}
+        \mathbf{B} = \mathbf{\Phi}
+        \hspace{2em}
+        \mathbf{C} = \alpha^{-1}\mathbf{I}
+        \hspace{2em}
+        \mathbf{D} = \mathbf{\Phi}^T
+    \]
+    the precision matrix of this Gaussian will be given by
+    \begin{align*}
+        (\beta^{-1}\mathbf{I} + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T)^{-1}
+        &= \beta \mathbf{I} - \beta^2 \mathbf{\Phi}(\alpha \mathbf{I}
+            + \beta\mathbf{\Phi}^T\mathbf{\Phi})^{-1} \mathbf{\Phi}^T \\
+        &= \beta \mathbf{I} - \beta^2 \mathbf{\Phi} \mathbf{A}^{-1} \mathbf{\Phi}^T
+    \end{align*}
+    where $\mathbf{A}$ is given by ($\ref{eq:3.81}$). Hence,
+    by using ($\ref{eq:3.81}$) and ($\ref{eq:3.84}$),
+    we obtain that the quadratic term in the exponential of
+    the Gaussian has the form:
+    \begin{align*}
+        -\frac{1}{2}\mathbf{t}^T(\beta^{-1}\mathbf{I} 
+            + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T)^{-1}\mathbf{t}
+        &= -\frac{1}{2}\mathbf{t}^T (\beta\mathbf{I} 
+            - \beta^2\mathbf{\Phi}\mathbf{A}^{-1}\mathbf{\Phi}^T)^{-1}\mathbf{t} \\
+        &= -\frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            + \frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{m}_N \\
+        &= -\frac{\beta}{2} \mathbf{t}^T\mathbf{t} 
+            + \frac{\beta}{2} \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N \\
+        &= -\frac{\beta}{2} \mathbf{t}^T\mathbf{t} + \beta \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N 
+            - \frac{\beta}{2}\mathbf{m}_N^T\mathbf{A}\mathbf{m}_N \\
+        &= -\frac{\beta}{2} \mathbf{t}^T\mathbf{t} + \beta \mathbf{m}_N^T\mathbf{A}\mathbf{m}_N 
+            - \frac{\alpha}{2}\mathbf{m}_N^T\mathbf{m}_N 
+            - \frac{\beta}{2} \mathbf{m}_N\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{m}_N
+    \end{align*}
+    As seen in Exercise 3.18, this is actually equal to $-E(\mathbf{m}_N)$, so
+    \[
+        -\frac{1}{2}\mathbf{t}^T(\beta^{-1}\mathbf{I} 
+            + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T)^{-1}\mathbf{t}
+        = -E(\mathbf{m}_N)
+    \] 
+    Now, since $\mathbf{\Phi}$ is a $N \cross M$ matrix, we apply (C.14) and have that:
+    \begin{align*}
+        |\beta^{-1}\mathbf{I}_N + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T|
+        &= \beta^{-1} \bigg|\mathbf{I}_N + \frac{\beta}{\alpha} 
+            \mathbf{\Phi}\mathbf{\Phi}^T\bigg| \\
+        &= \beta^{-1} \bigg|\mathbf{I}_M 
+            + \frac{\beta}{\alpha}\mathbf{\Phi}^T\mathbf{\Phi}\bigg| \\
+        &= \alpha^{-1}\beta^{-1}|\alpha\mathbf{I}_M + \beta\mathbf{\Phi}^T\mathbf{\Phi}| \\
+        &= \alpha^{-1}\beta^{-1}|\mathbf{A}|
+    \end{align*}
+    Threfore, we finally expand the Gaussian form of the evidence function to obtain:
+    \begin{align*}
+        p(\mathbf{t} | \alpha, \beta) 
+        &\propto \mathcal{N}(\mathbf{t} | \mathbf{0}, \beta^{-1}\mathbf{I} 
+            + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T) \\
+        &\propto \frac{1}{(2\pi)^{N/2}} 
+            \frac{1}{|\beta^{-1}\mathbf{I}_N + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T|^{1/2}}
+            \exp\bigg\{-\frac{1}{2}\mathbf{t}^T(\beta^{-1}\mathbf{I} 
+                + \alpha^{-1}\mathbf{\Phi}\mathbf{\Phi}^T)^{-1}\mathbf{t}\bigg\} \\
+        &\propto \frac{1}{(2\pi)^{N/2}} \bigg(\frac{\alpha\beta}{|A|}\bigg)^{1/2} 
+            \exp{-E(\mathbf{m}_N)}
+    \end{align*}
+    Hence, we can derive the log marginal likelihood
+    \begin{align*}
+        \ln p(\mathbf{t} | \alpha, \beta)
+        &= -\frac{N}{2} \ln(2\pi) + \frac{1}{2} \ln \alpha + \frac{1}{2} \ln \beta
+            - \frac{1}{2} \ln |\mathbf{A}| - E(\mathbf{m}_N) + \text{const} \\
+        &= -\frac{N}{2} \ln(2\pi) + \frac{M}{2} \ln \alpha + \frac{N}{2} \ln \beta
+            - \frac{1}{2} \ln |\mathbf{A}| - E(\mathbf{m}_N) + \text{const}
+    \end{align*}
+\end{proof}
 
 \section*{Exercise 3.17}
 Show that the evidence function for the Bayesian linear regression
@@ -1209,4 +1362,74 @@ $(\ref{eq:3.86})$.
         = \frac{M}{2} \ln \alpha + \frac{N}{2} \ln \beta - E(\mathbf{m}_N)
             -\frac{1}{2} \ln|\mathbf{A}| - \frac{N}{2} \ln(2\pi)
     \end{equation}
+\end{proof}
+
+\section*{Exercise 3.20}
+Verify all of the steps needed to show that 
+maximization of the log marginal likelihood function (3.86) with
+respect to $\alpha$ leads to the re-estimation equation (3.92).
+
+\vspace{1em}
+
+\begin{proof}
+    
+\end{proof}
+
+\section*{Exercise 3.23}
+Show that the marginal probability of the data, in other words the model
+evidence, for the model described in Exercise 3.12 is given by
+\begin{equation}\label{eq:3.118}\tag{3.118}
+    p(\mathbf{t}) = \frac{1}{(2\pi)^{N / 2}} \frac{b_0^{a_0}}{b_N^{a_N}}
+    \frac{\Gamma(a_N)}{\Gamma(a_0)} \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}}
+\end{equation}
+by first marginalizing with respect to $\mathbf{w}$ and then with
+respect to $\beta$.
+
+\vspace{1em}
+
+\begin{proof}
+    By marginalizing with respect to $\mathbf{\beta}$ and then
+    with respect to $\beta$, the model evidence will be given by
+     \[
+         p(\mathbf{t}) 
+         = \iint p(\mathbf{w}, \beta) p(\mathbf{t} | \mathbf{w}, \beta) \diff \mathbf{w} 
+         \diff\beta
+    \] 
+    The first factor unde the integral is the prior given by $(\ref{eq:3.112})$,
+    while the second factor is the likelihood $(\ref{eq:3.10})$. We proved
+    in Exercise 3.16 that the likelihood is proportional to 
+    $\mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})$,
+    so the marginal probability becomes
+    \begin{align*}
+         p(\mathbf{t}) 
+         &= \iint \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
+            \text{Gam}(\beta | a_0, b_0) 
+            \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I}) 
+            \diff \mathbf{w}\diff\beta \\
+         &= \int \text{Gam}(\beta | a_0, b_0)
+         \bigg(\int 
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
+            \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, 
+                \beta^{-1}\mathbf{I}) \diff \mathbf{w}\bigg) 
+            \diff \beta
+    \end{align*}
+    Once again, we deal with a convolution of Gaussians of the form
+    $(\ref{eq:2.113})$ and ($\ref{eq:2.114}$). Therefore, we can compute
+    the inner integral directly by using $(\ref{eq:2.115})$, so
+    \[
+         \int 
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
+            \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w},
+                \beta^{-1}\mathbf{I}) \diff \mathbf{w}
+        = \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{m}_0, 
+            \beta^{-1}\mathbf{I} + \beta^{-1}\mathbf{\Phi}\mathbf{S}_0\mathbf{\Phi}^T)
+    \] 
+    Now, we'll try to find a nicer form for the precision matrix 
+    of this Gaussian by applying Woodbury's identity (C.7) and obtain:
+    \begin{align*}
+        (\beta^{-1}\mathbf{I} + \beta^{-1}\mathbf{\Phi}\mathbf{S}_0\mathbf{\Phi}^T)^{-1}
+        &= \beta\mathbf{I} - \beta^2\mathbf{\Phi}(\beta\mathbf{S}_0^{-1} 
+        + \beta\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T
+    \end{align*}
+    From (\ref{eq:3.54}) we have that the inverse term is actually $\mathbf{S}_N$.
 \end{proof}
