@@ -1430,6 +1430,135 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
     \end{equation}
 \end{proof}
 
+\section*{Exercise 3.21}
+An alternative way to derive the result ($\ref{eq:3.92}$) for the optimal
+value of $\alpha$ in the evidence framework is to make use of the identity
+(note that we changed the variables $\mathbf{A}$ and $\alpha$ for $\mathbf{D}$ and
+$\delta$ so that there is no confusion with the variables used in our 
+framework)
+\begin{equation}\label{eq:3.117}\tag{3.117}
+    \dv{\delta} \ln |\mathbf{D}| = \text{Tr}\bigg(\mathbf{D}^{-1}\dv{\delta}\mathbf{D}\bigg)
+\end{equation}
+Prove this identity by considering the eigenvalue expansion of a real
+symmetric matrix $\mathbf{D}$, and making use of the standard results
+for the determinant and trace of $\mathbf{D}$ expressed in terms of 
+its eigenvalues (Appendix C). Then make use of $(\ref{eq:3.117})$ to
+derive $(\ref{eq:3.92})$ starting from $(\ref{eq:3.86})$.
+
+\vspace{1em}
+
+\begin{proof}
+    Since $\mathbf{D}$ is symmetric, we can consider the $N$ eigenvector equations
+    \[
+        \mathbf{D}\mathbf{u}_i = \omega_i\mathbf{u}_i
+    \] 
+    where the eigenvectors $\mathbf{u}_i$ were chosen to be orthonormal,
+    as seen in Appendix C. By using (C.47) to rewrite the determinant,
+    the left-hand side of $(\ref{eq:3.117})$ becomes
+     \[
+         \dv{\delta}\ln|\mathbf{D}|
+         = \dv{\delta}\ln \prod_{i=1}^N \omega_i
+         = \dv{\delta} \sum_{i=1}^{N} \ln \omega_i
+         = \sum_{i=1}^{N} \dv{\delta} \ln \omega_i
+         = \sum_{i=1}^{N} \frac{1}{\omega_i} \dv{\delta} \omega_i
+    \] 
+    Now, by considering the eigenvalue expansions given by (C.45) and (C.46),
+    \[
+        \mathbf{D} = \sum_{i=1}^{N} \omega_i \mathbf{u}_i\mathbf{u}_i^T
+        \hspace{6em}
+        \mathbf{D}^{-1} = \sum_{i=1}^{N} \frac{1}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+    \] 
+    we can rewrite the term inside the trace operator as:
+    \begin{align*}
+        \mathbf{D}^{-1}\dv{\delta}\mathbf{D} 
+        &= \bigg(\sum_{i=1}^{N} \frac{1}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T\bigg)
+        \bigg(\dv{\delta} \sum_{j=1}^{N} \omega_i\mathbf{u}_i\mathbf{u}_i^T\bigg) \\
+        &= \bigg(\sum_{i=1}^{N} \frac{1}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T\bigg)
+        \sum_{j=1}^{N} \dv{\delta}(\omega_j\mathbf{u}_j\mathbf{u}_j^T) \\
+        &= \bigg(\sum_{i=1}^{N} \frac{1}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T\bigg)
+        \sum_{j=1}^{N} \bigg[\bigg(\dv{\delta} \omega_j\bigg) \mathbf{u}_j\mathbf{u}_j^T 
+            + \omega_j \bigg(\dv{\delta}\mathbf{u}_j\bigg) \mathbf{u}_j^T
+        + \omega_i \mathbf{u}_i \bigg(\dv{\delta} \mathbf{u}_j^T\bigg)\bigg] \\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{N}  
+            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+            \mathbf{u}_j\mathbf{u}_j^T 
+        + \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T 
+        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]
+    \end{align*}
+    We'll analyze the two sum terms separately. Since the
+    eigenvectors were chosen to be orthonormal, we have that
+    \begin{equation}\label{eq:C.33}\tag{C.33}
+        \mathbf{u}_i^T\mathbf{u}_j = \mathbf{I}_{ij}
+    \end{equation}
+    Therefore, we'll only have to keep the terms for which $i = j$ in 
+    the first sum, so
+    \[
+        \sum_{i=1}^{N} \sum_{j=1}^{N}  
+            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+            \mathbf{u}_j\mathbf{u}_j^T  
+        =
+        \sum_{i=1}^{N} \sum_{j=1}^{N}  
+        \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{I}_{ij} 
+            \mathbf{u}_j^T  
+        = \sum_{i=1}^{N} \frac{1}{\omega_i}
+        \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u_i}^T
+    \] 
+    Notice that the trace of this term is actually the left-hand side
+    of ($\ref{eq:3.117}$), so we'll continue by proving that the second 
+    sum term has a trace of 0. The second sum term can then be expanded as
+    \begin{align*}
+        \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        &\bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T\bigg 
+        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg] 
+        = 
+        \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)
+        = \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{I}_{ij}
+        \bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\\
+        &= \sum_{i=1}^{N} 2\mathbf{u}_i\bigg(\dv{\delta} \mathbf{u}_i^T\bigg) 
+        = \sum_{i=1}^{N} \bigg[\bigg(\dv{\delta}\mathbf{u}_i\bigg)\mathbf{u}_i^T 
+        + \mathbf{u}_i\bigg(\dv{\delta}\mathbf{u}_i^T\bigg)\bigg] \\
+        &= \sum_{i=1}^{N} \dv{\delta} (\mathbf{u}_i\mathbf{u}_i^T) 
+        = \dv{\delta}\sum_{i=1}^{N} \mathbf{u}_i\mathbf{u}_i^T = \dv{\delta}\mathbf{I} 
+        = \mathbf{0}_N
+    \end{align*}
+    Finally, we have that
+    \begin{align*}
+        \text{Tr}\bigg(\mathbf{D}^{-1}\dv{\delta}\mathbf{D}\bigg)
+        &= \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N}  
+            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+            \mathbf{u}_j\mathbf{u}_j^T 
+        + \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
+        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} \\
+        &= \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N}  
+            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+        \mathbf{u}_j\mathbf{u}_j^T \bigg\}
+        + \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N} 
+            \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
+        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} \\
+        &= \text{Tr}\bigg[\sum_{i=1}^{N} \frac{1}{\omega_i}\bigg(\dv{\delta} \omega_i\bigg)
+        \mathbf{u}_i\mathbf{u}_i^T\bigg] + \text{Tr}(\mathbf{0}_N) \\
+        &= \sum_{i=1}^{N} \frac{1}{\omega_i} \bigg(\dv{\delta} \omega_i\bigg) \\
+        &= \dv{\delta} \ln |\mathbf{D}| \tag{3.117}
+    \end{align*}
+    which proves the needed identity. We can derive $(\ref{eq:3.92})$ 
+    by following exactly the same steps as in Exercise 3.20 or in the book,
+    except that now we compute ($\ref{eq:3.88}$) by using the previously
+    proven identity and (C.47). Note that $\mathbf{A}$ is given by ($\ref{eq:3.81}$)
+    and it has the eigenvalues $\lambda_i + \alpha$, so
+    \[
+        \dv{\alpha}\ln |\mathbf{A}| 
+        = \text{Tr}\bigg(\mathbf{A}^{-1}\dv{\alpha}\mathbf{A}\bigg)
+        = \text{Tr}\bigg(\mathbf{A}^{-1}
+            \dv{\alpha}(\alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi})\bigg)
+        = \text{Tr}(\mathbf{A}^{-1})
+        = \sum_{i} \frac{1}{\lambda_i + \alpha} 
+    \] 
+\end{proof}
+
 \section*{Exercise 3.23}
 Show that the marginal probability of the data, in other words the model
 evidence, for the model described in Exercise 3.12 is given by
