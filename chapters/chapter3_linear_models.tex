@@ -324,10 +324,14 @@ for $\mathbf{\Sigma}$ is given by
             \mathbf{\Sigma}^{-1}(\mathbf{t}_n - \mathbf{W}^T \bm{\phi}(\mathbf{x}_n)\big)
     \end{align*}
     Our goal is to maximise this function with respect to $\mathbf{W}$.
-    We take the derivative of the likelihood and use the fact that
-    $\mathbf{\Sigma}^{-1}$ is symmetric and (88) from the 
-    \href{https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf}{matrix cookbook}
-    to obtain:
+    One could prove that for a symmetric matrix $\mathbf{B}$,
+    \[
+        \pdv{\mathbf{A}}(\mathbf{a} - \mathbf{A}\mathbf{b})^T
+        \mathbf{B}(\mathbf{a} - \mathbf{A}\mathbf{b})
+        = -2\mathbf{B}(\mathbf{a} - \mathbf{A}\mathbf{b})\mathbf{b}^T
+    \] 
+    Therefore, we take the derivative of the likelihood and use the fact that
+    $\mathbf{\Sigma}^{-1}$ is symmetric to obtain:
     \begin{align*}
         \pdv{\mathbf{W}} \ln p(\mathbf{T} | \mathbf{X}, \mathbf{W}, \mathbf{\Sigma})
         &= \sum_{n=1}^{N} \pdv{\mathbf{W}} 
@@ -581,7 +585,7 @@ make use of the general result for linear-Gaussian models given by
     \end{equation*}
 \end{proof}
 
-\section*{Exercise 3.10}
+\section*{Exercise 3.10 $\star \star$}
 By making use of the result $(\ref{eq:2.115})$ to evaluate the integral
 in (\ref{eq:3.57}), verify that the predictive distribution for the Bayesian linear
 regression model is given by ($\ref{eq:3.58}$) in which the input-dependent variance is
@@ -646,7 +650,7 @@ given by ($\ref{eq:3.59})$.
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.11}
+\section*{Exercise 3.11 $\star \star$}
 We have seen that, as the size of a data set increases, the uncertainty associated
 with the posterior distribution over model parameters decreases. Make use of the
 matrix identity (Appendix C)
@@ -725,7 +729,7 @@ linear regression function given by (\ref{eq:3.59}) satisfies
     which, by $(\ref{eq:3.11.1})$, becomes equivalent to $(\ref{eq:3.111})$.
 \end{proof}
 
-\section*{Exercise 3.12}
+\section*{Exercise 3.12 $\star \star$}
 We saw in Section 2.3.6 that the conjugate prior for a Gaussian distribution
 with unknown mean and unknown precision (inverse variance) is a normal-gamma
 distributuion. This property also holds for the case of the conditional
@@ -842,7 +846,7 @@ and $b_N$.
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.13}
+\section*{Exercise 3.13 $\star \star$}
 Show that the predictive distribution $p(t | \mathbf{x}, \mathbf{t})$ for the 
 model discussed in Exercise 3.12 is given by a Student's t-distribution of
 the form
@@ -898,7 +902,7 @@ and obtain expressions for $\mu, \lambda, \nu$.
     \] 
 \end{proof}
 
-\section*{Exercise 3.14}
+\section*{Exercise 3.14 $\star \star$}
 In this exercise, we explore in more detail the properties of the equivalent
 kernel defined by ($\ref{eq:3.62}$), where $\mathbf{S}_N$ is defined by 
 $(\ref{eq:3.54})$. Suppose that the basis functions $\phi_j(\mathbf{x})$ are
@@ -974,7 +978,7 @@ to show that the kernel satisfies the summation constraint
     \end{align*}
 \end{proof}
 
-\section*{Exercise 3.15}
+\section*{Exercise 3.15 $\star$}
 Consider a linear basis function model for regression in which the parameters
 $\alpha$ and $\beta$ are set using the evidence framework. Show that the
 function $E(\mathbf{m}_N)$ defined by $(\ref{eq:3.82})$ satisfies the relation
@@ -1005,7 +1009,7 @@ $2E(\mathbf{m}_N) = N$.
     \] 
 \end{proof}
 
-\section*{Exercise 3.16}
+\section*{Exercise 3.16 $\star \star$}
 Derive the result $(\ref{eq:3.86})$ for the log evidence
 function $p(\mathbf{t} | \alpha, \beta)$ of the linear
 regression model by making use of $(\ref{eq:2.115})$ to
@@ -1161,7 +1165,7 @@ evaluate the integral $(\ref{eq:3.77})$ directly.
     \end{align*}
 \end{proof}
 
-\section*{Exercise 3.17}
+\section*{Exercise 3.17 $\star$}
 Show that the evidence function for the Bayesian linear regression
 model can be written in the form $(\ref{eq:3.78})$ in which
 $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
@@ -1208,7 +1212,7 @@ $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.18}
+\section*{Exercise 3.18 $\star \star$}
 By completing the square over $\mathbf{w}$, show that the error function
 $(\ref{eq:3.79})$ in Bayesian linear regression can be written in the form
 $(\ref{eq:3.80})$.
@@ -1317,7 +1321,7 @@ $(\ref{eq:3.80})$.
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.19}
+\section*{Exercise 3.19 $\star \star$}
 Show that the integration over $\mathbf{w}$ in the Bayesian 
 linear regression model gives the result $(\ref{eq:3.85})$.
 Hence show that the log marginal likelihood is given by 
@@ -1368,7 +1372,7 @@ $(\ref{eq:3.86})$.
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.20}
+\section*{Exercise 3.20 $\star \star$}
 Verify all of the steps needed to show that 
 maximization of the log marginal likelihood function (\ref{eq:3.86}) with
 respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
@@ -1430,7 +1434,7 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
     \end{equation}
 \end{proof}
 
-\section*{Exercise 3.21}
+\section*{Exercise 3.21 $\star \star$}
 An alternative way to derive the result ($\ref{eq:3.92}$) for the optimal
 value of $\alpha$ in the evidence framework is to make use of the identity
 (note that we changed the variables $\mathbf{A}$ and $\alpha$ for $\mathbf{D}$ and
@@ -1552,14 +1556,51 @@ derive $(\ref{eq:3.92})$ starting from $(\ref{eq:3.86})$.
     \[
         \dv{\alpha}\ln |\mathbf{A}| 
         = \text{Tr}\bigg(\mathbf{A}^{-1}\dv{\alpha}\mathbf{A}\bigg)
-        = \text{Tr}\bigg(\mathbf{A}^{-1}
-            \dv{\alpha}(\alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi})\bigg)
+        = \text{Tr}\bigg[\mathbf{A}^{-1}
+        \dv{\alpha}(\alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi})\bigg]
         = \text{Tr}(\mathbf{A}^{-1})
         = \sum_{i} \frac{1}{\lambda_i + \alpha} 
     \] 
 \end{proof}
 
-\section*{Exercise 3.23}
+\section*{Exercise 3.22 $\star \star$}
+Starting from $(\ref{eq:3.86})$ verify all of the steps needed
+to show that maximization of the log marginal likelihood function
+($\ref{eq:3.86}$) with respect to $\beta$ leads to the re-estimation
+equation $(\ref{eq:3.95})$.
+
+\vspace{1em}
+
+\begin{proof}
+   As in Exercise 3.20, one could prove that $\mathbf{A}$ has the eigenvalues
+   $\lambda_i + \alpha$. Also, from $(\ref{eq:3.87})$ the eigenvalues are proportional
+   to $\beta$, so $d\lambda_i / d\beta = \lambda_i/\beta$, so
+   \begin{equation}\label{eq:3.93}\tag{3.93}
+       \dv{\beta} \ln |\mathbf{A}| = \dv{\beta} \sum_i \ln (\lambda_i + \alpha)
+       = \frac{1}{\beta} \sum_i \frac{\lambda_i}{\lambda_i + \alpha}
+       = \frac{\gamma}{\beta}
+   \end{equation}
+   where $\gamma$ is given by (\ref{eq:3.91}). Therefore, 
+   the derivative of $(\ref{eq:3.87})$ with respect to $\beta$ is given by 
+   \[
+       \pdv{\beta} p(\mathbf{t} | \alpha, \beta)
+       = \frac{N - \gamma}{2\beta} 
+       - \frac{1}{2} \sum_{n=1}^{N}\{t_n - \mathbf{m}_N^T\bm{\phi}(\mathbf{x}_n)\}^2
+   \] 
+   and the critical points satisfy
+   \[
+       \frac{N - \gamma}{2\beta} =
+       \frac{1}{2} \sum_{n=1}^{N}\{t_n - \mathbf{m}_N^T\bm{\phi}(\mathbf{x}_n)\}^2
+   \] 
+   which after multiplying both sides by $2/(N - \gamma)$ gives 
+   us the re-estimation equation
+   \begin{equation}\label{eq:3.95}\tag{3.95}
+       \frac{1}{\beta} = \frac{1}{N - \gamma} \sum_{n=1}^{N} 
+       \{t_n - \mathbf{m}_N^T\bm{\phi}(\mathbf{x}_n)\}^2
+   \end{equation}
+\end{proof}
+
+\section*{Exercise 3.23 $\star \star$}
 Show that the marginal probability of the data, in other words the model
 evidence, for the model described in Exercise 3.12 is given by
 \begin{equation}\label{eq:3.118}\tag{3.118}
@@ -1697,7 +1738,7 @@ respect to $\beta$.
     given by $(\ref{eq:2.150})$, respectively $(\ref{eq:3.12.1})$.
 \end{proof}
 
-\section*{Exercise 3.24}
+\section*{Exercise 3.24 $\star \star$}
 Repeat the previous exercise but now use Bayes' theorem in 
 the form
 \begin{equation}\label{eq:3.119}\tag{3.119}
