@@ -1,0 +1,306 @@
+\chapter{Linear Models for Classification}
+
+\section*{Exercise 4.1 $\star \star$}
+Given a set of data points $\{\mathbf{x}_n\}$, we can define the
+$\emph{convex hull}$ to be the data set of all points 
+$\mathbf{x}$ given by
+\begin{equation}\label{eq:4.156}\tag{4.156}
+    \mathbf{x} = \sum_{n} \alpha_n \mathbf{x}_n
+\end{equation}
+where $\alpha_n \geq 0$ and $\sum_{n} \alpha_n = 1$. Consider
+a second set of points $\{\mathbf{y}_n\}$ together with
+their corresponding convex hull. By definition,
+the two set of points will be linearly separable
+if there exists a vector $\widehat{\mathbf{w}}$ and
+a scalar $w_0$ such that $\widehat{\mathbf{w}}^T\mathbf{x}_n + w_0 > 0$
+for all $\mathbf{x}_n$, and $\widehat{\mathbf{w}}^T\mathbf{y}_n + w_0 < 0$
+for all $\mathbf{y}_n$. Show that if their convex hulls intersect,
+the two sets of points cannot be linearly separable, and conversely
+that if they are linearly separable, their covex hulls do not intersect.
+
+\vspace{1em}
+
+\begin{proof}
+    The vertices of the convex hulls are the data points $\{\mathbf{x}_n\}$ and $\{\mathbf{y}_n$\}. 
+    Therefore, the edges of the hulls will be represented by some segments beteween the data points.
+    As a result, any point situated on the boundary of the hull can be written as a convex
+    combination of the end-points of the segment it's contained by. Also,
+    one can easily see that if two hulls intersect, they intersect in at least one 
+    point that is contained by the boundaries of both hulls. 
+
+    \vspace{1em}
+    \textbf{1st Hypothesis}: If the hulls intersect, the two sets of 
+    points are not linearly separable
+    \vspace{1em}
+
+    Assume that the two hulls intersect in the point $\mathbf{z}$ situated
+    on both hulls boundaries. From what we've seen above, 
+    the point $\mathbf{z}$ can be expressed as a convex
+    combination between two data points of each set of data points. Therefore,
+    there exist 
+    $\mathbf{x}_A, \mathbf{x}_B$ from $\{\mathbf{x}_n\}, \mathbf{y}_A, \mathbf{y}_B$
+    from $\{\mathbf{y}_n\}$ and $\lambda_\mathbf{x}, \lambda_\mathbf{y} \in [0, 1]$ such that
+    we can express $\mathbf{z}$ as
+     \[
+         \lambda_\mathbf{x} \mathbf{x}_A + (1 - \lambda_\mathbf{x}) \mathbf{x}_B = 
+         \lambda_\mathbf{y} \mathbf{y}_A + (1 - \lambda_\mathbf{y}) \mathbf{y}_B
+    \] 
+    Suppose that the sets \{$\mathbf{x}_n$\} and $\{\mathbf{y}_n\}$ are linearly 
+    separable. Then there exists a discriminant function
+    \[
+        \theta(\mathbf{a}) = \widehat{\mathbf{w}}^T \mathbf{a} + w_0
+    \]
+    such that $\theta(\mathbf{x}_n) > 0$ for all $\mathbf{x}_n$ and $\theta(\mathbf{y}_n) < 0$
+    for all $\mathbf{y}_n$. From the linearity of the discriminant function, 
+    and rewritting $\theta(\mathbf{z})$ using the convex combinations forms,
+    we have that
+    \[
+        \lambda_\mathbf{x} \theta(\mathbf{x}_A) + (1 - \lambda_\mathbf{x}) \theta(\mathbf{x}_B)
+        = \lambda_\mathbf{y} \theta(\mathbf{y}_A) + (1 - \lambda_\mathbf{y}) \theta(\mathbf{y}_B)
+    \] 
+    Since $\theta(\mathbf{x}_A), \theta(\mathbf{x}_B) > 0$ and 
+    $\theta(\mathbf{y}_A), \theta(\mathbf{y}_B) < 0$, this
+    expression is obviously false, since the left-hand side of the equality
+    is positive and the right-hand one is negative. Therefore, our supposition
+    that the data sets are linearly separable is false and our main hypothesis is true.
+
+    \vspace{1em}
+    \textbf{2nd Hypothesis}: If the two sets of points are linearly separable,
+    then the hulls don't intersect. 
+    \vspace{0.25em}
+
+    This hypothesis is the counterpositive of the 1st hypothesis. Therefore,
+    it's valid too.
+\end{proof}
+
+\section*{Exercise 4.2 $\start \star$}
+Consider the minimization of a sum-of-squares error
+function ($\ref{eq:4.15}$), and suppose that all of the 
+target vectors in the training set satisfy a linear constraint
+\begin{equation}\label{eq:4.157}\tag{4.157}
+    \mathbf{a}^T\mathbf{t}_n + b = 0
+\end{equation}
+where $\mathbf{t}_n$ corresponds to the $n^\text{th}$ row of the matrix $\mathbf{T}$
+in $(\ref{eq:4.15})$. Show that as a consequence of this constraint,
+the elements of the model prediction $\mathbf{y}(\mathbf{x})$ given
+by the least-squares solution ($\ref{eq:4.17}$) also satisfy
+this constraint, so that
+\begin{equation}\label{eq:4.158}\tag{4.158}
+    \mathbf{a}^T\mathbf{y}(\mathbf{x}) + b = 0
+\end{equation}
+To do so, assume that one of the basis functions $\phi_0(\mathbf{x}) = 1$,
+so that the corresponding parameter $w_0$ plays the role of a bias.
+
+\section*{Exercise 4.4 $\star$}
+Show that maximization of the class separation criterion given by
+($\ref{eq:3.24}$) with respect to $\mathbf{w}$, using a Lagrange multiplier
+to enforce the constraint $\mathbf{w}^T\mathbf{w} = 1$, leads to the
+result that $\mathbf{w} \propto (\mathbf{m}_2 - \mathbf{m}_1)$.
+
+\vspace{1em}
+
+\begin{proof}
+    Our goal is to maximize
+    \begin{equation}\label{eq:3.24}\tag{3.24}
+        m_2 - m_1 = \mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1)
+    \end{equation}
+    with the constraint that $\mathbf{w}^T\mathbf{w} = 1$.
+    The corresponding Lagrangian is given by
+    \[
+        \mathcal{L}(\mathbf{w}, \lambda) 
+        = \mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1) + \lambda(\mathbf{w}^T\mathbf{w} - 1)
+    \] 
+    By taking the gradient of this with respect to $\mathbf{w}$ and $\lambda$,
+    we have that
+    \[
+        \nabla_{\mathbf{w}, \lambda} \mathcal{L}(\mathbf{w}, \lambda) 
+        = \begin{pmatrix}
+            \mathbf{m}_2 - \mathbf{m}_1 + 2\lambda\mathbf{w} \\
+            \mathbf{w}^T\mathbf{w} - 1
+        \end{pmatrix}
+    \] 
+    Setting to 0 the derivative with respect to $\mathbf{w}$ gives the initial result, that is
+    \[
+        \mathbf{w} = \frac{\mathbf{m}_1 - \mathbf{m}_2}{2\lambda} 
+    \] 
+    By replacing into the $\lambda$ derivative and setting it to 0, we'd obtain that
+     \[
+         \lambda = \frac{1}{4} ||\mathbf{m}_1 - \mathbf{m}_2||^2
+    \] 
+    which gives
+    \[
+        \mathbf{w} = \frac{2(\mathbf{m}_1 - \mathbf{m}_2)}{||\mathbf{m}_1 - \mathbf{m}_2||^2}
+        \propto (\mathbf{m}_2 - \mathbf{m}_1)
+    \] 
+\end{proof}
+
+\section*{Exercise 4.5 $\star$}
+By making use of (4.20), ($\ref{eq:4.23}$), and (4.24), show that the Fischer 
+criterion ($\ref{eq:4.25}$) can be written in the form ($\ref{eq:4.26}$).
+
+\vspace{1em}
+
+\begin{proof}
+    The Fisher criterion is defined to be the reatio of the between-class
+    variance to the within-class variance and is given by
+    \begin{equation}\label{eq:4.25}\tag{4.25}
+        J(\mathbf{w}) = \frac{(m_2 - m_1)^2}{s_1^2 + s_2^2}
+    \end{equation}
+    where 
+    \begin{equation}\label{eq:4.23}\tag{4.23}
+        m_k = \mathbf{w}^T\mathbf{m}_k
+    \end{equation}
+    and
+    \begin{equation}\label{eq:4.24}\tag{4.24}
+        s_k^2 = \sum_{n \in \mathcal{C}_k} (y_n - m_k)^2
+    \end{equation}
+    By substituting $(\ref{eq:4.23})$ into the numerator of the Fischer expression,
+    \begin{align*}
+        (m_2 - m_1)^2 
+        = (\mathbf{w}^T\mathbf{m}_2 - \mathbf{w}^T\mathbf{m}_1)^2
+        = \mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1)\mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1)
+        &= \mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1)(\mathbf{m}_2 - \mathbf{m}_1)^T\mathbf{w} \\
+        &= \mathbf{w}^T\mathbf{S}_B\mathbf{w}
+    \end{align*}
+    where $\mathbf{S}_B$ is the $\emph{between-class}$ covariance matrix and is given by
+    \begin{equation}\label{eq:4.27}\tag{4.27}
+        \mathbf{S}_B = (\mathbf{m}_2 - \mathbf{m}_1)(\mathbf{m}_2 - \mathbf{m}_1)^T
+    \end{equation}
+    Similarily, we use the fact that the projection of the D-dimensional input vector
+    $\mathbf{w}$ to one dimension is given by
+    \begin{equation}\label{eq:4.20}\tag{4.20}
+        y = \mathbf{w}^T\mathbf{x}
+    \end{equation}
+    along with $(\ref{eq:4.23})$ and $(\ref{eq:4.24})$ to rewrite the denominator as 
+    \begin{align*}
+        s_1^2 + s_2^2
+        &= \sum_{n \in \mathcal{C}_1} (y_n - m_1)^2 + \sum_{n \in \mathcal{C}_2} (y_n - m_2)^2 \\
+        &= \sum_{n \in \mathcal{C}_1} (\mathbf{w}^T\mathbf{x}_n - \mathbf{w}^T\mathbf{m}_1)^2 
+            + \sum_{n \in \mathcal{C}_2} (\mathbf{w}^T\mathbf{x}_n - \mathbf{w}^T\mathbf{m}_2)^2 \\
+        &= \sum_{n \in \mathcal{C}_1} \mathbf{w}^T(\mathbf{x}_n - \mathbf{m}_1)
+            (\mathbf{x}_n - \mathbf{m}_1)^T\mathbf{w}
+            + \sum_{n \in \mathcal{C}_2} \mathbf{w}^T(\mathbf{x}_n - \mathbf{m}_2)
+            (\mathbf{x}_n - \mathbf{m}_2)^T\mathbf{w} \\
+        &= \mathbf{w}^T \bigg[\sum_{n \in \mathcal{C}_1} 
+            (\mathbf{x}_n - \mathbf{m}_1)(\mathbf{x}_n - \mathbf{m}_1)^T
+            + \sum_{n \in \mathcal{C}_2}  
+            (\mathbf{x}_n - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
+            \bigg]\mathbf{w} \\
+        &= \mathbf{w}^T\mathbf{S}_W\mathbf{w}
+    \end{align*}
+    where $\mathbf{S}_W$ is the $\emph{within-class}$ covariance matrix and is given by
+    \begin{equation}\label{eq:4.28}\tag{4.28}
+        \mathbf{S}_W = 
+           \sum_{n \in \mathcal{C}_1} 
+            (\mathbf{x}_n - \mathbf{m}_1)(\mathbf{x}_n - \mathbf{m}_1)^T
+            + \sum_{n \in \mathcal{C}_2}  
+            (\mathbf{x}_n - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
+    \end{equation}
+    Finally, by substituting the new expressions into ($\ref{eq:4.25}$), we can rewrite
+    the Fischer criterion as
+    \begin{equation}\label{eq:4.26}\tag{4.26}
+        J(\mathbf{w}) = \frac{\mathbf{w}^T\mathbf{S}_B\mathbf{w}}{\mathbf{w}^T\mathbf{S}_W\mathbf{w}}
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 4.7 $\star$}
+Show that the logistic sigmoid function $(\ref{eq:4.59})$ satisfies the property
+$\sigma(-a) = 1 - \sigma(a)$ and that its inverse is given by 
+$\sigma^{-1}(y) = \ln\bigg(\displaystyle \frac{y}{1 - y}\bigg)$. 
+
+\vspace{1em}
+
+\begin{proof}
+    The sigmoid function is given by
+    \begin{equation}\label{eq:4.59}\tag{4.59}
+        \sigma(a) = \frac{1}{1 + e^{-a}}
+    \end{equation}
+    The symmetry property is easily satisfied, as
+    \begin{equation}\label{eq:4.60}\tag{4.60}
+        \sigma(-a) 
+        = \frac{1}{1 + e^a} 
+        = \frac{1 + e^a + 1 + e^{-a}}{(1 + e^{-a})(1 + e^a)}
+        - \frac{1 + e^a}{(1 + e^{-a})(1 + e^a)}
+        = 1 - \frac{1}{1 + e^{-a}} 
+        = 1 - \sigma(a)
+    \end{equation}\label{eq:4.60}
+    The sigmoid function is bijective, so inversable. Therefore, let $\sigma(x) = y$.
+    Then,
+    \[
+        y = \frac{1}{1 + e^{-x}} 
+        \iff (1 + e^{-x})y = 1 
+        \iff e^{-x} &= \frac{1 - y}{y} 
+        \iff x = \ln\bigg(\frac{y}{1-y}\bigg)
+    \] 
+    so the inverse of the sigmoid function is given by
+    \[
+        \sigma^{-1}(y) = \ln\bigg(\frac{y}{1 - y}\bigg)
+    \] 
+\end{proof}
+
+\section*{Exercise 4.8 $\star$}
+Using ($\ref{eq:4.57}$) and $(\ref{eq:4.58})$, derive the result $(\ref{eq:4.65})$ 
+for the posterior class probability in the two-class generative model with Gaussian
+densities, and verify the results $(\ref{eq:4.66})$ and $(\ref{eq:4.67})$ for the
+parameters $\mathbf{w}$ and $w_0$.
+
+\vspace{1em}
+
+\begin{proof}
+    It is known that the posterior probability for class $\mathcal{C}_1$ can
+    be written as
+    \begin{equation}\label{eq:4.57}\tag{4.57}
+        p(\mathcal{C}_1 | \mathbf{x}) = \sigma(a)
+    \end{equation}
+    where we have defined 
+    \begin{equation}\label{eq:4.58}\tag{4.58}
+        a = \ln \frac{p(\mathbf{x} | \mathcal{C}_1)p(\mathcal{C}_1)}
+            {p(\mathbf{x} | \mathcal{C}_2)p(\mathcal{C}_2)}
+    \end{equation}
+    and $\sigma$ is the logistic sigmoid function defined by $(\ref{eq:4.59})$.
+    We start by expanding $a$ and rewritting it as
+    \[
+        a = \ln p(\mathbf{x} | \mathcal{C}_1) - \ln p(\mathbf{x} | \mathcal{C}_2)
+            + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}
+    \] 
+    Since the class-conditional densities are Gaussian, i.e. the density
+    for a class $\mathcal{C}_k$ is given by
+    \begin{equation}\label{eq:4.64}\tag{4.64}
+        p(\mathbf{x} | \mathcal{C}_k) = \mathcal{N}(\mathbf{x} | \bm{\mu}_k, \mathbf{\Sigma})
+        = \frac{1}{(2\pi)^{D/2}} \frac{1}{|\mathbf{\Sigma}|^{1/2}}
+        \exp \bigg\{-\frac{1}{2} (\mathbf{x} - \bm{\mu}_k)^T\mathbf{\Sigma}^{-1}
+        (\mathbf{x} - \bm{\mu}_k)\bigg\}
+    \end{equation}
+    one can easily obtain that
+    \begin{align*}
+        a 
+        &= \ln p(\mathbf{x} | \mathcal{C}_1) - \ln p(\mathbf{x} | \mathcal{C}_2) 
+        + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}\\
+        &= \bm{\mu}_1^T\mathbf{\Sigma}^{-1}\mathbf{x}
+        - \bm{\mu}_2^T\mathbf{\Sigma}^{-1}\mathbf{x} 
+        - \frac{1}{2} \bm{\mu}_1^T\mathbf{\Sigma}^{-1}\bm{\mu}_1
+        + \frac{1}{2} \bm{\mu}_2^T\mathbf{\Sigma}^{-1}\bm{\mu}_2
+        + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}\\
+        &= (\bm{\mu}_1 - \bm{\mu}_2)^T \mathbf{\Sigma}^{-1} \mathbf{x}
+        - \frac{1}{2} \bm{\mu}_1^T\mathbf{\Sigma}^{-1}\bm{\mu}_1
+        + \frac{1}{2} \bm{\mu}_2^T\mathbf{\Sigma}^{-1}\bm{\mu}_2
+        + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}\\
+        &= \mathbf{w}^T\mathbf{x} + w_0
+    \end{align*}
+    where we have defined 
+    \begin{equation}\label{eq:4.66}\tag{4.66}
+        \mathbf{w} = \mathbf{\Sigma}^{-1}(\bm{\mu}_1 - \bm{\mu}_2)
+    \end{equation}
+    \vspace{-1em}
+    \begin{equation}\label{eq:4.67}\tag{4.67}
+        w_0 = 
+        - \frac{1}{2} \bm{\mu}_1^T\mathbf{\Sigma}^{-1}\bm{\mu}_1
+        + \frac{1}{2} \bm{\mu}_2^T\mathbf{\Sigma}^{-1}\bm{\mu}_2
+        + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}
+    \end{equation}
+    Therefore, the posterior probability for class $\mathcal{C}_1$ 
+    is given by
+    \begin{equation}\label{eq:4.65}\tag{4.65}
+        p(\mathcal{C}_1 | \mathbf{x}) = \sigma(\mathbf{w}^T\mathbf{x} + w_0)
+    \end{equation}
+\end{proof}
