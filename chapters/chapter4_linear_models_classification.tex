@@ -304,3 +304,304 @@ parameters $\mathbf{w}$ and $w_0$.
         p(\mathcal{C}_1 | \mathbf{x}) = \sigma(\mathbf{w}^T\mathbf{x} + w_0)
     \end{equation}
 \end{proof}
+
+\section*{Exercise 4.9 $\star$}
+Consider a generative classification model for $K$ classes
+defined by prior class probabilities $p(\mathcal{C}_k) = \pi_k$
+and general class-conditional densities  $p(\bm{\phi} | \mathcal{C}_k)$
+where $\mathbf{\phi}$ is the input feature vector. Suppose
+we are given a training set $\{\bm{\phi}_n, \mathbf{t}_n\}$ where
+$n = 1,\ldots, N$, and $\mathbf{t}_n$ is a binary target vector
+of length $K$ that use the 1-of-$K$ coding scheme, so
+that it has components $t_{nj} = \mathbf{I}_{jk}$ if pattern
+$n$ is from class $\mathcal{C}_k$. Assuming that the data points
+are drawn independently from this model, show that the 
+maximum-likelihood solution for the prior probabilites is given
+by 
+\begin{equation}\label{eq:4.159}\tag{4.159}
+    \pi_k = \frac{N_k}{N}
+\end{equation}
+where $N_k$ is the number of data points assigned to class 
+$\mathcal{C}_k$.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $\mathbf{T}$ be the $N \times K$ matrix with the rows $\mathbf{t}_n^T$ and
+    $\mathbf{\Phi}$ the $N \times M$ matrix with the rows $\bm{\phi}_n^T$.
+    Also, let's define the column vector $\bm{\pi} = (\pi_1, \pi_2, \ldots, \pi_K)^T$.
+    We have that
+    \[
+        p(\bm{\phi}_n, \mathcal{C}_k)
+        = p(\mathcal{C}_k)p(\bm{\phi}_n | \mathcal{C}_k)
+        = \pi_k p(\bm{\phi}_n | \mathcal{C}_k)
+    \] 
+    so the likelihood function is given by
+    \[
+        p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        = \prod_{n = 1}^N p(\mathbf{t}_n | \mathbf{\Phi}, \bm{\pi})
+        = \prod_{n = 1}^N \prod_{j = 1}^K
+        \bigg[\pi_j p(\bm{\phi}_n | \mathcal{C}_j)\bigg]^{t_{nj}}
+    \] 
+    The log likelihood is then easily derived as
+    \[
+        \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        = \sum_{n=1}^{N} \sum_{j=1}^{K} \bigg(t_{nj} \ln \pi_j
+        + t_{nj} \ln p(\bm{\phi}_n | \mathcal{C}_j)\bigg)
+    \] 
+    We aim to minimize this with respect to $\pi_k$, while
+    still maintaining the constraint $\sum_{k=1}^{N} \pi_k = 1$
+    Therefore, by only keeping the terms depending on $\pi_k$, we obtain the Lagrangian
+    \[
+        \mathcal{L}(\bm{\pi}, \lambda)
+        = \sum_{n=1}^{N} \sum_{j=1}^{K} t_{nj} \ln \pi_j
+        + \lambda \bigg(\sum_{j=1}^{N} \pi_j - 1\bigg)
+    \]
+    with the gradient
+    \[
+        \nabla_{\pi_k, \lambda} \mathcal{L}(\bm{\pi}, \lambda)
+        = \begin{pmatrix}
+            \displaystyle \frac{1}{\pi_k} \sum_{n=1}^{N} t_{nk} + \lambda \\
+            \\
+            \displaystyle \sum_{k=1}^{N} \pi_k - 1
+        \end{pmatrix}
+    \] 
+    By setting this gradient to $0$, from the first relation we have that
+    \[
+        \pi_k\lambda = -\sum_{n=1}^{N} t_{nk} = -N_k
+    \] 
+    Summing this over $k$, one can see that
+     \[
+         \lambda = -N
+    \] 
+    After substituting this into the derivative and then setting it to 0, 
+    we obtain the maximum-likelihood solution for $\pi_k$, that is
+    \[
+        \pi_k = \frac{N_k}{N}
+    \] 
+\end{proof}
+
+\section*{Exercise 4.10 $\star \star$}
+Consider the classification model of Exercise 4.9 and now suppose
+that the class-conditional densities are given by Gaussian 
+distributions with a shared covariance matrix, so that
+\begin{equation}\label{eq:4.160}\tag{4.160}
+    p(\bm{\phi} | \mathcal{C}_k) = \mathcal{N}(\bm{\phi} | \bm{\mu}_k, \mathbf{\Sigma})
+\end{equation}
+Show that the maximum likelihood solution for the mean of the
+Gaussian distribution for class $\mathcal{C}_k$ is given by
+\begin{equation}\label{eq:4.161}\tag{4.161}
+    \bm{\mu}_k = \frac{1}{N_k} \sum_{n=1}^{N} t_{nk} \bm{\phi}_n
+\end{equation}
+which represents the mean of those feature vectors assigned
+to class $\mathcal{C}_k$. Similarly, show that the maximum likelihood
+solution for the shared covariance matrix is given by
+\begin{equation}\label{eq:4.162}\tag{4.162}
+    \mathbf{\Sigma} = \sum_{k=1}^{K} \frac{N_k}{N}\mathbf{S}_k
+\end{equation}
+where 
+\begin{equation}\label{eq:4.163}\tag{4.163}
+\mathbf{S}_k = \frac{1}{N_k} \sum_{n=1}^{N} 
+t_{nk}(\bm{\phi}_n - \bm{\mu_k})(\bm{\phi}_{k} - \bm{\mu}_k)^T
+\end{equation}
+Thus $\mathbf{\Sigma}$ is given by a weighted average of the covariances
+of the data associated with each class, in which the weighting coefficients
+are given by the prior probabilities of the classes.
+
+\vspace{1em}
+
+\begin{proof}
+    Using the same notations as in the last exercise, we remember that the
+    log likelihood is given by
+    \[
+        \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        = \sum_{n=1}^{N} \sum_{j=1}^{K} \bigg(t_{nj} \ln \pi_j
+        + t_{nj} \ln p(\bm{\phi}_n | \mathcal{C}_j)\bigg)
+    \] 
+    By keeping only the parts depending on $\bm{\mu}_k$,
+    \[
+        \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        = -\frac{1}{2}\sum_{n=1}^{N} \sum_{j=1}^{K} 
+        t_{nj} (\bm{\phi}_n - \bm{\mu}_k)^T\mathbf{\Sigma}^{-1}
+            (\bm{\phi}_n - \bm{\mu}_k) + \text{const}
+    \] 
+    For a symmetric matrix $\mathbf{W}$, one could show that
+    \[
+        \pdv{s}(\mathbf{x} - \mathbf{s})^T\mathbf{W}(\mathbf{x} - \mathbf{s}) 
+        = -2 \mathbf{W}(\mathbf{x} - \mathbf{s})
+    \] 
+    Therefore, the derivative with respect to $\mathbf{\mu}_k$ of the 
+    log-likelihood is given by
+    \[
+        \pdv{\bm{\mu}_k}
+        \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        = \sum_{n=1}^{N} t_{nk} \mathbf{\Sigma}^{-1}(\bm{\phi}_n - \bm{\mu}_k)
+    \] 
+    Since $\sum_{n=1}^{N} t_{nk} = N_k$, 
+    by setting the derivative to 0 and rearranging the terms, we have that
+    the solution for maximum likelihood is
+    \[
+        \bm{\mu}_k = \frac{1}{N_k} \sum_{n=1}^{N} t_{nk} \bm{\phi}_n
+        \tag{4.161}
+    \] 
+    Similarly, we do the same for the shared covariance matrix.
+    By keeping only the terms depending on $\mathbf{\Sigma}$, the
+    log likelihood is given by
+    \begin{align*}
+        \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        &= -\frac{N}{2} \ln|\mathbf{\Sigma}| - \frac{1}{2}\sum_{n=1}^{N} \sum_{k=1}^{K} 
+            t_{nk} (\bm{\phi}_n - \bm{\mu}_k)^T\mathbf{\Sigma}^{-1}
+            (\bm{\phi}_n - \bm{\mu}_k) + \text{const} \\
+        &= -\frac{N}{2} \ln|\mathbf{\Sigma}| - \frac{1}{2}\sum_{n=1}^{N} \sum_{k=1}^{K} 
+            t_{nk} \big(\bm{\phi}_n^T\mathbf{\Sigma}^{-1}\bm{\phi}_n 
+            - 2\bm{\phi}_n^T\mathbf{\Sigma}^{-1}\bm{\mu}_k 
+            + \bm{\mu}_k^T\mathbf{\Sigma}^{-1}\bm{\mu}_k\big)
+    \end{align*}
+    By using (C.28) and 
+    \[
+    \pdv{\mathbf{X}} \mathbf{a}^T\mathbf{X}^{-1}\mathbf{b}
+    = -\mathbf{X}^{-T} \mathbf{ab}^T \mathbf{X}^{-T}
+    \] 
+    we take the derivative of the log likelihood with respect to $\mathbf{\Sigma}$ 
+    and obtain:
+    \begin{align*}
+        \pdv{\mathbf{\Sigma}} \ln p(\mathbf{T} | \mathbf{\Phi}, \bm{\pi})
+        &= -\frac{N}{2} \mathbf{\Sigma}^{-1}
+        + \frac{1}{2} \sum_{n=1}^{N} \sum_{j=k}^{K} t_{nk} \mathbf{\Sigma}^{-1}
+        \big(\bm{\phi}_n\bm{\phi}_n^T - 2\bm{\phi}_n\bm{\mu}_k^T + \bm{\mu}_k\bm{\mu}_k^T\big) 
+        \mathbf{\Sigma}^{-1} \\
+        &= -\frac{N}{2} \mathbf{\Sigma}^{-1} 
+        + \frac{1}{2} \sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \mathbf{\Sigma}^{-1}
+        (\bm{\phi}_n - \bm{\mu}_k)(\bm{\phi}_n - \bm{\mu}_k)^T \mathbf{\Sigma}^{-1} \\
+        &= -\frac{N}{2} \mathbf{\Sigma}^{-1} 
+        + \frac{1}{2} \mathbf{\Sigma}^{-1} 
+        \bigg(\sum_{k=1}^{K} N_k\mathbf{S}_k\bigg) \mathbf{\Sigma}^{-1}
+    \end{align*}
+    where $\mathbf{S}_k$ is defined by $(\ref{eq:4.163})$. Therefore, by setting
+    this derivative to 0 and rearranging the terms,
+    we obtain the maximum-likelihood solution for the
+    shared covariance matrix
+    \[
+        \mathbf{\Sigma} = \sum_{k=1}^{K} \frac{N_k}{N} \mathbf{S}_k \tag{4.162}
+    \] 
+\end{proof}
+
+\section*{Exercise 4.11 $\star \star$}
+Consider a classification problem with $K$ classses for which the feature
+vector $\mathbf{\phi}$ has $M$ components each of which can take $L$ discrete
+states. Let the values of the components be represented by a 1-of-$L$ binary coding scheme.
+Further suppose that, conditioned on the class $\mathcal{C}_k$, the $M$ components
+of $\bm{\phi}$ are independent, so that the class-conditional density factorizes
+with respect to the feature vector components. Show that the quantities given by
+$(\ref{eq:4.63})$, which appear in the argument to the softmax function
+describing the posterior class probabilties, are linear functions of the components
+of $\bm{\phi}$. Note that this represents an example of the naive Bayes model
+which is discussed in Section 8.2.2.
+
+\vspace{1em}
+
+\begin{proof}
+    We've seen in Section 4.2 that the posterior probabilities
+    can be written as $\emph{normalized}$ $\emph{exponentials}$:
+    \begin{equation}\label{eq:4.62}\tag{4.62}
+        p(\mathcal{C}_k | \bm{\phi}) 
+        = \frac{\exp(a_k)}{\sum_{j} \exp(a_j)}
+    \end{equation}
+    where
+    \begin{equation}\label{eq:4.63}\tag{4.63}
+        a_k = \ln p(\bm{\phi} | \mathcal{C}_k)p(\mathcal{C}_k)
+    \end{equation}
+    Considering the setup of our classification problem,
+    our class-conditional distribution will be of the form
+    \[
+        p(\bm{\phi} | \mathcal{C}_k) 
+        = \prod_{i = 1}^M \prod_{j = 1}^L
+            \bm{\mu}_{kij}^{\bm{\phi}_{ij}}
+    \] 
+    where $\bm{\mu}_k$ is given by $(\ref{eq:4.161})$. 
+    Therefore,
+    by replacing into $(\ref{eq:4.63})$, the arguments
+    of the softmax function are given by
+    \[
+        a_k = \ln p(\mathcal{C}_k) 
+        + \sum_{i=1}^{M} \sum_{j=1}^{L} \bm{\phi}_{ij} \ln \bm{\mu}_{kij} 
+    \] 
+    and are obviously linear functions of the components
+    of $\bm{\phi}$.
+\end{proof}
+
+\section*{Exercise 4.12 $\star$}
+Verify the relation ($\ref{eq:4.88}$) for the derivative of the logistic sigmoid
+function defined by ($\ref{eq:4.59}$).
+
+\vspace{1em}
+
+\begin{proof}
+    By taking the derivative of $(\ref{eq:4.59})$, we have that: 
+    \[
+        \pdv{a} \sigma(a) 
+        = \pdv{a}\bigg(\frac{1}{1 + e^{-a}}\bigg)
+        = \frac{e^{-a}}{(1 + e^{-a})^2}
+        = \frac{1 + e^{-a}}{(1 + e^{-a})^2} - \frac{1}{(1 + e^{-a})^2} 
+        = \frac{1}{1 + e^{-a}} + \bigg(\frac{1}{1 + e^{-a}}\bigg)^2
+    \] 
+    We recognize the expression of the logistic sigmoid function, so
+    \begin{equation}\label{eq:4.88}\tag{4.88}
+        \pdv{a} \sigma(a) = \sigma(a) + \sigma(a)^2 = \sigma(a) \big(1 + \sigma(a)\big)
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 4.13 $\star$}
+By making use of the result ($\ref{eq:4.88}$) for the derivative of the logistic
+sigmoid, show that the derivative of the error function ($\ref{eq:4.90}$) for 
+the logistic regression model is given by (\ref{eq:4.91}).
+
+\vspace{1em}
+
+\begin{proof}
+    The error function for the logistic regression is given by
+    \begin{equation}\label{eq:4.90}\tag{4.90}
+        E(\mathbf{w}) 
+        = -\ln p(\mathbf{t} | \mathbf{w})
+        = -\sum_{n = 1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\} 
+    \end{equation}
+    where $y_n = \sigma(a_n)$ and $a_n = \mathbf{w}^T\bm{\phi}_n$.
+    Taking the derivative of the error function with respect to $\mathbf{w}$
+    gives
+    \begin{align*}
+        \nabla_{\mathbf{w}} E(\mathbf{w})
+        &= \nabla_{\mathbf{w}} \bigg(-\sum_{n=1}^{N} \big\{
+            t_n \ln \sigma(\mathbf{w}^T\bm{\phi}_n) 
+                + (1 - t_n) \ln \sigma(1 - \mathbf{w}^T\bm{\phi}_n)
+            \big\}\bigg) \\
+        &= -\sum_{n=1}^{N} \bigg[t_n \nabla_{\mathbf{w}} \ln \sigma(\mathbf{w}^T\bm{\phi}_n)
+        + (1 - t_n) \nabla_{\mathbf{w}} \ln \{1 - \sigma(\mathbf{w}^T\bm{\phi}_n)\}\bigg]
+    \end{align*}
+    Using ($\ref{eq:4.88}$), we can compute the first gradient term :
+    \begin{align*}
+        \nabla_{\mathbf{w}} \ln \sigma(\mathbf{w}^T\bm{\phi}_n)
+        = \frac{1}{\sigma(\mathbf{w}^T\bm{\phi}_n)} 
+        \bigg(\nabla_{\mathbf{w}} \sigma(\mathbf{w}^T\bm{\phi}_n)\bigg)
+        &= \frac{\sigma(\mathbf{w}^T\bm{\phi}_n)\big(1 + \sigma(\mathbf{w}^T\bm{\phi}_n)\big)}
+        {\sigma(\mathbf{w}^T\bm{\phi}_n)} \bigg(\nabla_{\mathbf{w}} \mathbf{w}^T\bm{\phi}_n\bigg) \\
+        &= \big(1 + \sigma(\mathbf{w}^T\bm{\phi}_n)\big) \bm{\phi}_n
+        = (1 + y_n)\bm{\phi}_n
+    \end{align*}
+    Analogously, but this time using the fact that $1 - \sigma(a) = \sigma(-a)$,
+    the second gradient term is given by
+    \begin{align*}
+        \nabla_{\mathbf{w}} \ln\{1 - \sigma(\mathbf{w}^T\bm{\phi}_n)\}
+        = \nabla_{\mathbf{w}} \ln \sigma(-\mathbf{w}^T\bm{\phi}_n)
+        = -\big(1 + \sigma(-\mathbf{w}^T\bm{\phi}_n)\big) \bm{\phi}_n
+        = -\sigma(\mathbf{w}^T\bm{\phi}_n)\bm{\phi}_n 
+        = -y_n \bm{\phi}_n
+    \end{align*}
+    By replacing back into the gradient of the error function,
+    we obtain
+    \begin{equation}\label{eq:4.91}\tag{4.91}
+        \nabla_{\mathbf{w}} E(\mathbf{w})
+        = -\sum_{n=1}^{N} \big\{t_n (1 + y_n) \bm{\phi}_n - (1 - t_n) y_n \bm{\phi}_n\big\}
+        &= \sum_{n=1}^{N} (y_n - t_n) \bm{\phi}_n \tag{4.91}
+    \end{equation}
+\end{proof}
+
