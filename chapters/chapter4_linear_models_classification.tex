@@ -605,3 +605,82 @@ the logistic regression model is given by (\ref{eq:4.91}).
     \end{equation}
 \end{proof}
 
+\section*{Exercise 4.14 $\star$}
+Show that for a linearly separable data set, the maximum likelihood
+solution for the logistic regression model is obtained by finding a vector
+$\mathbf{w}$ whose decision boundary $\mathbf{w}^T\bm{\phi}(\mathbf{x}) = 0$ 
+separates the classes and then taking the magnitude of $\mathbf{w}$ to infinity.
+
+\vspace{1em}
+
+\begin{proof}
+    Suppose there exists $\mathbf{w}$ such that the hyperplane 
+    $\mathbf{w}^T\bm{\phi} = 0$ separates the data set.
+    Because the data set is linearly separable, 
+    $\mathbf{w}^T\bm{\phi}_a < 0$ and $\mathbf{w}^T\bm{\phi}_b > 0$
+    for all $\bm{\phi}_a \in \mathcal{C}_1$ and $\bm{\phi}_b \in \mathcal{C}_2$.
+    One can observe that the maximum likelihood is obtained
+    when  $p(\mathcal{C}_1 | \bm{\phi}_a) = 1$ and $p(\mathcal{C}_2 | \bm{\phi}_b) = 1$ 
+    for all $\bm{\phi}_a \in \mathcal{C}_1, \bm{\phi}_b \in \mathcal{C}_2$.
+    Since our hyperplane is already chosen, there is a fixed angle $\theta_n$
+    between each $\bm{\phi}_n$ and $\mathbf{w}$ such that $\cos \theta_n \neq 0$. Therefore,
+    by using the geometric definition of the dot product
+    \[
+        \mathbf{w}^T\bm{\phi}_n
+        = \Vert\mathbf{w}\Vert \Vert\bm{\phi}_n\Vert \cos \theta_n
+    \] 
+    we see that our maximization is achieved by taking the magnitude
+    of $\Vert\mathbf{w}\Vert$ to infinity, as
+    \[
+        \lim_{\Vert\mathbf{w}\Vert \to \infty} p(\mathcal{C}_1 | \bm{\phi}_a)
+        = \lim_{\Vert\mathbf{w}\Vert \to \infty} 
+        \sigma(\Vert\mathbf{w}\Vert \Vert{\bm{\phi}_a}\Vert \cos \theta_a)
+        = \lim_{\Vert\mathbf{w}\Vert \to \infty}
+        \frac{1}{1 + \exp{-\Vert\mathbf{w}\Vert \Vert{\bm{\phi}_a}\Vert \cos \theta_a}} 
+        = 1
+    \] 
+    and 
+    \[
+        \lim_{\Vert\mathbf{w}\Vert \to \infty} p(\mathcal{C}_2 | \bm{\phi}_b)
+        = \lim_{\Vert\mathbf{w}\Vert \to \infty} 
+        \sigma(\Vert\mathbf{w}\Vert \Vert{\bm{\phi}_b}\Vert \cos \theta_b)
+        = \lim_{\Vert\mathbf{w}\Vert \to \infty}
+        \frac{1}{1 + \exp{-\Vert\mathbf{w}\Vert \Vert{\bm{\phi}_b}\Vert \cos \theta_b}} 
+        = 0
+    \]
+    where $\bm{\phi} \in \mathcal{C}_1, \bm{\phi}_b \in \mathcal{C}_2$ and we've used the
+    fact that $\mathbf{w}^T\bm{\phi}_a < 0$ and $ \mathbf{w}^T\bm{\phi}_b > 0$.
+\end{proof}
+
+\section*{Exercise 4.15 $\star \star$}
+Show that the Hessian matrix $\mathbf{H}$ for the logistic regression
+model, given by $(\ref{eq:4.97})$, is positive definite. Here $\mathbf{R}$
+is a diagonal matrix with elements $y_n(1 - y_n)$, and $y_n$ is
+the output of the logistic regression model for input vector $\mathbf{x}_n$.
+Hence show that the error function is a convex function of $\mathbf{w}$
+and it has an unique minimum.
+
+\vspace{1em}
+
+\begin{proof}
+    The Hessian of the error function is given by
+    \begin{equation}\label{eq:4.97}\tag{4.97}
+        \mathbf{H} 
+        = \nabla \nabla E(\mathbf{w})
+        = \sum_{n=1}^{N} y_n(1 - y_n)\bm{\phi}_n\bm{\phi}_n^T
+        = \mathbf{\Phi}^T\mathbf{R}\mathbf{\Phi}
+    \end{equation}
+    Let $\mathbf{u}$ be a $M$-dimensional column vector.
+    By using the sum formulation for the hessian matrix, we have that
+    \[
+        \mathbf{u}^T\mathbf{H}\mathbf{u} 
+        = \sum_{n=1}^{N} y_n(1 - y_n)\mathbf{u}^T\bm{\phi}_n\bm{\phi}_n^T\mathbf{u}
+        = \sum_{n=1}^{N} y_n(1 - y_n) \big(\bm{\phi}_n^T\mathbf{u}\big)^T \bm{\phi}_n^T\mathbf{u}
+        = \sum_{n=1}^{N} y_n(1 - y_n) \Vert\bm{\phi}_n^T \mathbf{u}\Vert^2
+    \] 
+    which is $>0$ since $y_n$ is the output of the logistic sigmoid function,
+    so $0 < y_n < 1$. Because $\mathbf{u}$ was chosen arbitrarily, we have that
+    $\mathbf{H}$ is positive definite. As a result, the error function is 
+    positive definite. As a result, the error function is convex and has an unique
+    minimum.
+\end{proof}
