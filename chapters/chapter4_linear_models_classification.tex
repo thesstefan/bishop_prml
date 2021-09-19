@@ -543,11 +543,11 @@ function defined by ($\ref{eq:4.59}$).
         = \pdv{a}\bigg(\frac{1}{1 + e^{-a}}\bigg)
         = \frac{e^{-a}}{(1 + e^{-a})^2}
         = \frac{1 + e^{-a}}{(1 + e^{-a})^2} - \frac{1}{(1 + e^{-a})^2} 
-        = \frac{1}{1 + e^{-a}} + \bigg(\frac{1}{1 + e^{-a}}\bigg)^2
+        = \frac{1}{1 + e^{-a}} - \bigg(\frac{1}{1 + e^{-a}}\bigg)^2
     \] 
     We recognize the expression of the logistic sigmoid function, so
     \begin{equation}\label{eq:4.88}\tag{4.88}
-        \pdv{a} \sigma(a) = \sigma(a) + \sigma(a)^2 = \sigma(a) \big(1 + \sigma(a)\big)
+        \pdv{a} \sigma(a) = \sigma(a) - \sigma(a)^2 = \sigma(a) \big(1 - \sigma(a)\big)
     \end{equation}
 \end{proof}
 
