@@ -141,7 +141,7 @@ criterion ($\ref{eq:4.25}$) can be written in the form ($\ref{eq:4.26}$).
 \vspace{1em}
 
 \begin{proof}
-    The Fisher criterion is defined to be the reatio of the between-class
+    The Fisher criterion is defined to be the ratio of the between-class
     variance to the within-class variance and is given by
     \begin{equation}\label{eq:4.25}\tag{4.25}
         J(\mathbf{w}) = \frac{(m_2 - m_1)^2}{s_1^2 + s_2^2}
@@ -680,7 +680,138 @@ and it has an unique minimum.
     \] 
     which is $>0$ since $y_n$ is the output of the logistic sigmoid function,
     so $0 < y_n < 1$. Because $\mathbf{u}$ was chosen arbitrarily, we have that
-    $\mathbf{H}$ is positive definite. As a result, the error function is 
-    positive definite. As a result, the error function is convex and has an unique
+    $\mathbf{H}$ is positive definite. As a result, the error function is convex and has an unique
     minimum.
 \end{proof}
+
+\section*{Exercise 4.16 $\star$}
+Consider a binary classification problem in which each observation
+$\mathbf{x}_n$ is known to belong to one of two classes, corresponding to $t=0$
+and $t=1$, and suppose that the procedure for collecting training data
+is imperfect, so that training points are sometimes mislabelled. For
+every data point $\mathbf{x}_n$, instead of having a value $t$ for
+the class label, we have instead a value $\pi_n$ representing the
+probability that $t_n = 1$. Given a probabilistic model $p(t = 1 | \bm{\phi})$,
+write down the log likelihood function appropiate for such a data set.
+
+\vspace{1em}
+
+\begin{proof}
+    Straight away, we can see that $p(t = 0 | \bm{\phi}) = 1 - p(t = 1 | \bm{\phi})$.
+    An fair approach would be to express $p(t_n | \bm{\phi})$ as a weighted
+    average of $p(t_n = 0 | \bm{\phi})$ and $p(t_n = 1 | \bm{\phi}$ dictated by $\pi_n$.
+    Therefore, the likelihood would be given by 
+    \[
+        p(\mathbf{t} | \bm{\phi})
+        = \prod_{n = 1}^N p(t_n | \bm{\phi})
+        = \prod_{n = 1}^N p(t_n = 1 | \bm{\phi})^{\pi_n}
+        p(t_n = 0 | \bm{\phi})^{1 - \pi_n}
+        = \prod_{n = 1}^N p(t_n = 1 | \bm{\phi})^{\pi_n}
+        \big\{1 - p(t_n = 1 | \bm{\phi})\big\}^{1 - \pi_n}
+    \] 
+    which has the log likelihood
+    \[
+        \ln p(\mathbf{t} | \bm{\phi}) 
+        = \sum_{n=1}^{N} \pi_n p(t_n = 1 | \bm{\phi})
+        + (1 - \pi_n)\big\{1 - p(t_n = 1 | \bm{\phi})\big\}
+    \] 
+\end{proof}
+
+\section*{Exercise 4.17 $\star$}
+Show that the derivatives of the softmax activation function
+$(\ref{eq:4.104})$ where the $a_k$ are defined by $(\ref{eq:4.105})$, are
+given by $(\ref{eq:4.106})$.
+
+\vspace{1em}
+
+\begin{proof}
+    The softmax activation function is given by
+    \begin{equation}\label{eq:4.104}\tag{4.104}
+        y_k = \frac{\exp(a_k)}{\sum_{j} \exp(a_j)}
+    \end{equation}
+    where
+    \begin{equation}\label{eq:4.105}\tag{4.106}
+        a_k = \mathbf{w}_k^T\bm{\phi}
+    \end{equation}
+    Taking the derivative of $(\ref{eq:4.104})$ with respect to
+    $a_j$ and applying the quotient rule gives
+    \begin{align*}
+        \pdv{y_k}{a_j} 
+        = \pdv{a_j} \bigg(\frac{\exp(a_k)}{\sum_{i} \exp(a_i)}\bigg)
+        &= \frac{I_{kj} \exp(a_k) \sum_{i} \exp(a_i) - \exp(a_k)\exp(a_j)} 
+        {\bigg(\sum_{i} \exp(a_i)\bigg)^2} \\
+        &= \frac{\exp(a_k)}{\sum_{j} \exp(a_j)}
+        \bigg(I_{kj} - \frac{\exp(a_j)}{\sum_{j} \exp(a_j)}\bigg)
+    \end{align*}
+    which is equivalent to 
+    \begin{equation}\label{eq:4.106}\tag{4.106}
+        \pdv{a_j} y_k = y_k(I_{kj} - y_j)
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 4.18 $\star$}
+Using the result $(\ref{eq:4.106})$ for
+the derivatives of the softmax activation function,
+show that the gradients of the cross-entropy error $(\ref{eq:4.108})$
+are given by ($\ref{eq:4.109}$).
+
+\vspace{1em}
+
+\begin{proof}
+    The cross-entropy error is given by
+    \begin{equation}\label{eq:4.108}\tag{4.108}
+        E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
+        = -\ln p(\mathbf{T} | \mathbf{w}_1, \ldots, \mathbf{w}_K)
+        = - \sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln y_{nk}
+    \end{equation}
+    Taking its derivative with respect to $\mathbf{w}_j$ yields 
+    \begin{align*}
+        \pdv{\mathbf{w}_j} E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
+        = \pdv{\mathbf{w}_j} \bigg(-\sum_{n=1}^{K} \sum_{k=1}^{K} t_{nk} \ln y_{nk}\bigg) 
+        = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \pdv{\mathbf{w}_j} \ln y_{nk} 
+    \end{align*}
+    By using $(\ref{eq:4.106})$ and the chain rule, we have that
+    \begin{align*}
+        \pdv{\mathbf{w}_j} \ln y_{nk}
+        = \frac{1}{y_{nk}} \pdv{y_{nk}}{\mathbf{w}_j}
+        = \frac{1}{y_{nk}} \pdv{y_{nk}}{a_j} \pdv{a_j}{\mathbf{w}_j}
+        = \frac{1}{y_{nk}} y_{nk}(I_{kj} - y_{nj}) \bm{\phi}_n
+        = (I_{kj} - y_{nj})\bm{\phi}_n
+    \end{align*}
+    Replacing back into the gradient,
+    \[
+        \pdv{\mathbf{w}_j} E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
+        = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} (I_{kj} - y_{nj}) \bm{\phi}_n
+        = -\sum_{n=1}^{N} t_{nj}\bm{\phi}_n 
+        + \sum_{n=1}^{N} \bigg(\sum_{k=1}^{N} t_{nk}\bigg) y_{nj} \bm{\phi}_n
+    \] 
+    gives the desired result
+    \begin{equation}\label{eq:4.109}\tag{4.109}
+        \pdv{\mathbf{w}_j}E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
+        = \sum_{n=1}^{N} (y_{nj} - t_{nj})\bm{\phi}_n
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 4.19 $\star$}
+Write down expressions for the gradient of the log likelihood,
+as well as the corresponding Hessian matrix, for the probit regression
+model defined in Section 4.3.5. These are quantities that would be required to train such 
+a model using IRLS.
+
+\vspace{1em}
+
+\begin{proof}
+    The probit function is given by 
+    \begin{equation}\label{eq:4.114}\tag{4.114}
+        \Phi(a) = \int_{-\infty}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
+    \end{equation}
+
+    Like we've seen in Section 4.3.2, the log likelihood of 
+    the model is given by ($\ref{eq:4.90}$), but this time with
+    $y_n = \Phi(a_n)$, so
+    \[
+        \ln p(\mathbf{t} | \mathbf{w})
+        = \sum_{n = 1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\} 
+    \] 
+\end{proof}
+
