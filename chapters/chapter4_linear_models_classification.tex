@@ -566,42 +566,40 @@ the logistic regression model is given by (\ref{eq:4.91}).
         = -\sum_{n = 1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\} 
     \end{equation}
     where $y_n = \sigma(a_n)$ and $a_n = \mathbf{w}^T\bm{\phi}_n$.
-    Taking the derivative of the error function with respect to $\mathbf{w}$
+    Taking the derivative of the log likelihood function with respect to $\mathbf{w}$
     gives
     \begin{align*}
-        \nabla_{\mathbf{w}} E(\mathbf{w})
-        &= \nabla_{\mathbf{w}} \bigg(-\sum_{n=1}^{N} \big\{
-            t_n \ln \sigma(\mathbf{w}^T\bm{\phi}_n) 
-                + (1 - t_n) \ln \sigma(1 - \mathbf{w}^T\bm{\phi}_n)
-            \big\}\bigg) \\
-        &= -\sum_{n=1}^{N} \bigg[t_n \nabla_{\mathbf{w}} \ln \sigma(\mathbf{w}^T\bm{\phi}_n)
-        + (1 - t_n) \nabla_{\mathbf{w}} \ln \{1 - \sigma(\mathbf{w}^T\bm{\phi}_n)\}\bigg]
+        \nabla_{\mathbf{w}} \ln p(\mathbf{t} | \mathbf{w})
+        &= \nabla_{\mathbf{w}} \sum_{n=1}^{N} \big\{
+            t_n \ln y_n 
+            + (1 - t_n) \ln (1 - y_n)
+            \big\} \\
+        &= \sum_{n=1}^{N} \bigg[t_n \nabla_{\mathbf{w}} \ln y_n
+            + (1 - t_n) \nabla_{\mathbf{w}} \ln (1 - y_n)\bigg] \\
+        &= \sum_{n=1}^{N} \bigg[\frac{t_n}{y_n} \nabla_{\mathbf{w}} y_n
+            + \frac{1 - t_n}{1 - y_n} \nabla_{\mathbf{w}} (1 - y_n) \bigg]\\
+        &= \sum_{n=1}^{N} \frac{t_n(1 - y_n) - y_n(1 - t_n)}{y_n(1 - y_n)}
+            \nabla_\mathbf{w} y_n \\
+        &= \sum_{n=1}^{N} \frac{t_n - y_n}{y_n(1 - y_n)}
+            \nabla_\mathbf{w} y_n \label{eq:4.13.1}\tag{4.13.1}
     \end{align*}
-    Using ($\ref{eq:4.88}$), we can compute the first gradient term :
+    Using ($\ref{eq:4.88}$), we can compute the gradient term:
     \begin{align*}
-        \nabla_{\mathbf{w}} \ln \sigma(\mathbf{w}^T\bm{\phi}_n)
-        = \frac{1}{\sigma(\mathbf{w}^T\bm{\phi}_n)} 
-        \bigg(\nabla_{\mathbf{w}} \sigma(\mathbf{w}^T\bm{\phi}_n)\bigg)
-        &= \frac{\sigma(\mathbf{w}^T\bm{\phi}_n)\big(1 + \sigma(\mathbf{w}^T\bm{\phi}_n)\big)}
-        {\sigma(\mathbf{w}^T\bm{\phi}_n)} \bigg(\nabla_{\mathbf{w}} \mathbf{w}^T\bm{\phi}_n\bigg) \\
-        &= \big(1 + \sigma(\mathbf{w}^T\bm{\phi}_n)\big) \bm{\phi}_n
-        = (1 + y_n)\bm{\phi}_n
+        \nabla_{\mathbf{w}} y_n 
+        = \nabla_\mathbf{w} \sigma(\mathbf{w}^T\bm{\phi}_n)
+        = \pdv{\sigma}{a_n} \pdv{a_n}{\mathbf{w}} \big(\mathbf{w}^T\bm{\phi}_n\big)
+        = y_n(1 - y_n) \bm{\phi}_n
     \end{align*}
-    Analogously, but this time using the fact that $1 - \sigma(a) = \sigma(-a)$,
-    the second gradient term is given by
-    \begin{align*}
-        \nabla_{\mathbf{w}} \ln\{1 - \sigma(\mathbf{w}^T\bm{\phi}_n)\}
-        = \nabla_{\mathbf{w}} \ln \sigma(-\mathbf{w}^T\bm{\phi}_n)
-        = -\big(1 + \sigma(-\mathbf{w}^T\bm{\phi}_n)\big) \bm{\phi}_n
-        = -\sigma(\mathbf{w}^T\bm{\phi}_n)\bm{\phi}_n 
-        = -y_n \bm{\phi}_n
-    \end{align*}
-    By replacing back into the gradient of the error function,
-    we obtain
+    so the gradient of the log likelihood is
+    \[
+        \nabla_{\mathbf{w}} \ln p(\mathbf{t} | \mathbf{w})
+        = \sum_{n=1}^{N} (t_n - y_n) \bm{\phi}_n
+    \] 
+    and the gradient of the error function is then given by
     \begin{equation}\label{eq:4.91}\tag{4.91}
-        \nabla_{\mathbf{w}} E(\mathbf{w})
-        = -\sum_{n=1}^{N} \big\{t_n (1 + y_n) \bm{\phi}_n - (1 - t_n) y_n \bm{\phi}_n\big\}
-        &= \sum_{n=1}^{N} (y_n - t_n) \bm{\phi}_n \tag{4.91}
+        \nabla_\mathbf{w} E(\mathbf{w})
+        = -\nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w})
+        = - \sum_{n=1}^{N} (t_n - y_n) \bm{\phi}_n
     \end{equation}
 \end{proof}
 
@@ -805,13 +803,119 @@ a model using IRLS.
     \begin{equation}\label{eq:4.114}\tag{4.114}
         \Phi(a) = \int_{-\infty}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
     \end{equation}
-
-    Like we've seen in Section 4.3.2, the log likelihood of 
-    the model is given by ($\ref{eq:4.90}$), but this time with
-    $y_n = \Phi(a_n)$, so
+    Therefore, from the fundamental theorem of calculus, we have that
     \[
-        \ln p(\mathbf{t} | \mathbf{w})
-        = \sum_{n = 1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\} 
+        \pdv{a} \Phi(a) 
+        = \pdv{a} \int_{-\infty}^a \mathcal{N}(\theta | 0, 1) \diff \theta
+        = \mathcal{N}(a | 0, 1) = \frac{1}{\sqrt{2\pi}} e^{-\frac{a^2}{2}}
     \] 
+    so
+    \[
+        \nabla_\mathbf{w} y_n 
+        = \nabla_\mathbf{w} \Phi(a_n)
+        = \pdv{\Phi}{a_n} \pdv{a_n}{\mathbf{w}} 
+        = \frac{1}{\sqrt{2\pi}} \exp{-\frac{a_n^2}{2}}\bm{\phi}_n
+    \]
+
+    The probit regression model has a very similar form with what
+    we've used for the logistic regression model in Section 4.3.2. 
+    More specifically, the log likelihood is still given by ($\ref{eq:4.90}$),
+    but this time with $y_n = \Phi(a_n)$. Therefore, the general form for gradient of the log 
+    likelihood derived in Exercise 4.13, (\ref{eq:4.13.1}) can be used
+    here too, so:
+    \[
+        \nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w}) 
+        = \sum_{n=1}^{N} \frac{t_n - y_n}{y_n(1 - y_n)} \nabla_\mathbf{w} y_n
+        = \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N} \frac{t_n - y_n}{y_n(1 - y_n)} 
+        \exp{-\frac{a_n^2}{2}}\bm{\phi}_n
+    \] 
+    By taking the gradient of this again, we find the Hessian matrix
+    using the chain rule:
+    \begin{align*}
+        \mathbf{H} 
+        = \nabla_\mathbf{w} \nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w}) 
+        &= \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N}
+        \nabla_\mathbf{w}\bigg[\frac{t_n - y_n}{y_n(1 - y_n)}\exp{-\frac{a_n^2}{2}}\bigg]\bm{\phi}_n \\
+        &= \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N} \bigg[
+            \bigg(\nabla_\mathbf{w} \frac{t_n - y_n}{y_n(1 - y_n)}\bigg)
+            \exp{-\frac{a_n^2}{2}} + \frac{t_n - y_n}{y_n(1 - y_n)} 
+        \bigg(\nabla_\mathbf{w} \exp{-\frac{a_n^2}{2}}\bigg)\bigg]\bm{\phi}_n
+    \end{align*}
+    We compute each gradient term separately, so
+    \begin{align*}
+        \nabla_\mathbf{w} \frac{t_n - y_n}{y_n(1 - y_n)}
+        &= -\frac{y_n(1 - y_n) + (t_n - y_n)(1 - 2y_n)}
+        {y_n^2(1 - y_n)^2} \nabla_\mathbf{w} y_n
+        = \frac{y_n^2 - 2t_ny_n + t_n}{y_n^2(1 - y_n)^2}\nabla_\mathbf{w} y_n \\
+        &= \frac{y_n^2 - 2t_ny_n + t_n}{y_n^2(1 - y_n)^2\sqrt{2\pi}}\exp{-\frac{a_n^2}{2}}
+        \bm{\phi}_n
+    \end{align*}
+    and
+    \[
+        \nabla_\mathbf{w} \exp{-\frac{a_n^2}{2}} 
+        = -a_n\exp{-\frac{a_n^2}{2}} \nabla_\mathbf{w} a_n
+        = -a_n\exp{-\frac{a_n^2}{2}} \bm{\phi}_n
+    \] 
+    Hence, the hessian matrix becomes
+    \begin{align*}
+        \mathbf{H} 
+        &= \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N} \bigg[
+        \frac{y_n^2 - 2t_ny_n + t_n}{y_n^2(1 - y_n)^2\sqrt{2\pi}}\exp{-a_n^2}\bm{\phi}_n
+        - \frac{a_n(t_n - y_n)}{y_n(1 - y_n)}\exp{-\frac{a_n^2}{2}}\bm{\phi}_n\bigg] \bm{\phi}_n
+    \end{align*}
 \end{proof}
 
+\section*{Exercise 4.21 $\star$}
+Show that the probit function ($\ref{eq:4.114}$) and the erf function $(\ref{eq:4.115})$ are
+related by ($\ref{eq:4.116}$).
+
+\vspace{1em}
+
+\begin{proof}
+    The error function is given by
+    \begin{equation}\label{eq:4.115}\tag{4.115}
+        \erf(a) = \frac{2}{\sqrt{\pi}} \int_{0}^{a} \exp{-\frac{\theta^2}{2}} \diff \theta
+    \end{equation}
+    By using the fact that the Gaussian is symmetric around the mean, 
+    the probit function can be rewritten as
+    \begin{align*}
+        \Phi(a) 
+        = \int_{-\infty}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
+        = \int_{-\infty}^{0} \mathcal{N}(\theta | 0, 1) \diff \theta
+        + \int_{0}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
+        &= \frac{1}{2} + \frac{1}{\sqrt{2\pi}} \int_{0}^{a} \exp{-\frac{\theta^2}{2}} \diff \theta \\
+        &= \frac{1}{2} \bigg\{1 + \frac{1}{\sqrt{2}} \erf(a)\bigg\} \label{eq:4.116}\tag{4.116}
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 4.25 $\star \star$}
+Suppose we wish to approximate the logistic sigmoid $\sigma(a)$ 
+defined by $(\ref{eq:4.59})$ by a scaled probit function
+$\Phi(\lambda a)$ where $\Phi(a)$ is defined by $(\ref{eq:4.114})$.
+Show that if $\lambda$ is chosen so that the derivatives of the two
+functions are equal at $a = 0$, then  $\lambda^2 = \pi/8$.
+
+\vspace{1em}
+
+\begin{proof}
+    We start by evaluating both function's derivatives at $a=0$.
+    We've seen in Exercise 4.19 that the derivative of the probit function
+    is given by
+     \[
+         \pdv{a} \Phi(a) = \frac{1}{\sqrt{2\pi}} \exp{-\frac{a^2}{2}}
+    \] 
+    so
+    \[
+        \pdv{a} \Phi(\lambda a)\bigg|_{a=0}
+        = \frac{\lambda}{\sqrt{2\pi}} \exp{-\frac{a^2}{2}}\bigg|_{a=0}
+        = \frac{\lambda}{\sqrt{2\pi}}
+    \] 
+    From $(\ref{eq:4.88})$ we also obtain the derivative of the sigmoid function:
+     \[
+         \pdv{a} \sigma(a)\bigg|_{a=0} = \sigma(a)(1 - \sigma(a))\bigg|_{a = 0}
+         = \frac{1}{4}
+    \] 
+    Finally, by using the fact that the derivatives of the functions are
+    equal at $a=0$, we quickly reach the result from the hypothesis, 
+    i.e. $\lambda^2 = \pi / 8$.
+\end{proof}
