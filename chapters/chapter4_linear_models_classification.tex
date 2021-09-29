@@ -888,6 +888,45 @@ related by ($\ref{eq:4.116}$).
     \end{align*}
 \end{proof}
 
+\section*{Exercise 4.22 $\star$}
+Using the result (4.135), derive the expression
+$(\ref{eq:4.137})$ for the log model evidence under the Laplace
+approximation.
+
+\vspace{1em}
+
+\begin{proof}
+    The proof of this is almost identical to the one in Section 4.4.1.
+    From Bayes' theorem the model evidence is given by
+    \begin{equation}\label{eq:4.136}\tag{4.136}
+        p(\mathcal{D}) 
+        = \int p(\mathcal{D} | \bm{\theta}) p(\bm{\theta}) \diff \bm{\theta}
+    \end{equation}
+    Identifying $f(\bm{\theta}) = p(\mathcal{D} | \bm{\theta})p(\bm{\theta})$
+    and $Z = p(\mathcal{D})$, and applying the result (4.135),
+    we obtain the model evidence under the Laplace approximation:
+    \[
+        p(\mathcal{D}) 
+        = p(\mathcal{D} | \bm{\theta}_{MAP})p(\bm{\theta}_{MAP}) 
+        \frac{(2\pi)^{M/2}}{|\mathbf{A}|^{1/2}}
+    \] 
+    where $\bm{\theta}_{MAP}$ is the value of $\bm{\theta}$ at the mode
+    of the posterior distribution, and $\mathbf{A}$ is the $\emph{Hessian}$ 
+    matrix of second derivatives of the negative log posterior
+    \begin{equation}\label{eq:4.138}\tag{4.138}
+        \mathbf{A} 
+        = -\nabla \nabla \ln p(\mathcal{D} | \bm{\theta}_{MAP})p(\bm{\theta}_{MAP})
+        = -\nabla \nabla \ln p(\bm{\theta}_{MAP} | \mathcal{D})
+    \end{equation}
+
+    Therefore, the log model evidence is given by 
+    \begin{equation}\label{eq:4.137}\tag{4.137}
+        \ln p(\mathcal{D}) 
+        = \ln p(\mathcal{D} | \bm{\theta}_{MAP}) + \ln p(\bm{\theta}_{MAP})
+        + \frac{M}{2} \ln (2\pi) - \frac{1}{2} \ln |\mathbf{A}|
+    \end{equation}
+\end{proof}
+
 \section*{Exercise 4.25 $\star \star$}
 Suppose we wish to approximate the logistic sigmoid $\sigma(a)$ 
 defined by $(\ref{eq:4.59})$ by a scaled probit function
