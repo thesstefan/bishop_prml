@@ -62,3 +62,39 @@ networks differ by linear transformations.
     so there exists an equivalent two-layer network using $\tanh$ hidden activation functions,
     but different parameters.
 \end{proof}
+
+\section*{Exercise 5.2 $\star$}
+Show that maximizing the likelihood function under the conditional 
+distribution \eqref{eq:5.16} for a multioutput network is equivalent to minimizing
+the sum-of-squares error function (5.11).
+
+\vspace{1em}
+
+\begin{proof}
+    The likelihood function is given by 
+    \[
+        p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)
+        = \prod_{n = 1}^N p(t_n | \mathbf{x}_n, \mathbf{w}, \beta)
+    \] 
+    The target variables are assumed to be distributed normally
+    \begin{equation}\label{eq:5.16}\tag{5.16}
+        p(\mathbf{t}_n | \mathbf{x}_n, \mathbf{w}, \beta) 
+        = \mathcal{N}(\mathbf{t}_n | y(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
+    \end{equation}
+    and since
+    \[
+        \ln \mathcal{N}(\mathbf{t}_n | y(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
+        = -\frac{M}{2} \ln \beta + \frac{M}{2} \ln(2\pi) - \frac{\beta}{2} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
+    \] 
+    the log-likelihood is given by
+    \[
+        \ln p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)
+        = -\frac{\beta}{2}\sum_{n=1}^{N} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2 + \text{const}
+    \] 
+    where we grouped the terms that don't depend on $\mathbf{w}$ under the constant term.
+    Maximization of the likelihood function is equivalent to maximizing the log-likelihood.
+    Therefore, one can easily find that this is equivalent to minimizing the error function
+    \begin{equation}\label{eq:5.11}\tag{5.11}
+        E(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
+    \end{equation}
+\end{proof}
