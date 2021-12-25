@@ -1,0 +1,64 @@
+\chapter{Neural Networks}
+
+\section*{Exercise 5.1 $\star \star$}
+Consider a two-layer network function of the form $\eqref{eq:5.7}$ 
+in which the hidden-unit nonlinear activation functions $h(\cdot)$ 
+are given by logistic sigmoid functions of the form
+\begin{equation}\label{eq:5.191}\tag{5.191}
+    \sigma(a) = \frac{1}{1 + \exp(-a)}.
+\end{equation}
+Show that there exists an equivalent network, which computes 
+exactly the same function, but with hidden activation functions
+given by $\tanh(a)$ where the $\tanh$ function is defined by
+(5.59). Hint: first find the relation between $\sigma(a)$ 
+and $\tanh(a)$, and then show that the parameters of the two
+networks differ by linear transformations.
+
+\vspace{1em}
+
+\begin{proof}
+    The considered two-layer network has the form
+    \begin{equation}\label{eq:5.7}\tag{5.7}
+        y_k(\mathbf{x}, \mathbf{w}) 
+        = \sigma\bigg(\sum_{j=1}^{M} w_{kj}^{(2)} 
+        h\bigg(\sum_{i=1}^{D} w_{ji}^{(1)}x_i + w_{j0}^{(1)}\bigg) + w_{k0}^{(2)}\bigg)
+    \end{equation}
+    Now, we've proved in Exercise 3.1 that 
+    \[
+        \sigma(x) = \frac{1}{2} \tanh \frac{x}{2} + \frac{1}{2}
+    \] 
+    Therefore, we can rewrite $y_k$ as
+    \begin{align*}
+        y_k(\mathbf{x}, \mathbf{w})
+        &= \sigma\bigg(\frac{1}{2}\sum_{j=1}^{M} w_{kj}^{(2)} 
+            \tanh\bigg(\frac{1}{2}\sum_{i=1}^{D} w_{ji}^{(1)}x_i + \frac{1}{2} w_{j0}^{(1)}\bigg)
+            + \frac{1}{2} \sum_{j=1}^{M} w_{kj}^{(2)} + w_{k0}^{(2)}\bigg) \\
+        &= \sigma\bigg(\sum_{j=1}^{M} \omega_{kj}^{(2)} 
+        h\bigg(\sum_{i=1}^{D} \omega_{ji}^{(1)}x_i + \omega_{j0}^{(1)}\bigg) + \omega_{k0}^{(2)}\bigg)
+    \end{align*}
+    where 
+    \newline
+    \begin{minipage}[b]{0.25\textwidth}
+    \[
+       \omega_{ji}^{(1)} = \frac{1}{2} w_{ji}^{(1)}
+    \]
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+    \[
+        \omega_{j0}^{(1)} = \frac{1}{2} w_{j0}^{(1)}
+    \] 
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+    \[
+        \omega_{kj}^{(2)} = \frac{1}{2} w_{kj}^{(2)}
+    \]
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \[
+            \omega_{k0}^{(2)} = \frac{1}{2}\sum_{j = 1}^M w_{kj}^{(2)} + w_{k0}^{(2)}
+        \] 
+    \end{minipage}
+    Both new parameter sets can be obtained as linear transformations of the old ones,
+    so there exists an equivalent two-layer network using $\tanh$ hidden activation functions,
+    but different parameters.
+\end{proof}
