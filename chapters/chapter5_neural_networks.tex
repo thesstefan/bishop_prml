@@ -155,5 +155,59 @@ case of independent target variables discussed in Section 5.2.
     If $ \mathbf{\Sigma}$ is unknown, we can't do that and the
     determination of $\mathbf{w}_{\text{ML}}$ would use $\mathbf{\Sigma}$,
     so that's why this time the optimizations of $\mathbf{w}$
-    and $\mathbf{\Sigma}$ are coupled.
+    and $\mathbf{\Sigma}$ are coupled. The MLE for
+    the covariance matrix is obtained by taking the
+    derivative of the negative log-likelihood wrt. $\mathbf{\Sigma}^{-1}$, equalizing
+    it to 0 and then solving for $\mathbf{\Sigma}$. Taking the
+    derivative of the negative log-likelihood yields
+    \begin{align*}
+        \pdv{\mathbf{\Sigma}^{-1}} \ln p(\mathbf{T} | \mathbf{X}, \mathbf{w})
+        &= \frac{N}{2} \pdv{\mathbf{\Sigma}^{-1}} \ln |\mathbf{\Sigma}| +
+        \frac{1}{2}  \sum_{n=1}^{N} \pdv{\mathbf{\Sigma}^{-1}} 
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \mathbf{\Sigma}^{-1}\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big) \\
+        &= -\frac{N}{2} \pdv{\mathbf{\Sigma}^{-1}} \ln |\mathbf{\Sigma}^{-1}| +
+        \frac{1}{2}  \sum_{n=1}^{N} \pdv{\mathbf{\Sigma}^{-1}} 
+        \Trace\big\{\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \mathbf{\Sigma}^{-1}\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)\big\} \\
+        &= -\frac{N}{2} \mathbf{\Sigma} 
+        + \frac{1}{2}  \sum_{n=1}^{N} \pdv{\mathbf{\Sigma}^{-1}} 
+        \Trace\big\{\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big) \mathbf{\Sigma}^{-1}\big\}\\
+        &= -\frac{N}{2} \mathbf{\Sigma} + \frac{1}{2} \sum_{n=1}^{N} 
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)
+    \end{align*}
+    where we've used the cyclic property of the trace operator and the fact that
+    \[
+        \pdv{\mathbf{A}} \ln |A| = A^{-T}
+    \]
+    Now, equalizing
+    the derivative with 0 and solving for $\mathbf{\Sigma}$ gives
+    the MLE for the covariance matrix:
+    \[
+        \mathbf{\Sigma}_\text{ML}
+        = \frac{1}{N} \sum_{n=1}^{N} 
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)
+    \] 
+\end{proof}
+
+\section*{Exercise 5.4 $\star \star$}
+Consider a binary classification problem where the target values
+are $t \in \{0, 1\}$, with a network output $y(\mathbf{x}, \mathbf{w})$
+that represents $p(t = 1 | \mathbf{x})$, and suppose that
+there is a probability $\epsiilon$ that the class label
+on a trainining data point has been incorrectly set.
+Assuming independent and identically distributed data,
+write down the error function corresponding to the negative
+log likelihood. Verify that the error function $\eqref{5.21}$ 
+is obtained when $\epsilon = 0$. Note that this error function
+makes the model robust to incorrectly labelled data, in contrast
+to the usual error function.
+
+\vspace{1em}
+
+\begin{proof}
+    
 \end{proof}
