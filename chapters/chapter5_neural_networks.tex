@@ -73,28 +73,87 @@ the sum-of-squares error function (5.11).
 \begin{proof}
     The likelihood function is given by 
     \[
-        p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)
-        = \prod_{n = 1}^N p(t_n | \mathbf{x}_n, \mathbf{w}, \beta)
+        p(\mathbf{T} | \mathbf{X}, \mathbf{w}, \beta)
+        = \prod_{n = 1}^N p(\mathbf{t}_n | \mathbf{x}_n, \mathbf{w}, \beta)
     \] 
     The target variables are assumed to be distributed normally
     \begin{equation}\label{eq:5.16}\tag{5.16}
         p(\mathbf{t}_n | \mathbf{x}_n, \mathbf{w}, \beta) 
-        = \mathcal{N}(\mathbf{t}_n | y(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
+        = \mathcal{N}(\mathbf{t}_n | \mathbf{y}(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
     \end{equation}
     and since
     \[
         \ln \mathcal{N}(\mathbf{t}_n | y(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
-        = -\frac{M}{2} \ln \beta + \frac{M}{2} \ln(2\pi) - \frac{\beta}{2} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
+        = -\frac{N}{2} \ln \beta - \frac{NK}{2} \ln(2\pi) - \frac{\beta}{2} 
+        ||\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
     \] 
-    the log-likelihood is given by
+    the negative log-likelihood is given by
     \[
-        \ln p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)
-        = -\frac{\beta}{2}\sum_{n=1}^{N} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2 + \text{const}
+        -\ln p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)
+        = \frac{\beta}{2}\sum_{n=1}^{N} 
+        ||\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2 + \text{const}
     \] 
     where we grouped the terms that don't depend on $\mathbf{w}$ under the constant term.
-    Maximization of the likelihood function is equivalent to maximizing the log-likelihood.
+    Maximization of the likelihood function is equivalent to minimizing the negative 
+    log-likelihood.
     Therefore, one can easily find that this is equivalent to minimizing the error function
     \begin{equation}\label{eq:5.11}\tag{5.11}
-        E(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} ||y(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
+        E(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
+        ||\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
     \end{equation}
+\end{proof}
+
+\section*{Exercise 5.3 $\star \star$}
+Consider a regression problem involving multiple target variables in which
+it is assumed that the distribution of the targets, conditioned on the input
+vector $\mathbf{x}$, is a Gaussian of the form
+\begin{equation}\label{eq:5.192}\tag{5.192}
+    p(\mathbf{t} | \mathbf{x}, \mathbf{w}) 
+    = \mathcal{N}(\mathbf{t} | \mathbf{y}(\mathbf{x}, \mathbf{w}), \mathbf{\Sigma})
+\end{equation}
+where $\mathbf{y(x, w)}$ is the output of a neural network with input vector
+$\mathbf{x}$ and weight vector $\mathbf{w}$, and $ \mathbf{\Sigma}$ is the
+covariance of the assumed Gaussian noise on the targets. Given a set
+of independent observations of $\mathbf{x}$ and $\mathbf{t}$, write down
+the error function that must be minimized in order to find the maximum
+likelihood solution for $\mathbf{w}$, if we assume that $ \mathbf{\Sigma}$
+is fixed and known. Now assume that $ \mathbf{\Sigma}$ is also to be determined
+from the data, and write down an expression for the maximum likelihood
+solution for $ \mathbf{\Sigma}$. Note that the optimizations of
+$\mathbf{w}$ and $\mathbf{\Sigma}$ are now coupled, in contrast to the
+case of independent target variables discussed in Section 5.2.
+
+\vspace{1em}
+
+\begin{proof}
+    The negative log-likelihood is given by
+    \begin{align*}
+    -\ln p(\mathbf{T} | \mathbf{X}, \mathbf{w})
+    &= -\sum_{i=1}^{N} \ln \mathcal{N}(\mathbf{t}_n | \mathbf{y}(\mathbf{x}_n, \mathbf{w}), \mathbf{\Sigma}) \\
+    &= \frac{NK}{2} \ln(2\pi) + \frac{N}{2} \ln|\mathbf{\Sigma}| 
+    + \frac{1}{2}  \sum_{n=1}^{N} \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+    \mathbf{\Sigma}^{-1}\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)
+    \end{align*}
+    Maximizing the likelihood is equivalent to minimizing the negative
+    log-likelihood. Therefore, the error function that must be minimized
+    to obtain maximum likelihood is given by
+    \[
+        E(\mathbf{w}, \mathbf{\Sigma}) 
+        = \frac{N}{2} \ln|\mathbf{\Sigma}|
+        + \frac{1}{2}  \sum_{n=1}^{N} \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \mathbf{\Sigma}^{-1}\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)
+    \] 
+    In the case when $\mathbf{\Sigma}$ is known, we can simply treat
+    the determinant term as a constant, so minimizing
+    the error function
+    \[
+        E(\mathbf{w}) = 
+        \frac{1}{2}  \sum_{n=1}^{N} \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
+        \mathbf{\Sigma}^{-1}\big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)
+    \] 
+    would yield the maximum likelihood solution $\mathbf{w}_\text{ML}$.
+    If $ \mathbf{\Sigma}$ is unknown, we can't do that and the
+    determination of $\mathbf{w}_{\text{ML}}$ would use $\mathbf{\Sigma}$,
+    so that's why this time the optimizations of $\mathbf{w}$
+    and $\mathbf{\Sigma}$ are coupled.
 \end{proof}
