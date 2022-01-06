@@ -201,7 +201,7 @@ there is a probability $\epsiilon$ that the class label
 on a trainining data point has been incorrectly set.
 Assuming independent and identically distributed data,
 write down the error function corresponding to the negative
-log likelihood. Verify that the error function $\eqref{5.21}$ 
+log likelihood. Verify that the error function (5.21)
 is obtained when $\epsilon = 0$. Note that this error function
 makes the model robust to incorrectly labelled data, in contrast
 to the usual error function.
@@ -209,5 +209,48 @@ to the usual error function.
 \vspace{1em}
 
 \begin{proof}
-    
+    We're going to model the problem similarly with what we've done in
+    Section 4.2.2, but this time taking into account the mislabelled training data
+    probability. As a result, let $r \in \{0, 1\}$ the real target values, considering
+    mislabelling. Therefore, we can find the label probabilities by weighting in the error
+    chance:
+    \begin{align*}
+        p(r = 1 | \mathbf{x}, \mathbf{w}) 
+        &= (1 - \epsilon)p(t = 1 | \mathbf{x}, \mathbf{w}) 
+        + \epsilon p(t = 0 | \mathbf{x}, \mathbf{w})
+        = (1 - \epsilon)y(\mathbf{x}_n, \mathbf{w}) 
+        + \epsilon \big(1 - y(\mathbf{x}_n, \mathbf{w})\big)
+    \end{align*}
+    \vspace{-2em}
+    \begin{align*}
+        p(r = 0 | \mathbf{x}, \mathbf{w}) 
+        &= (1 - \epsilon)p(t = 0 | \mathbf{x}, \mathbf{w}) 
+        + \epsilon p(t = 1 | \mathbf{x}, \mathbf{w})
+        = (1 - \epsilon)\big(1 - y(\mathbf{x}_n, \mathbf{w})\big) 
+        + \epsilon y(\mathbf{x}_n, \mathbf{w})
+    \end{align*}
+    We can combine both of these into
+    \begin{align*}
+        p(r | \mathbf{x}, \mathbf{w}) 
+        &= p(r = 1 | \mathbf{x}, \mathbf{w})^r p(r = 0 | \mathbf{x}, \mathbf{w})^{1 - r} \\
+        &= \big[(1 - \epsilon)y(\mathbf{x}_n, \mathbf{w}) + \epsilon \big(1 - y(\mathbf{x}_n, \mathbf{w})\big)\big]^r
+        \big[(1 - \epsilon)\big(1 - y(\mathbf{x}_n, \mathbf{w})\big) 
+        + \epsilon y(\mathbf{x}_n, \mathbf{w})\big]^{1 - r}
+    \end{align*}
+    Therefore, the negative log-likelihood is given by
+    \begin{align*}
+        - \ln p(\mathbf{r} | \mathbf{\mathbf{X}}, \mathbf{w})
+        = - \ln \prod_{i=1}^N p(r_n | \mathbf{x}_n, \mathbf{w})
+        = - \sum_{i=1}^{N} \{r_n \ln p(r_n = 1 | \mathbf{x}_n, \mathbf{w}) 
+            + (1 - r_n) \ln p(r_n = 0 | \mathbf{x}, \mathbf{w})\} 
+    \end{align*}
+    As a result, this is equivalent to minimizing the error function
+    \[
+        E(\mathbf{w}) = -\sum_{i=1}^{N} 
+        \big[r_n \ln\big\{(1 - \epsilon)y(\mathbf{x}_n, \mathbf{w}) 
+            + \epsilon\big(1 - y(\mathbf{x}_n, \mathbf{w})\big)\big\}
+            + (1 - r_n) \ln\big\{(1 - \epsilon)\big(1 - y(\mathbf{x}_n, \mathbf{w})\big)
+            + \epsilon y(\mathbf{x}_n, \mathbf{w})\big]
+    \] 
+    which for $\epsilon = 0$ is equivalent to (5.21).
 \end{proof}
