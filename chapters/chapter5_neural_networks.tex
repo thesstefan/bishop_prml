@@ -201,7 +201,7 @@ there is a probability $\epsiilon$ that the class label
 on a trainining data point has been incorrectly set.
 Assuming independent and identically distributed data,
 write down the error function corresponding to the negative
-log likelihood. Verify that the error function (5.21)
+log likelihood. Verify that the error function $\eqref{eq:5.21}$
 is obtained when $\epsilon = 0$. Note that this error function
 makes the model robust to incorrectly labelled data, in contrast
 to the usual error function.
@@ -252,7 +252,7 @@ to the usual error function.
             + (1 - r_n) \ln\big\{(1 - \epsilon)\big(1 - y(\mathbf{x}_n, \mathbf{w})\big)
             + \epsilon y(\mathbf{x}_n, \mathbf{w})\big]
     \] 
-    which for $\epsilon = 0$ is equivalent to (5.21).
+    which for $\epsilon = 0$ is equivalent to $\eqref{eq:5.21}$.
 \end{proof}
 
 \section*{Exercise 5.5 $\star$}
@@ -281,5 +281,35 @@ of the cross-entropy function \eqref{eq:5.24}.
     \begin{equation}\label{eq:5.24}\tag{5.24}
         E(\mathbf{w}) 
         = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln p(t_{nk} = 1 | \mathbf{x}_n) 
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 5.6 $\star$}
+Show the derivative of the error function (5.21) with respect
+to the activation $a_k$ for output units having a softmax activation
+function satisfies \eqref{eq:5.18}.
+
+\vspace{1em}
+
+\begin{proof}
+    The general result for the derivative of the softmax function with respect to the 
+    activation $a_k$ was proved in Exercise 4.17 and is given by $\eqref{eq:4.106}$.
+    Therefore, we have that
+    \[
+        \pdv{y_k}{a_k} = y_k(1 - y_k)
+    \] 
+    Taking the derivative of 
+    \begin{equation}\label{eq:5.21}\tag{5.21}
+        E(\mathbf{w}) = -\sum_{n=1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\}
+    \end{equation}
+    with respect to $a_k$ yields
+    \begin{align*}
+        \pdv{a_k} E(\mathbf{w}) &= -t_k \pdv{a_k} \ln y_k - (1 - t_k) \pdv{a_k} \ln(1 - y_k) 
+        = -t_k(1 - y_k) + y_k(1 - t_k)y_k 
+        = y_k - t_k
+    \end{align*}
+    As a result,
+    \begin{equation}\label{eq:5.18}\tag{5.18}
+        \pdv{E}{a_k} = y_k - t_k
     \end{equation}
 \end{proof}
