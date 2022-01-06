@@ -313,3 +313,26 @@ function satisfies \eqref{eq:5.18}.
         \pdv{E}{a_k} = y_k - t_k
     \end{equation}
 \end{proof}
+
+\section*{Exercise 5.7 $\star$}
+Show the derivative of the error function $\eqref{eq:5.21}$ with respect
+to the activation $a_k$ for an output unit having a logistic sigmoid activation
+function satisfies $\eqref{eq:5.18}$.
+
+\vspace{1em}
+
+\begin{proof}
+    We've seen in Exercise 4.12 that
+    \begin{equation}\tag{4.88}
+        \pdv{a} \sigma(a) = \sigma(a)(1 - \sigma(a)
+    \end{equation}
+    Since the output unit has a logistic sigmoid activation function, then
+    \[
+        y_k = \sigma(a_k)
+    \] 
+    Therefore, using $\eqref{eq:4.88}$ gives
+     \[
+         \pdv{y_k}{a_k} = \sigma(a_k)\big(1 - \sigma(a_k)\big) = y_k(1 - y_k)
+    \] 
+    Analogously to Exercise 5.6, one can quickly reach that $\eqref{eq:5.18}$ holds.
+\end{proof}
