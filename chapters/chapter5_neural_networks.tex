@@ -254,3 +254,32 @@ to the usual error function.
     \] 
     which for $\epsilon = 0$ is equivalent to (5.21).
 \end{proof}
+
+\section*{Exercise 5.5 $\star$}
+Show that maximizing likelihood for a multiclass neural network
+model in which the network outputs have the interpretation
+$y_k(\mathbf{x}, \mathbf{w}) = p(t_k = 1 | \mathbf{x})$ is equivalent to minimization
+of the cross-entropy function \eqref{eq:5.24}.
+
+\vspace{1em}
+
+\begin{proof}
+    Let's consider the binary target variables $t_k \in \{0, 1\}$ have a 1-of-$K$ 
+    coding scheme indicating the class. If we assume the class labels are independent, 
+    given the input vector, the conditional distribution of the targets is
+    \[
+        p(t_k | \mathbf{x}) = \prod_{k=1}^K p(t_k = 1 | \mathbf{x})^{t_k}
+    \] 
+    As a result, the corresponding negative log likelihood is given by
+    \[
+        -\ln p(\mathbf{T} | \mathbf{X}, \mathbf{w})
+        = -\ln \prod_{n=1}^N \prod_{k=1}^K p(t_{nk} = 1 | \mathbf{x}_n)^{t_{nk}}
+        = -\ln \sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln p(t_{nk} = 1 | \mathbf{x}_n) 
+    \]
+    Therefore, maximizing the likelihood of the model is equivalent to minimization
+    of the cross entropy function
+    \begin{equation}\label{eq:5.24}\tag{5.24}
+        E(\mathbf{w}) 
+        = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln p(t_{nk} = 1 | \mathbf{x}_n) 
+    \end{equation}
+\end{proof}
