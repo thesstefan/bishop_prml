@@ -336,3 +336,185 @@ function satisfies $\eqref{eq:5.18}$.
     \] 
     Analogously to Exercise 5.6, one can quickly reach that $\eqref{eq:5.18}$ holds.
 \end{proof}
+
+\section*{Exercise 5.8 $\star$}
+We saw in $\eqref{eq:4.88}$ that the derivative of the logistic sigmoid
+activation function can be expressed in terms of the function value itself.
+Derive the corresponding result for the '$\tanh$' activation function defined
+by (5.59).
+
+\vspace{1em}
+
+\begin{proof}
+    Taking the derivative of the '$\tanh$' function is straightforward:
+    \[
+        \pdv{a} \tanh(a) 
+        = \pdv{a} \bigg(\frac{e^a - e^{-a}}{e^a + e^{-a}}\bigg)
+        = \frac{\big(e^a + e^{-a}\big)^2 - \big(e^a - e^{-a}\big)^2}{\big(e^a + e^{-a}\big)^2}
+        = 1 - \bigg(\frac{e^a - e^{-a}}{e^a + e^{-a}}\bigg)^2
+        = 1 - \tanh(a)^2
+    \] 
+    Notice that the derivative of the `$\tanh$` function can also be expressed
+    as a function of itself.
+\end{proof}
+
+\section*{Exercise 5.9 $\star$}
+The error function $\eqref{eq:5.21}$ for binary classification problems
+was derived for a network having a logistic-sigmoid output activation
+function, so that $0 \leq y(\mathbf{x}, \mathbf{w}) \leq 1$, and data having
+target values $t \in \{0, 1\}$. Derive the corresponding error function
+if we consider a network having an output $-1 \leq y(\mathbf{x}, \mathbf{w}) \leq 1$
+and target values $t = 1$ for class $\mathcal{C}_1$ and $t = -1$ for
+class  $\mathcal{C}_2$. What would be the appropiate choice of output
+unit activation function?
+
+\vspace{1em}
+
+\begin{proof}
+    The hyperbolic tangent is the appropiate choice for the ouput unit
+    activation function, because `$\tanh$` is a sigmoid function and its
+    values range between $-1$ and $1$. Let's consider the case of binary 
+    classification in which we interpret the network output $y(\mathbf{x}, \mathbf{w})$
+    as the conditional probability $p(\mathcal{C}_1 | \mathbf{x})$, with
+    $p(\mathcal{C}_2 | \mathbf{x})$ given by $1 - y(\mathbf{x}, \mathbf{w})$. The
+    conditional distribution of targets given inputs is then of the form
+    \[
+        p(t | \mathbf{x}, \mathbf{w}) 
+        = y(\mathbf{x}, \mathbf{w})^{\frac{1+t}{2}} 
+        \big\{1 - y(\mathbf{x}, \mathbf{w})\big\}^{\frac{1-t}{2}}
+    \] 
+    Taking the negative log-likelihood then yields
+    \[
+        -\ln p(\mathbf{t} | \mathbf{X}, \mathbf{w})
+        = -\ln \prod_{n = 1}^N p(t_n | \mathbf{x}_n, \mathbf{w})
+        = -\sum_{n=1}^{N} \bigg\{\frac{1+t}{2} \ln y(\mathbf{x}, \mathbf{w}) 
+        + \frac{1-t}{2} \ln\big(1 - y(\mathbf{x}, \mathbf{w})\big)\bigg\}
+    \] 
+    As a result, maximizing the likelihood is equivalent to minimizing 
+    the error function
+    \[
+        E(\mathbf{w}) = -\sum_{n=1}^{N} \bigg\{\frac{1+t}{2} \ln y_n + \frac{1-t}{2} \ln(1 -  y_n)\bigg\}
+    \] 
+    where $y_n$ denotes $y(\mathbf{x}_n, \mathbf{w})$.
+\end{proof}
+
+\section*{Exercise 5.10 $\star$}
+Consider a Hessian matrix $\mathbf{H}$ with eigenvector equation $\eqref{eq:5.33}$. By
+setting the vector $\mathbf{v}$ in (5.39) equal to each of the eigenvectors
+$\mathbf{u}_i$ in turn, show that $\mathbf{H}$ is positive definite if,
+and only if, all of its eigenvalues are positive.
+
+\vspace{1em}
+
+\begin{proof}
+    Consider the eigenvector equation
+    \begin{equation}\label{eq:5.33}\tag{5.33}
+        \mathbf{H}\mathbf{u}_i = \lambda_i \mathbf{u}_i
+    \end{equation}
+    \begin{enumerate}
+        \item [\to] Assume that $\mathbf{H}$ is positive definite. Then,
+    \[
+        \mathbf{u}_i^T \mathbf{H} \mathbf{u}_i = \lambda_i ||\mathbf{u}_i||^2 > 0
+    \] 
+    which happens only if the eigenvalues $\lambda_i$ are positive.
+    \vspace{1em}
+    \item [\leftarrow] Suppose that the eigenvalues $\lambda_i$ are positive.
+        Since the eigenvectors form an orthonormal basis, an arbitrary
+        vector $\mathbf{v}$ can be written in the form
+        \begin{equation}\label{eq:5.38}\tag{5.38}
+            \mathbf{v} = \sum_{i} c_i \mathbf{u}_i 
+        \end{equation}
+        Therefore, 
+        \[
+            \mathbf{v}^T\mathbf{H}\mathbf{v}
+            = \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)^T \mathbf{H}
+            \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)
+            = \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)^T
+            \bigg(\sum_{i} c_i \lambda_i \mathbf{u}_i\bigg)
+            = \sum_{i} \sum_{j} \lambda_j c_i c_j \mathbf{u}_i^T \mathbf{u}_j
+            = \sum_{i} \lambda_i c_i^2
+        \] 
+        Since the eigenvalues $\lambda_i$ are positive,
+        \[
+            \mathbf{v}^T\mathbf{H}\mathbf{v} = \sum_{i} \lambda_i c_i^2 > 0
+        \] 
+        for all $\mathbf{v}$, which proves that $\mathbf{H}$ is positive definite.
+    \end{enumerate}
+\end{proof}
+
+\section*{Exercise 5.11 $\star \star ++++++++++++$}
+Consider a quadratic error function defined by $\eqref{eq:5.32}$, in which the
+Hessian matrix $\mathbf{H}$ has an eigenvalue equation given by $\eqref{eq:5.33}$.
+Show that the contours of constant error are ellipses whose axes are aligned
+with eigenvectors $\mathbf{u}_i$ with lengths that are inversly proportional
+to the square root of the corresponding eigenvalues $\lambda_i$.
+
+\vspace{1em}
+
+\begin{proof}
+    Analogously to what we've seen in Section 5.3.2, we're going
+    to rewrite 
+    \begin{equation}\label{eq:5.32}\tag{5.32}
+        E(\mathbf{w}) \approxeq E(\mathbf{w}^\star) + 
+        \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T\mathbf{H}(\mathbf{w} - \mathbf{w}^\star)
+    \end{equation}
+    as 
+    \begin{equation}\label{eq:5.36}\tag{5.36}
+        E(\mathbf{w}) \approxeq E(\mathbf{w}^\star) + \frac{1}{2} \sum_{i} \lambda_i \alpha_i^2 
+    \end{equation}
+    where we've expanded $(\mathbf{w} - \mathbf{w}^\star)$ as a linear combination
+    of $\mathbf{H}$'s eigenvectors:
+    \begin{equation}\label{eq:5.35}\tag{5.35}
+       \mathbf{w} - \mathbf{w}^\star = \sum_{i} \alpha_i \mathbf{u}_i  
+    \end{equation}
+    Now, since $\mathbf{w}$ and $\mathbf{w}^\star$ are fixed, let 
+    $\xi = 2E(\mathbf{w}) - 2E(\mathbf{w}^\star)$.
+    Therefore, one can rewrite $\eqref{eq:5.36}$ as
+     \[
+         \xi \approxeq \sum_{i} \lambda_i\alpha_i^2 
+        \sum_{i} \frac{\alpha_i^2}{\lambda_i^{-1/2}} 
+    \] 
+    This equation describes an ellipsoid with axes aligned to
+    the eigenvectors $\mathbf{u}_i$ (since we use the coordinate system
+    defined in $\eqref{eq:5.35}$) with axes lengths that are inversly
+    proportional to the square root of the corresponding eigenvalues
+    $\lambda_i$.
+\end{proof}
+
+\section*{Exercise 5.12 $\star \star +++++++++++++$}
+By considering the local Taylor expansion ($\ref{eq:5.32}$) of
+an error function about a stationary point $\mathbf{w}^\star$, show
+that the necessary and sufficient condition for the stationary point to be 
+a local minimum of the error function is that the Hessian matrix
+$\mathbf{H}$, defined by $\eqref{eq:5.30}$ with $\widehat{\mathbf{w}} = \mathbf{w}^\star$,
+be positive definite.
+
+\vspace{1em}
+
+\begin{proof}
+    $ $
+    \begin{enumerate}
+        \item [\to] Suppose that $\mathbf{H}$ is positive definite. From
+            $\eqref{eq:5.32}$ one could then find that
+             \[
+                 E(\mathbf{w}) - E(\mathbf{w}^\star) > 0
+            \] 
+            for $\mathbf{w} \neq  \mathbf{w}^\star$. Therefore, $E(\mathbf{w}^\star)$
+            would be the minimum value of E.
+        \vspace{1em}
+        \item [\leftarrow] Assume that $\mathbf{w}^\star$
+            is a local minimum of E. Then,
+            \[
+                E(\mathbf{w}) -E(\mathbf{w}^\star) > 0
+            \]
+            which would mean that 
+            \[
+                \frac{1}{2} (\mathbf{w} - \mathbf{w}^\star)^T \mathbf{H}
+                (\mathbf{w} - \mathbf{w}^\star) > 0
+            \] 
+            for $\mathbf{w} \neq \mathbf{w}^\star$, i.e.
+            $\mathbf{H}$ is positive definite, since
+            $\mathbf{w}$ respectively $\mathbf{w} - \mathbf{w}^\star$
+            can be chosen arbitrarily.
+    \end{enumerate}
+\end{proof}
