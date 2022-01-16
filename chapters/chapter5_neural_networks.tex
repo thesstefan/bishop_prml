@@ -425,15 +425,15 @@ and only if, all of its eigenvalues are positive.
             \mathbf{v} = \sum_{i} c_i \mathbf{u}_i 
         \end{equation}
         Therefore, 
-        \[
+        \begin{align*}
             \mathbf{v}^T\mathbf{H}\mathbf{v}
-            = \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)^T \mathbf{H}
+            &= \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)^T \mathbf{H}
             \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)
             = \bigg(\sum_{i} c_i \mathbf{u}_i\bigg)^T
-            \bigg(\sum_{i} c_i \lambda_i \mathbf{u}_i\bigg)
-            = \sum_{i} \sum_{j} \lambda_j c_i c_j \mathbf{u}_i^T \mathbf{u}_j
+            \bigg(\sum_{i} c_i \lambda_i \mathbf{u}_i\bigg) \\
+            &= \sum_{i} \sum_{j} \lambda_j c_i c_j \mathbf{u}_i^T \mathbf{u}_j
             = \sum_{i} \lambda_i c_i^2
-        \] 
+        \end{align*}
         Since the eigenvalues $\lambda_i$ are positive,
         \[
             \mathbf{v}^T\mathbf{H}\mathbf{v} = \sum_{i} \lambda_i c_i^2 > 0
@@ -442,7 +442,7 @@ and only if, all of its eigenvalues are positive.
     \end{enumerate}
 \end{proof}
 
-\section*{Exercise 5.11 $\star \star ++++++++++++$}
+\section*{Exercise 5.11 $\star \star$}
 Consider a quadratic error function defined by $\eqref{eq:5.32}$, in which the
 Hessian matrix $\mathbf{H}$ has an eigenvalue equation given by $\eqref{eq:5.33}$.
 Show that the contours of constant error are ellipses whose axes are aligned
@@ -455,12 +455,12 @@ to the square root of the corresponding eigenvalues $\lambda_i$.
     Analogously to what we've seen in Section 5.3.2, we're going
     to rewrite 
     \begin{equation}\label{eq:5.32}\tag{5.32}
-        E(\mathbf{w}) \approxeq E(\mathbf{w}^\star) + 
+        E(\mathbf{w}) \simeq E(\mathbf{w}^\star) + 
         \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T\mathbf{H}(\mathbf{w} - \mathbf{w}^\star)
     \end{equation}
     as 
     \begin{equation}\label{eq:5.36}\tag{5.36}
-        E(\mathbf{w}) \approxeq E(\mathbf{w}^\star) + \frac{1}{2} \sum_{i} \lambda_i \alpha_i^2 
+        E(\mathbf{w}) \simeq E(\mathbf{w}^\star) + \frac{1}{2} \sum_{i} \lambda_i \alpha_i^2 
     \end{equation}
     where we've expanded $(\mathbf{w} - \mathbf{w}^\star)$ as a linear combination
     of $\mathbf{H}$'s eigenvectors:
@@ -471,22 +471,32 @@ to the square root of the corresponding eigenvalues $\lambda_i$.
     $\xi = 2E(\mathbf{w}) - 2E(\mathbf{w}^\star)$.
     Therefore, one can rewrite $\eqref{eq:5.36}$ as
      \[
-         \xi \approxeq \sum_{i} \lambda_i\alpha_i^2 
-        \sum_{i} \frac{\alpha_i^2}{\lambda_i^{-1/2}} 
+         \xi \simeq \sum_{i} \lambda_i\alpha_i^2 
+         = \sum_{i} \bigg(\frac{\alpha_i}{\lambda_i^{-1/2}} \bigg)^2
     \] 
-    This equation describes an ellipsoid with axes aligned to
-    the eigenvectors $\mathbf{u}_i$ (since we use the coordinate system
-    defined in $\eqref{eq:5.35}$) with axes lengths that are inversly
-    proportional to the square root of the corresponding eigenvalues
-    $\lambda_i$.
+    This equation describes an $N$-dimensional ellipsoid. Since
+    the coordinates $\alpha_i$ that define it are using the orthonormal
+    basis formed by $\{\mathbf{u}_i\}$, its axis are aligned with
+    the eigenvectors $\mathbf{u}_i$. The axis length of an
+    ellipse can be obtained by taking $\alpha_i = 0$, for
+    $i \neq j$ such that
+     \[
+         \xi \simeq \bigg(\frac{\alpha_j}{\lambda_j^{-1/2}}\bigg)^2
+    \] 
+    and respectively
+    \[
+        \alpha_j \simeq \bigg(\frac{\xi}{\lambda_j}\bigg)^{1/2}
+    \] 
+    Therefore, the lenghts of the ellipses are inversly proportional
+    to the square root of the corresponding eigenvalues $\lambda_i$.
 \end{proof}
 
-\section*{Exercise 5.12 $\star \star +++++++++++++$}
+\section*{Exercise 5.12 $\star \star$}
 By considering the local Taylor expansion ($\ref{eq:5.32}$) of
 an error function about a stationary point $\mathbf{w}^\star$, show
 that the necessary and sufficient condition for the stationary point to be 
 a local minimum of the error function is that the Hessian matrix
-$\mathbf{H}$, defined by $\eqref{eq:5.30}$ with $\widehat{\mathbf{w}} = \mathbf{w}^\star$,
+$\mathbf{H}$, defined by $(5.30)$ with $\widehat{\mathbf{w}} = \mathbf{w}^\star$,
 be positive definite.
 
 \vspace{1em}
@@ -517,4 +527,66 @@ be positive definite.
             $\mathbf{w}$ respectively $\mathbf{w} - \mathbf{w}^\star$
             can be chosen arbitrarily.
     \end{enumerate}
+\end{proof}
+
+\section*{Exercise 5.13 $\star$}
+Show that as a consequence of the symmetry of the Hessian matrix $\mathbf{H}$,
+the number of independent elements in the quadratic error function $\eqref{eq:5.28}$ 
+is given by $W(W + 3)/2$.
+
+\vspace{1em}
+
+\begin{proof}
+    The independent elements in the
+    \begin{equation}\label{eq:5.28}\tag{5.28}
+        E(\mathbf{w}) \simeq E(\mathbf{\widehat{w}}) + 
+        (\mathbf{w} - \widehat{\mathbf{w}})^T\mathbf{b}
+        + \frac{1}{2}(\mathbf{w} - \mathbf{\widehat{w}})^T \mathbf{H} (\mathbf{w} - \mathbf{\widehat{w}})
+    \end{equation}
+    are given by the terms containing $\mathbf{b}$ and $\mathbf{H}$.
+    Since $\mathbf{b}$ has $W$ elements and $\mathbf{H}$ is a symmetric matrix
+    with $W(W + 1) / 2$ independent elements (see Exercise 2.21), one has a total of
+    $$W + \frac{W(W + 1)}{2} = \frac{W(W + 3)}{2}$$ independent elements,
+    where $W$ is the dimensionality of $\mathbf{w}$.
+\end{proof}
+
+\section*{Exercise 5.14 $\star$}
+By making a Taylor expansion, verify that the terms that are $O(\epsilon)$ 
+cancel on the right-hand side of $\eqref{eq:5.69}$.
+
+\vspace{1em}
+
+\begin{proof}
+    Taking the Taylor expansion around $w_{ji}$ of the terms on the right hand side of
+    \begin{equation}\label{eq:5.69}\tag{5.69}
+        \pdv{E_n}{w_{ji}} = \frac{E_n(w_{ji} + \epsilon) - E_n(w_{ji} - \epsilon)}{2\epsilon}
+        + O(\epsilon^2)
+    \end{equation}
+    yields
+    \[
+        E_n(w_{ji} + \epsilon) \simeq E_n(w_{ji}) + \epsilon E_n'(w_{ji}) 
+        + \frac{\epsilon^2}{2} E_n''(w_{ji}) + O(\epsilon^3)
+    \] 
+    \[
+        E_n(w_{ji} - \epsilon) \simeq E_n(w_{ji}) - \epsilon E_n'(w_{ji}) 
+        + \frac{\epsilon^2}{2} E_n''(w_{ji}) + O(\epsilon^3)
+    \] 
+    Substituting these results into $\eqref{eq:5.69}$ cancels
+    the $O(\epsilon)$ terms and gives
+
+    \[
+        \pdv{E_n}{w_{ji}} \simeq E_n'(w_{ji}) + O(\epsilon^2)
+    \] 
+\end{proof}
+
+\section*{Exercise 5.15 $\star$}
+In Section 5.4.4, we derived a procedure for evaluation the Jacobian
+matrix of a neural network using a backpropagation procedure.
+Derive an alternative formalism for finding the Jacobian based on 
+$\emph{forward propagation}$ equations.
+
+\vspace{1em}
+
+\begin{proof}
+    
 \end{proof}
