@@ -647,7 +647,9 @@ multiple outputs.
     \[
         \mathbf{H} \simeq \sum_{n=1}^{N} \nabla \mathbf{y}_n \nabla \mathbf{y}_n^T
     \] 
-    which is analogous to $(5.84)$ for the multiple output case.
+    which is analogous to $(5.84)$ for $\mathbf{b}_n = \nabla \mathbf{y_n}$
+    in the multiple output case.
+    Note that, for simplicity all the $\nabla$ symbols refer to $\nabla_\mathbf{w}$ 
 \end{proof}
 
 \section*{Exercise 5.17 $\star$}
@@ -742,17 +744,17 @@ sum-of-squares error function.
     \] 
     From $\eqref{eq:4.88}$ one has that
     \[
-        \nabla_\mathbf{w} y_n
-        = \sigma(a_n)[1 - \sigma(a_n)]\nabla_\mathbf{w} a_n
-        = y_n(1 - y_n) \nabla_\mathbf{w} a_n
+        \nabla y_n
+        = \sigma(a_n)[1 - \sigma(a_n)]\nabla a_n
+        = y_n(1 - y_n) \nabla a_n
     \] 
     Using the chain rule of differential calculus,
     \begin{align*}
         \mathbf{H} 
-        = \nabla_\mathbf{w} \nabla_\mathbf{w} E(\mathbf{w})
-        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \pdv{a_n}{\mathbf{w}}
-        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \nabla_\mathbf{w} a_n
-        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \nabla_\mathbf{w} a_n
+        = \nabla \nabla E(\mathbf{w})
+        = \nabla \sum_{n=1}^{N} \pdv{E}{a_n} \pdv{a_n}{\mathbf{w}}
+        = \nabla \sum_{n=1}^{N} \pdv{E}{a_n} \nabla a_n
+        = \nabla \sum_{n=1}^{N} \pdv{E}{a_n} \nabla a_n
     \end{align*}
     Computing the derivative term is straightforward:
     \[
@@ -766,15 +768,16 @@ sum-of-squares error function.
     Substituting this into the initial expression gives
     \begin{align*}
         \mathbf{H} 
-        = \nabla_\mathbf{w}  \sum_{n=1}^{N} (y_n - t_n) \nabla_\mathbf{w} a_n
-        = \sum_{n=1}^{N} \big\{\nabla_\mathbf{w} y_n \nabla_\mathbf{w} a_n + 
-        (y_n - t_n) \nabla_\mathbf{w} \nabla_\mathbf{w} a_n\big\}
+        = \nabla  \sum_{n=1}^{N} (y_n - t_n) \nabla a_n
+        = \sum_{n=1}^{N} \big\{\nabla y_n \nabla a_n^T + 
+        (y_n - t_n) \nabla \nabla a_n\big\}
     \end{align*}
     The second term inside the sum contains the term ($y_n - t_n$), so
     we can neglect it as seen in Section 5.4.2 and arrive at the $\emph{outer 
-    approximation}$ for the Hessian matrix by expanding $\nabla_\mathbf{w} y_n$:
+    approximation}$ for the Hessian matrix by expanding $\nabla y_n$:
     \[
-    \mathbf{H} = \sum_{n=1}^{N} y_n(1 - y_n) \nabla_\mathbf{w} a_n \nabla_\mathbf{w} a_n
+    \mathbf{H} = \sum_{n=1}^{N} y_n(1 - y_n) \nabla a_n \nabla a_n^T
     \] 
-    which is equivalent to $(5.85)$ for $\mathbf{b}_n = \nabla_\mathbf{w} a_n$.
+    which is equivalent to $(5.85)$ for $\mathbf{b}_n = \nabla a_n$.
+    Note that, for simplicity all the $\nabla$ symbols refer to $\nabla_\mathbf{w}$ 
 \end{proof}
