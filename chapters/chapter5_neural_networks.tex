@@ -579,8 +579,8 @@ cancel on the right-hand side of $\eqref{eq:5.69}$.
     \] 
 \end{proof}
 
-\section*{Exercise 5.15 $\star$}
-In Section 5.4.4, we derived a procedure for evaluation the Jacobian
+\section*{Exercise 5.15 $\star \star$}
+In Section 5.3.4, we derived a procedure for evaluation the Jacobian
 matrix of a neural network using a backpropagation procedure.
 Derive an alternative formalism for finding the Jacobian based on 
 $\emph{forward propagation}$ equations.
@@ -588,5 +588,193 @@ $\emph{forward propagation}$ equations.
 \vspace{1em}
 
 \begin{proof}
-    
+    The Jacobian can be obtained by using the $\emph{forward propagation}$ technique.
+    This is similar to what we've seen in Section 5.3.4, but this time the computations
+    will start from the output end of the network. We have that
+    \[
+        J_{ki} = \pdv{y_k}{x_i} = \pdv{y_k}{a_k} \pdv{a_k}{x_i}
+    \] 
+    Summing over the $j$ hidden units that have links to $k$ units yields
+    \[
+        \pdv{a_k}{x_i} = \sum_{j} \pdv{a_k}{a_j} \pdv{a_j}{x_i}
+    \] 
+    From (5.48), it's obvious that
+    \[
+        \pdv{a_j}{x_i} = w_{ji}
+    \] 
+    As a result,
+    \[
+        J_{ki} = \pdv{y_k}{a_k} \sum_{j} \pdv{a_k}{a_j} w_{ji}
+        = \pdv{y_k}{a_k} \sum_{j} \pdv{a_k}{z_j} \pdv{z_j}{a_j} w_{ji}
+        = \pdv{y_k}{a_k} \sum_{j} \pdv{z_j}{a_j} w_{kj} w_{ji}
+    \] 
+    Suppose that $h$ is the activation function for the ouput layer,
+    respectively $g$ for the hidden layer. Then,
+    \[
+        J_{ki} = h'(a_k) \sum_{j} g'(a_j) w_{kj} w_{ji}
+    \] 
+    Since the main steps are computing $a_j$ and $a_k$ (in this order), the
+    process of evaluating the Jacobian can be tought of as a 
+    forward propagation process.
+\end{proof}
+
+\section*{Exercise 5.16 $\star$}
+The outer product approximation to the Hessian matrix for
+a neural network using a sum-of-squares error function is given
+by  $(5.84)$. Extend this result to the case of 
+multiple outputs.
+
+\vspace{1em}
+
+\begin{proof}
+    The sum-of-square error function for multiple outputs is given by
+    \[
+        E = \frac{1}{2} \sum_{n=1}^n ||\mathbf{y}_n - \mathbf{t}_n||^2
+    \] 
+    Similarly to Section 5.4.2, our goal is to obtain the outer product
+    approximation for the Hessian matrix of the error. Hence,
+    computing the Hessian yields:
+    \begin{align*}
+        \mathbf{H} 
+        &= \nabla \nabla E
+        = \nabla\bigg(\frac{1}{2} \sum_{n=1}^{N} \nabla ||\mathbf{y}_n - \mathbf{t}_n||^2\bigg)
+        = \nabla \bigg(\sum_{n=1}^{N} (\mathbf{y}_n - \mathbf{t}_n)^T \nabla \mathbf{y}_n\bigg) \\
+        &= \sum_{n=1}^{N} \nabla \mathbf{y}_n \nabla \mathbf{y}_n^T
+        + \sum_{n=1}^{N} (\mathbf{y}_n - \mathbf{t}_n)^T \nabla \nabla \mathbf{y}_n
+    \end{align*}
+    Neglecting the second term yields the outer product approximation
+    for the Hessian matrix:
+    \[
+        \mathbf{H} \simeq \sum_{n=1}^{N} \nabla \mathbf{y}_n \nabla \mathbf{y}_n^T
+    \] 
+    which is analogous to $(5.84)$ for the multiple output case.
+\end{proof}
+
+\section*{Exercise 5.17 $\star$}
+Consider a squared loss function of the form
+\begin{equation}\label{eq:5.193}\tag{5.193}
+    E = \frac{1}{2} \iint \{y(\mathbf{x}, \mathbf{w}) - t\}^2 p(\mathbf{x}, t) \diff \mathbf{x} \diff t
+\end{equation}
+where $y(\mathbf{x}, \mathbf{w})$ is a parametric function such as a neural
+network. The result (1.89) shows that the function $y(\mathbf{x}, \mathbf{w})$
+that minimizes this error is given by the conditional
+expectation of $t$ given $\mathbf{x}$. Use this result to show
+that the second derivative of $E$ with respect to two elements
+$w_r$ and $w_s$ of the vector $\mathbf{w}$, is given by
+\begin{equation}\label{eq:5.194}\tag{5.194}
+    \pdv{E}{w_r}{w_s} = \int \pdv{y}{w_r} \pdv{y}{w_s} p(\mathbf{x}) \diff \mathbf{x}
+\end{equation}
+Note that, for a finite sample form $p(\mathbf{x})$, we obtain
+(5.84).
+
+\vspace{1em}
+
+\begin{proof}
+    To simplify the notation, we'll denote $y(\mathbf{x}, \mathbf{w})$ as $y$.
+    Taking the second derivative of $E$ yields
+    \begin{align*}
+         \pdv{E}{w_s}{w_r}
+         &= \pdv{}{w_s}{w_r} \bigg(\frac{1}{2} \iint \{y - t\}^2 p(\mathbf{x}, t) \diff \mathbf{x} \diff t\bigg) \\
+         &= \frac{1}{2} \pdv{w_s} \iint 2(y - t) \pdv{y}{w_r} p(\mathbf{x}, t) \diff \mathbf{x} \diff t \\
+         &= \iint \pdv{y}{w_s} \pdv{y}{w_r} p(\mathbf{x}, t) \diff \mathbf{x} \diff t + 
+         \iint (y - t)\pdv{y}{w_s}{w_r} p(\mathbf{x}, t) \diff \mathbf{x} \diff t
+    \end{align*}
+    Using (1.89), i.e. that $y = \mathbb{E}_t[t | \mathbf{x}]$
+    minimizes the error, proves that the second integral term is null:
+    \begin{align*}
+         \iint (y - t)\pdv{y}{w_s}{w_r} p(\mathbf{x}, t) \diff \mathbf{x} \diff t
+         &= \int y p(\mathbf{x}) \pdv{y}{w_s}{w_r} \diff \mathbf{x}
+         - \int \bigg(\int t p(t | x) \diff t\bigg) p(\mathbf{x}) \pdv{y}{w_s}{w_r} \diff \mathbf{x} \\
+         &= \int (y - \mathbb{E}_t[t | \mathbf{x}]) p(\mathbf{x}) \pdv{y}{w_s}{w_r} \diff \mathbf{x} \\
+         &= 0
+    \end{align*}
+    As a result, the second derivative can be written as
+    \begin{equation*} \tag{5.194}
+        \pdv{E}{w_s}{w_r}
+        = \iint \pdv{y}{w_s} \pdv{y}{w_r} p(\mathbf{x}) p(t | \mathbf{x}) \diff \mathbf{x} \diff t
+        = \int  \pdv{y}{w_s} \pdv{y}{w_r} p(\mathbf{x}) \diff \mathbf{x}
+    \end{equation*}
+\end{proof}
+
+\section*{Exercise 5.18 $\star$}
+Consider a two-layer network of the form shown in Figure 5.1 with the addition
+of extra parameters corresponding to skip-layer connections
+that go directly from inputs to the outputs. By extending the discussion of Section 5.3.2,
+write down the equations for the derivatives of the error function with respect
+to these additional parameters.
+
+\vspace{1em}
+
+\begin{proof}
+    Let the weight corresponding to the skip-layer connections be denoted by $w_{ki}^{(s)}$. 
+    The outputs will gain an extra sum corresponding to those connections:
+    \[
+        y_k = \sum_{j} w_{kj}^{(2)} z_j + \sum_{i} w_{ki}^{(s)} x_i
+    \] 
+    Since $\delta_k$'s functional form remains unchanged, the derivatives
+    with respect to the first-layer and second-layer weights remain the same as
+    before, i.e. (5.67). The derivative with respect to the skip-layer is now given by
+    \[
+        \pdv{E_n}{w_{ki}^{(s)}} = \pdv{E_n}{a_k} \pdv{a_k}{w_{ki}^{(s)}}
+        = \delta_k x_i
+    \] 
+    the same as the one of the second-layer.
+\end{proof}
+
+\section*{Exercise 5.19 $\star$}
+Derive the expression (5.85) for the outer product approximation
+to the Hessian matrix for a network having a single output
+with a logistic sigmoid output-unit activation function and a cross-entropy
+error function, corresponding to the result (5.84) for the
+sum-of-squares error function.
+
+\vspace{1em}
+
+\begin{proof}
+    For simplicity, let $y_n$ denote $y(\mathbf{x}_n, \mathbf{w)}$.
+    Consider a network with the cross-entropy error function
+    \begin{equation}\label{eq:5.21}\tag{5.21}
+        E(\mathbf{w}) = -\sum_{n=1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\}
+    \end{equation}
+    and a single output with activation
+    \[
+        y_n = \sigma(a_n)
+    \] 
+    From $\eqref{eq:4.88}$ one has that
+    \[
+        \nabla_\mathbf{w} y_n
+        = \sigma(a_n)[1 - \sigma(a_n)]\nabla_\mathbf{w} a_n
+        = y_n(1 - y_n) \nabla_\mathbf{w} a_n
+    \] 
+    Using the chain rule of differential calculus,
+    \begin{align*}
+        \mathbf{H} 
+        = \nabla_\mathbf{w} \nabla_\mathbf{w} E(\mathbf{w})
+        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \pdv{a_n}{\mathbf{w}}
+        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \nabla_\mathbf{w} a_n
+        = \nabla_\mathbf{w} \sum_{n=1}^{N} \pdv{E}{a_n} \nabla_\mathbf{w} a_n
+    \end{align*}
+    Computing the derivative term is straightforward:
+    \[
+        \pdv{E}{a_n} 
+        = -\bigg\{\frac{t_n}{y_n} \pdv{y_n}{a_n}
+        -\frac{1 - t_n}{1 - y_n} \pdv{y_n}{a_n} \bigg\}
+        = \frac{y_n(1 - t_n) - t_n(1 - y_n)}{y_n(1 - y_n)} 
+        \pdv{y_n}{a_n}
+        = y_n - t_n
+    \] 
+    Substituting this into the initial expression gives
+    \begin{align*}
+        \mathbf{H} 
+        = \nabla_\mathbf{w}  \sum_{n=1}^{N} (y_n - t_n) \nabla_\mathbf{w} a_n
+        = \sum_{n=1}^{N} \big\{\nabla_\mathbf{w} y_n \nabla_\mathbf{w} a_n + 
+        (y_n - t_n) \nabla_\mathbf{w} \nabla_\mathbf{w} a_n\big\}
+    \end{align*}
+    The second term inside the sum contains the term ($y_n - t_n$), so
+    we can neglect it as seen in Section 5.4.2 and arrive at the $\emph{outer 
+    approximation}$ for the Hessian matrix by expanding $\nabla_\mathbf{w} y_n$:
+    \[
+    \mathbf{H} = \sum_{n=1}^{N} y_n(1 - y_n) \nabla_\mathbf{w} a_n \nabla_\mathbf{w} a_n
+    \] 
+    which is equivalent to $(5.85)$ for $\mathbf{b}_n = \nabla_\mathbf{w} a_n$.
 \end{proof}
