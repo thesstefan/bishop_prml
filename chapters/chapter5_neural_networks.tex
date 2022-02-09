@@ -776,7 +776,7 @@ sum-of-squares error function.
     we can neglect it as seen in Section 5.4.2 and arrive at the $\emph{outer 
     approximation}$ for the Hessian matrix by expanding $\nabla y_n$:
     \[
-    \mathbf{H} = \sum_{n=1}^{N} y_n(1 - y_n) \nabla a_n \nabla a_n^T
+    \mathbf{H} \simeq \sum_{n=1}^{N} y_n(1 - y_n) \nabla a_n \nabla a_n^T
     \] 
     which is equivalent to $(5.85)$ for $\mathbf{b}_n = \nabla a_n$.
     Note that, for simplicity all the $\nabla$ symbols refer to $\nabla_\mathbf{w}$ 
@@ -793,5 +793,67 @@ function.
 
 \begin{proof}
     We'll take a similar approach to the previous exercises. For simplicity,
-    let $y_{nk}$ denote $y_{k}(\mathbf{x}_n, \mathbf{w}_k)$
+    let $y_{nk}$ denote $y_{k}(\mathbf{x}_n, \mathbf{w}_k)$. 
+    Consider a network with the cross-entropy error function
+    \[
+        E(\mathbf{w}) = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln y_{nk}  
+    \] 
+    and $K$ outputs with the softmax activation function
+     \[
+         y_{nk} = \frac{\exp{a_{nk}}}{\sum_{j=1}^{K} \exp{a_{nj}}} 
+    \] 
+    Note that both $\mathbf{y}_n$ and $\mathbf{a}_n$ are vectors 
+    of size $1 \times K$. Using the chain rule of calculus yields
+    \[
+        \mathbf{H} 
+        = \nabla \nabla E(\mathbf{w})
+        = \nabla \sum_{n=1}^{N} \pdv{E}{\mathbf{a}_n} \pdv{\mathbf{a}_n}{\mathbf{w}}
+        = \nabla \sum_{n=1}^{N} \pdv{E}{\mathbf{a_n}} \nabla \mathbf{a}_n 
+    \] 
+    Now, the derivative term will be of size $1 \times K$. The value of the $i$-th element
+    will be given by
+    \begin{align*}
+        \bigg(\pdv{E}{\mathbf{a}_n}\bigg)_i
+        = \pdv{E}{a_{ni}}
+        = -\sum_{k=1}^{K} t_{nk} \pdv{\ln y_{nk}}{a_{ni}}
+        = -\sum_{k=1}^{K} \frac{t_{nk}}{y_{nk}} \pdv{y_{nk}}{a_{ni}}
+    \end{align*}
+    From Exercise 4.17, respectively $\eqref{eq:4.106}$, we have that
+     \[
+         \pdv{y_{nk}}{a_{ni}} = y_{nk}(\delta_{ik} - y_{ni})
+    \] 
+    Therefore,
+    \[
+        \bigg(\pdv{E}{\mathbf{a}_n}\bigg)_i
+        = -\sum_{k=1}^{K} \frac{t_{nk}}{y_{nk}} y_{nk} (\delta_{ik} - y_{ni})
+        = -\sum_{k=1}^{K} t_{nk} (\delta_{ik} - y_{ni})
+        = y_{ni} \sum_{k=1}^{K} t_{nk} - t_{ni}
+        = y_{ni} - t_{ni}
+    \] 
+    Hence, it's obvious that
+    \[
+        \pdv{E}{\mathbf{a}_n} = \mathbf{y}_n - \mathbf{t}_n
+    \] 
+    Substituting this back into the Hessian,
+    \begin{align*}
+        \mathbf{H} 
+        = \nabla \sum_{n=1}^{N} \big(\mathbf{y}_n - \mathbf{t}_n\big) \nabla \mathbf{a}_n
+        = \sum_{n=1}^{N} \big\{\nabla \mathbf{y}_n \nabla \mathbf{a}_n 
+            + (\mathbf{y}_n - \mathbf{t}_n) \nabla \nabla \mathbf{a}_n\}
+    \end{align*}
+    As before, the second term inside the sum contains the term $(\mathbf{y}_n - \mathbf{t}_n)$,
+    so we can neglect it similarly to what we do in the previous exercises or Section 5.4.2. By ignoring
+    the term, one arrives at the $\emph{outer approximation}$ of the Hessian matrix:
+    \[
+        \mathbf{H} \simeq 
+        \sum_{n=1}^{N} \nabla \mathbf{y}_n \nabla \mathbf{a}_n
+        = \sum_{n=1}^{N} \pdv{\mathbf{y}_n}{\mathbf{a}_n} \nabla \mathbf{a}_n \nabla \mathbf{a}_n
+    \] 
+    where the derivative term is a $K \times K$ matrix with the elements
+    \[
+        \bigg(\pdv{\mathbf{y}_n}{\mathbf{a}_n}\bigg)_{ij}
+        = \pdv{y_{ni}}{a_{nj}}
+        = y_{ni} (\delta_{ij} - y_{ni})
+    \] 
+    Note that for notation simplicity, all $\nabla$ symbols refer to $\nabla_\mathbf{w}$.
 \end{proof}
