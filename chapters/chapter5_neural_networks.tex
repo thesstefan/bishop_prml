@@ -950,3 +950,68 @@ the chain rule of calculus.
         \end{align*}
     \end{enumerate}
 \end{proof}
+
+\section*{Exercise 5.23 $\star \star$}
+Extend the results of Section 5.4.5 for the exact Hessian of two-layer network
+to include skip-layer connections that go directly from input to outputs.
+
+\vspace{1em}
+
+\begin{proof}
+    Let's denote the skip layer by the $(s)$ superscript. One has 3 cases for
+    the weight combinations that include skip weights:
+    \begin{enumerate}
+        \item The non-skip activation is in the second layer:
+            \begin{align*}
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{k'j}^{(2)}}
+                &= \pdv{w_{ki}^{(s)}} \bigg(\pdv{E_n}{w_{k'j}^{(2)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}}\bigg(\pdv{E_n}{a_{k'}} \pdv{a_{k'}}{w_{k'j}^{(2)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}}\big(\delta_{k'} z_j\big) \\
+                &= z_j \pdv{\delta_{k'}}{w_{ki}^{(s)}}
+            \end{align*}
+            Computing the derivative term separately yields
+            \begin{align*}
+                \pdv{\delta_{k'}}{w_{ki}^{(s)}}
+                = \pdv{\delta_{k'}}{a_k} \pdv{a_k}{w_{ki}^{(s)}}
+                = \pdv{E_n}{a_k}{a_{k'}} x_i
+                = M_{kk'} x_i
+            \end{align*}
+            Hence,
+            \begin{align*}
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{k'j}^{(2)}}
+                = x_i z_j M_{kk'}
+            \end{align*}
+        \item The non-skip activation is in the first layer:
+            \begin{align*}
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{ji'}^{(1)}}
+                &= \pdv{w_{ki}^{(s)}} \bigg(\pdv{E_n}{w_{ji'}^{(1)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}} \bigg(\pdv{E_n}{a_j} \pdv{a_j}{w_{ji'}^{(1)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}} \big(x_{i'} \delta_{j}\big) \\
+                &= x_{i'} \pdv{\delta_j}{w_{ki}^{(s)}} 
+            \end{align*}
+            Using the back-propagation formula $(5.56)$ gives
+            \begin{align*}
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{ji'}^{(1)}}
+                &= x_{i'} \pdv{\delta_j}{w_{ki}^{(s)}}\bigg(h'(a_j) \sum_{k'} w_{k'j}^{(2)} \delta_{k'}\bigg)  \\
+                &= x_{i'} h'(a_j) \sum_{k'} w_{k'j}^{(2)} \pdv{\delta_{k'}}{w_{ki}^{(s)}} 
+            \end{align*}
+            We've already computed the derivative term in the last case. Therefore,
+            \[
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{ji'}^{(1)}}
+                = x_i x_{i'} h'(a_j) \sum_{k'} w_{k' j}^{(2)} M_{kk'}
+            \] 
+        \item Both weights are skip weights:
+            \begin{align*}
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{k'i'}^{(s)}}
+                &= \pdv{w_{ki}^{(s)}} \bigg(\pdv{E_n}{w_{k'i'}^{(s)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}} \bigg(\pdv{E_n}{a_{k'}} \pdv{a_{k'}}{w_{k'i'}^{(s)}}\bigg) \\
+                &= \pdv{w_{ki}^{(s)}} \big(\delta_{k'} x_{i'}\big) \\
+                &= x_{i'} \pdv{\delta_{k'}}{w_{ki}^{(s)}} 
+            \end{align*}
+            We've already computed the derivative term in the first case. As a result,
+            \[
+                \pdv{E_n}{w_{ki}^{(s)}}{w_{k'i'}^{(s)}}
+                = x_{i} x_{i'} M_{kk'}
+            \] 
+    \end{enumerate}
+\end{proof}
