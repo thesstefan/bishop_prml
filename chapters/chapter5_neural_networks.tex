@@ -857,3 +857,96 @@ function.
     \] 
     Note that for notation simplicity, all $\nabla$ symbols refer to $\nabla_\mathbf{w}$.
 \end{proof}
+
+\section*{Exercise 5.21 $\star \star \star$ TODO}
+Extend the expression (5.86) for the outer product approximation
+of the Hessian matrix to the case of $K > 1$ output units. Hence,
+derive a recursive expression analogous to (5.87) for incrementing
+the number $N$ of patterns and a similar expression for incrementing
+the number $K$ of outputs. Use these results, together with the identity
+(5.88), to find sequential update expressions analogous to (5.89) for
+finding the inverse of the Hessian by incrementally including both extra patterns
+and extra outputs.
+\vspace{1em}
+
+\begin{proof}
+    
+\end{proof}
+
+\section*{Exercise 5.22 $\star \star$}
+Derive the results $\eqref{eq:5.93}$, $\eqref{eq:5.94}$, and $\eqref{eq:5.95}$ for
+the elements of the Hessian matrix of a two-layer feed-forward network by application of
+the chain rule of calculus.
+
+\vspace{1em}
+
+\begin{proof}
+    As seen in Section 5.4.5, we consider the three separate blocks of the Hessian:
+    \begin{enumerate}
+        \item Both weights are in the second layer:
+            \begin{align*}
+                \pdv{E_n}{w_{kj}^{(2)}}{w_{k'j'}^{(2)}} 
+                &= \pdv{w_{kj}^{(2)}} \bigg(\pdv{E_n}{w_{k'j'}^{(2)}}\bigg) \\
+                &= \pdv{w_{kj}^{(2)}} \bigg(\pdv{E_n}{a_{k'}} \pdv{a_{k'}}{w_{k'j'}^{(2)}}\bigg) \\
+                &= \pdv{w_{kj}^{(2)}} \bigg(\pdv{E_n}{a_{k'}} z_{j'}\bigg) \\
+                &= z_{j'} \pdv{a_{k'}} \bigg(\pdv{E_n}{a_k} \pdv{a_k}{w_{kj}^{(2)}}\bigg) \\
+                &= z_{j}z_{j'} \pdv{E_n}{a_k}{a_{k'}} \\
+                &= z_j z_{j'} M_{kk'} \label{eq:5.93}\tag{5.93}
+            \end{align*}
+        \item Both weights are in the first layer:
+            \begin{align*}
+                \pdv{E_n}{w_{ji}^{(1)}}{w_{j'i'}^{(1)}}
+                &= \pdv{w_{ji}^{(1)}} \bigg(\pdv{E_n}{w_{j'i'}^{(1)}}\bigg) \\
+                &= \pdv{w_{ji}^{(1)}} \bigg(\pdv{E_n}{a_{j'}} \pdv{a_{j'}}{w_{j'i'}^{(1)}}\bigg) \\
+                &= \pdv{w_{ji}^{(1)}} \big(x_{i'} \delta_{j'}\big)
+            \end{align*}
+        Using the backpropagation formula $(5.56)$, we have that
+        \begin{align*}
+                \pdv{E_n}{w_{ji}^{(1)}}{w_{j'i'}^{(1)}}
+                &= \pdv{w_{ji}^{(1)}} \bigg(x_{i'} h'(a_{j'}) \sum_{k} w_{kj'}^{(2)} \delta_k\bigg) \\
+                &= x_{i'} \pdv{w_{ji}^{(1)}} \big(h'(a_{j'})\big)\sum_{k} \big(w_{kj'}^{(2)} \delta_k\big) +
+                    x_{i'} h'(a_{j'}) \sum_{k} w_{kj'}^{(2)} \pdv{\delta_k}{w_{ji}^{(1)}}
+        \end{align*}
+        For $j \neq j'$ the derivative in the first term is null. As a result, the first term
+        can be written as
+        \begin{align*}
+            x_{i'} \pdv{w_{ji}^{(1)}} \big(h'(a_{j'})\big) \sum_{k} w_{kj'}^{(2)} \delta_
+            &= \mathbf{I}_{jj'} x_{i'} \pdv{w_{j'i}^{(1)}} \big(h'(a_{j'})\big) \sum_{k} w_{kj'}^{(2)} \delta_k \\
+            &= \mathbf{I}_{jj'} x_i x_{i'} h''(a_{j'}) \sum_{k} w_{kj'}^{(2)} \delta_k
+        \end{align*}
+        Now, let's compute the derivative in the second term:
+        \begin{align*}
+            \pdv{\delta_k}{w_{ji}^{(1)}} 
+            = \sum_{k'} \pdv{\delta_k}{a_{k'}} \pdv{a_{k'}}{w_{ji}^{(1)}}
+            = \sum_{k'} \pdv{E_n}{a_k}{a_k'} \pdv{a_k'}{w_{ji}^{(1)}}
+            &= \sum_{k'} M_{kk'} \pdv{w_{ji}^{(1)}}\bigg(\sum_{j} w_{k'j}^{(2)} h(x_i w_{ji}^{(1)})\bigg) \\
+            &= x_i h'(a_j) \sum_{k'} M_{kk'} w_{k'j}^{(2)}
+        \end{align*}
+        Putting everything together yields the desired result:
+        \begin{align*}
+            \pdv{E_n}{w_{ji}^{(1)}}{w_{j'i'}^{(1)}}
+            = \mathbf{I}_{jj'} x_i x_{i'} h''(a_{j'}) \sum_{k} w_{kj'}^{(2)} \delta_k +
+            x_i x_{i'} h'(a_j) h'(a_{j'}) \sum_{k} \sum_{k'} w_{kj'}^{(2)} w_{k'j}^{(2)} M_{kk'}
+            \label{eq:5.94}\tag{5.94}
+        \end{align*}
+        Note that this result is equivalent with the one in the book even if the $k$ and $k'$ are
+        interchanged in the second term. This is because the sum ranges are chosen arbitrarily.
+    \item One weight in each layer:
+        \begin{align*}
+            \pdv{E_n}{w_{ji}^{(1)}}{w_{kj'}^{(2)}}
+            &= \pdv{w_{ji}^{(1)}} \bigg(\pdv{E_n}{w_{kj'}^{(2)}}\bigg) \\
+            &= \pdv{w_{ji}^{(1)}} \bigg(\pdv{E_n}{a_{k}} \pdv{a_k}{w_{kj'}^{(2)}}\bigg) \\
+            &= \pdv{w_{ji}^{(1)}} \big(\delta_{k} z_{j'}\big) \\ 
+            &= z_{j'} \pdv{\delta_k}{w_{ji}^{(1)}} + \delta_k \pdv{z_{j'}}{w_{ji}^{(1)}}
+        \end{align*}
+        We found the value of the first term in the previous case. Also, the derivative
+        in the second term is null for $j \neq j'$. Therefore, the above expression becomes
+        \begin{align*}
+            \pdv{E_n}{w_{ji}^{(1)}}{w_{kj'}^{(2)}}
+            &= z_{j'} x_i h'(a_j) \sum_{k'} M_{kk'} w_{k'j}^{(2)} + 
+            \mathbf{I}_{jj'} \delta_k x_i h'(a_j) \\
+            &= x_i h'(a_j) \bigg\{\delta_k \mathbf{I}_{jj'} + z_{j'} \sum_{k'} w_{k'j}^{(2)} M_{kk'}\bigg\} 
+            \label{eq:5.95}\tag{5.95}
+        \end{align*}
+    \end{enumerate}
+\end{proof}
