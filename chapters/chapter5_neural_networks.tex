@@ -1015,3 +1015,291 @@ to include skip-layer connections that go directly from input to outputs.
             \] 
     \end{enumerate}
 \end{proof}
+
+\section*{Exercise 5.24 $\star \star$}
+Verify that the network function defined by (5.113) and (5.114) is invariant
+under the transformation (5.115) applied to the inputs,
+provided the weights and biases are simultaneously transformed using
+(5.116) and (5.117). Similarly, show that the network outputs can be
+transformed according to (5.118) by applying the transformation (5.119)
+and (5.120) to the second-layer weights and biases.
+
+\vspace{1em}
+
+\begin{proof}
+    Let's make the transformations (5.115), (5.116) and (5.117) and check the new
+    value of $\widetilde{a_j}$.
+    \[
+        \widetilde{a_j} 
+        = \sum_{i} \widetilde{w}_{ji} \widetilde{x}_i + \widetilde{w}_{j0} 
+        = \sum_{i} \frac{1}{a} w_{ji} \big(ax_i + b) + w_{j0} - \frac{b}{a} \sum_{i} w_{ji} 
+        = \sum_{i} w_{ji} x_i + w_{j0} 
+        = a_j
+    \] 
+    Since the activations of the hidden layer remain the same after the transformation,
+    we can conclude that the outputs are invariant under the above transformations.
+    Now, let's apply the transformations (5.119) and (5.120) to the second-layer weights
+    and biases. The new outputs look like
+    \[
+        \widetilde{y}_k 
+        = \sum_{j} \widetilde{w}_{kj} z_j + \widetilde{w}_{k0}
+        = \sum_{j} c w_{kj} z_j + cw_{k0} + d
+        = c\bigg(\sum_{j} w_{kj}z_j + w_{k0}\bigg) + d
+        = cy_k + d
+    \] 
+    which proves that the network outputs can be transformed as in (5.118).
+\end{proof}
+
+\section*{Exercise 5.25 $\star \star \star$}
+Consider a quadratic error function of the form
+ \begin{equation}\label{eq:5.195}\tag{5.195}
+     E = E_0 + \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T \mathbf{H} (\mathbf{w} - \mathbf{w}^\star)
+\end{equation}
+where $\mathbf{w}^*$ represents the minimum, and the Hessian matrix $\mathbf{H}$ is positive
+definite and constant. Suppose the initial weight vector $\mathbf{w}^{(0)}$ is chosen to be at the
+origin and is updated using simple gradient descent
+\begin{equation}\label{eq:5.196}\tag{5.196}
+    \mathbf{w}^{(\tau)} = \mathbf{w}^{(\tau - 1)} - \rho \nabla E
+\end{equation}
+where $\tau$ denotes the step number, and $\rho$ is the learning
+rate (which is assumed to be small). Show that, after $\tau$ steps,
+the components of the weight vector parallel to the eigenvectors of 
+ $\mathbf{H}$ can be written
+ \begin{equation}\label{eq:5.197}\tag{5.197}
+     w_j^{(\tau)} = \{1 - (1 - \rho \eta_j)^\tau\} w_j^\star
+ \end{equation}
+ where $w_j = \mathbf{w}^T \mathbf{u}_j$, $\mathbf{u}_j$ and $\eta_j$ are the eigenvectors and eigenvalues,
+ respectively, of $\mathbf{H}$ so that
+ \begin{equation}\label{eq:5.198}\tag{5.198}
+     \mathbf{H}\mathbf{u}_j = \eta_j \mathbf{u}_j
+ \end{equation}
+ Show that as $\tau \to \infty$, this gives $\mathbf{w}^{(\tau)} \to \mathbf{w}^\star$ as expected,
+ provided $|1 - \rho \eta_j| < 1$. Now suppose that training is halted after a finite number $\tau$ 
+ of steps. Show that the components of the weight vector parallel to the eigenvectors of the
+ Hessian satisfy 
+ \begin{equation}\label{eq:5.199}\tag{5.199}
+     w_j^{(\tau)} \simeq w_j^\star \text{ when } \eta_j \gg (\rho \tau)^{-1}
+\end{equation}
+\begin{equation}\label{eq:5.200}\tag{5.200}
+     |w_j^{(\tau)}| \ll |w_j^\star| \text{ when } \eta_j \ll (\rho \tau)^{-1}
+\end{equation}
+Compare this result with the discussion in Section 3.5.3 of regularization with simple
+weight decay, and hence show that $(\rho \tau)^{-1}$ is analogous to the regularization
+parameter $\lambda$. The above results also show that the effective number of parameters in the 
+network, as defined by (3.91), grows as the training progresses.
+
+\vspace{1em}
+
+\begin{proof}
+    Taking the gradient of the error with respect to $\mathbf{w}$ yields
+    \[
+        \nabla E = \nabla\bigg(E_0 
+            + \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T\mathbf{H} (\mathbf{w} - \mathbf{w}^\star)\bigg)
+        = \mathbf{H}(\mathbf{w} - \mathbf{w}^\star)
+    \] 
+    Substituting this into $\eqref{eq:5.196}$ gives
+    \[
+        \mathbf{w}^{(\tau)} 
+        = \mathbf{w}^{(\tau - 1)} - \rho \mathbf{H} (\mathbf{w}^{(\tau - 1)} - \mathbf{w}^\star)
+    \] 
+    Now, we left-multiply by $\mathbf{u}_j^T$ both sides of the expression and use the
+    fact that $w_j = \mathbf{w}^T\mathbf{u}_j$, along with $\eqref{eq:5.198}$ to obtain that
+    \[
+        w_j^{(\tau)} = w_j^{(\tau - 1)} - \rho \eta_j w^{(\tau - 1)}_j + \rho \eta_j w_j^\star
+        = (1 - \rho \eta_j) w_j^{(\tau - 1)} + \rho \eta_j w_j^\star
+    \] 
+    Let's prove $\eqref{eq:5.197}$ by induction. The base case for $\tau = 1$ is obviously holding since
+    $\mathbf{w}^{(0)}$ is the origin:
+    \[
+        w_j^{(1)} 
+        = (1 - \rho \eta_j) w_j^{(0)} + \rho \eta_j w_j^\star
+        = \rho \eta_j w_j^\star
+        = \{1 - (1 - \rho \eta_j)\} w_j^\star
+    \] 
+    For the general case, let $\tau = t \in \mathbb{N}$ and assume that
+    \eqref{eq:5.197} holds:
+    \[
+        w_j^{(t)} = \{1 - (1 - \rho \eta_j)^t\} w_j^\star
+    \] 
+    Substituting the value of $w_j^{(t)}$ into
+    \begin{align*}
+        w_j^{(t + 1)} = (1 - \rho \eta_j)w_j^{(t)} + \rho \eta_j w_j^\star
+    \end{align*}
+    gives
+    \begin{align*}
+        w_j^{(t + 1)} 
+        &= (1 - \rho \eta_j) \{1 - (1 - \rho \eta_j)^t\} 
+            w_j^\star + \rho \eta_j w_j^\star \\
+        &= \big\{(1 - \rho \eta_j) - (1 - \rho \eta_j)^{t + 1} + \rho \eta_j\big\} w_j^\star \\
+        &= \{1 - (1 - \rho \eta_j)^{(t + 1)}\} w_j^\star
+    \end{align*}
+    Since the base case and general recursive implication holds, we proved by induction that 
+    \eqref{eq:5.197} holds. Now, taking the number of steps $\tau$ to infinity yields
+    \[
+        \lim_{\tau \to \infty} w_j^{(\tau)}
+        = \lim_{\tau \to \infty} \{1 - (1 - \rho \eta_j)^\tau\} w_j^\star
+        = w_j^\star
+    \] 
+    for $|1 - \rho \eta_j| < 1$ since as $\tau \to \infty$, one has that $(1 - \rho \eta_j)^\tau \to 0$.
+    Since $\eta_j \rho \tau \gg 1$ and $|1 - \rho \eta_j| < 1, \tau$ must be large. Therefore,
+    as proved above, $w_j^{(\tau)} \simeq w_j^\star$. Now, since $\eta_j \rho \tau \ll 1$ and
+     $\tau$ is finite, $\rho \tau$ must be very small. We use this fact by expanding the polynomial and 
+     ignoring the higher order terms:
+    \begin{align*}
+        |w_j^{(\tau)}| 
+        &= |1 - (1 - \rho \eta_j)^\tau| |w_j^\star| \\
+        &= |1 - \big(1 - \tau \rho \eta_j + O(\rho^2 \eta_j^2)\big)| |w_j^\star| \\
+        &\simeq |\tau \rho \eta_j| |w_j^\star| \\
+        &\ll |w_j^\star|
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 5.26 $\star \star$}
+Consider a multilayer perceptron with arbitrary feed-forward topology, 
+which is to be trained by minimzing the \emph{tangent propagation} error
+function in which the regularizing function is given by
+$\eqref{eq:5.128}$. Show that the regularization term $\Omega$ can
+be written as a sum over patterns of terms of the form
+\begin{equation}\label{eq:5.201}\tag{5.201}
+    \Omega_n = \frac{1}{2} \sum_{k} (\mathcal{G}y_{nk})^2
+\end{equation}
+where $\mathcal{G}$ is a differential operator defined by
+ \begin{equation}\label{eq:5.202}\tag{5.202}
+     \mathcal{G} \equiv \sum_{i} \tau_i \pdv{x_i}
+\end{equation}
+By acting on the forward propagation equations
+\begin{equation}\label{eq:5.203}\tag{5.203}
+    z_j = h(a_j),
+    \hspace{3em}
+    a_j = \sum_{i} w_{ji} z_i
+\end{equation}
+with the operator $\mathcal{G}$, show that $\Omega_n$ 
+can be evaluated by forward propagation using the following equations:
+\begin{equation}\label{eq:5.204}\tag{5.204}
+    \alpha_j = h'(a_j) \beta_j,
+    \hspace{3em}
+    \beta_j = \sum_{i} w_{ji} \alpha_i
+\end{equation}
+where we have defined the new variables
+\begin{equation}\label{eq:5.205}\tag{5.205}
+    \alpha_j \equiv \mathcal{G} z_j,
+    \hspace{3em}
+    \beta_j \equiv \mathcal{G} a_j
+\end{equation}
+Now show that the derivatives of $\Omega_n$ with respect to a weight $w_{rs}$ in the network 
+can be written in the form  
+\begin{equation}\label{eq:5.206}\tag{5.206}
+    \pdv{\Omega_n}{w_{rs}} = \sum_{k} \alpha_k \{\phi_{kr} z_s + \delta_{kr} \alpha_s\}
+\end{equation}
+where we have defined 
+\begin{equation}\label{eq:5.207}\tag{5.207}
+    \delta_{kr} \equiv \pdv{y_k}{a_r},
+    \hspace{3em}
+    \phi_{kr} = \mathcal{G} \delta_{kr}.
+\end{equation}
+Write down the backpropagation equations for $\delta_{kr}$, and hence derive
+the set of backpropagation equations for the evaluation of $\phi_{kr}$.
+
+\vspace{1em}
+
+\begin{proof}
+    Simply evaluating \eqref{eq:5.201} using \eqref{eq:5.202} gives
+    \[
+        \Omega_n 
+        = \frac{1}{2}\sum_{k}(\mathcal{G} y_{nk})^2
+        = \frac{1}{2}\sum_{k}\bigg(\sum_{i} \tau_{ni} \pdv{y_{nk}}{x_{ni}}\bigg)^2
+        = \frac{1}{2}\sum_{k}\bigg(\sum_{i} \tau_{ni} J_{nki}\bigg)^2
+    \] 
+    where 
+    $J_{nki}$ is the $(k, i)$-th element of the Jacobian for the $n$-th observation.
+    Summing the above expression over $n$ yields the regularization function:
+    \begin{equation}\label{eq:5.128}\tag{5.128}
+        \sum_{n} \Omega_n = \frac{1}{2} \sum_{n} \bigg(\sum_{k} \tau_{ni} J_{nki}\bigg)^2 = \Omega
+    \end{equation}
+    By applying the differential operator $\mathcal{G}$ on the forward propagation equations
+    \eqref{eq:5.203}, one obtains the same results as \eqref{eq:5.204}:
+    \[
+        \alpha_j 
+        = \mathcal{G}z_j 
+        = \sum_{i} \tau_i \pdv{z_j}{x_i}
+        = \sum_{i} \tau_i \pdv{z_j}{a_j} \pdv{a_j}{x_i}
+        = h'(a_j) \sum_{i} \tau_i \pdv{a_j}{x_i}
+        = h'(a_j) \mathcal{G} a_j
+        = h'(a_j) \beta_j
+    \] 
+    \[
+        \beta_j
+        = \mathcal{G}a_j
+        = \sum_{i} \tau_i \pdv{x_i}\bigg(\sum_{i'} w_{ji'} z_{i'}\bigg)
+        = \sum_{i} \tau_i \sum_{i'} w_{ji'} \pdv{z_{i'}}{x_i}
+        = \sum_{i'} w_{ji'} \mathcal{G} z_{i'}
+        = \sum_{i'} w_{ji'} \alpha_{i'}
+    \] 
+\end{proof}
+We notice that we can rewrite $\mathcal{G} y_{k}$ as
+\begin{align*}
+    \mathcal{G}y_k 
+    &= \sum_{i}^{} \tau_i \pdv{y_k}{x_i} \\
+    &= \sum_{i}^{} \tau_i \pdv{y_k}{a_k} \sum_{j} \pdv{a_k}{z_j} \pdv{z_j}{x_i} \\
+    &= h'(a_k) \sum_{i}^{} \tau_i \sum_{j}^{} w_{kj} \pdv{z_j}{x_i} \\
+    &= h'(a_k) \sum_{j}^{} w_{kj} \sum_{i}^{} \tau_i \pdv{z_j}{x_i} \\
+    &= h'(a_k) \sum_{j}^{} w_{kj} \mathcal{G} z_j \\
+    &= h'(a_k) \beta_k \\
+    &= \alpha_k
+\end{align*}
+Since $\alpha_j$ can be obtained from $a_j$ and $\beta_j$ (see \eqref{eq:5.204}),
+this is proof that $\Omega_n$ can be evaluated by forward propagation using the 
+equations \eqref{eq:5.204} successively. We can see that the derivative
+of the differential operator can be written as
+\[
+    \pdv{\mathcal{G} f}{\gamma}
+    = \pdv{\gamma} \sum_{i}^{} \tau_i \pdv{f}{x_i}
+    = \sum_{i}^{} \tau_i \pdv{x_i} \pdv{f}{\gamma}
+    = \mathcal{G}\bigg(\pdv{f}{\gamma}\bigg)
+\] 
+Therefore, the derivatives of the regularizers $\Omega_n$ with respect
+to a weight $w_{rs}$ can be written as
+\begin{align*}
+    \pdv{\Omega_n}{w_{rs}} 
+    = \pdv{w_{rs}} \bigg(\frac{1}{2} \sum_{k}^{} \big(\mathcal{G} y_k\big)^2\bigg)
+    = \sum_{k}^{} \mathcal{G} y_k \pdv{\mathcal{G}y_k}{w_{rs}}
+    = \sum_{k}^{} \alpha_k \mathcal{G}\bigg(\pdv{y_k}{w_{rs}}\bigg)
+    &= \sum_{k}^{} \alpha_k \mathcal{G}\bigg(\pdv{y_k}{a_r} \pdv{a_r}{w_{rs}}\bigg) \\
+    &= \sum_{k}^{} \alpha_k \mathcal{G}\bigg(\pdv{y_k}{a_r} z_s\bigg)
+\end{align*}
+Applying the product rule on the obtained expression and substituting the variables
+defined in \eqref{eq:5.207} yields
+\begin{align*}
+    \pdv{\Omega_n}{w_{rs}} 
+    = \sum_{k}^{} \alpha_k \{z_s \mathcal{G} \delta_{kr} + \delta_{kr} \mathcal{G} z_s\}
+    = \sum_{k}^{} \alpha_k \{\phi_{kr} z_s + \delta_{kr} \alpha_s\} \tag{5.206}
+\end{align*}
+The backpropagation formula for $\delta_{kr}$ is obtained similarly to the one in Section 5.3.1.
+Suppose that the units $l$ come after the units $r$. Then,
+\begin{align*}
+    \delta_{kr} 
+    = \sum_{l}^{} \pdv{y_k}{a_l} \pdv{a_l}{a_r} 
+    = \sum_{l}^{} \pdv{y_k}{a_l} \pdv{a_l}{z_r} \pdv{z_r}{a_r} 
+    = h'(a_r) \sum_{l}^{} w_{lr} \delta_{kl}
+\end{align*}
+As a result, the backpropagation equations for $\phi_{kr}$ can be obtained
+by applying the differential operator $\mathcal{G}$ on this result:
+\begin{align*}
+    \phi_{kr} 
+    &= \mathcal{G} \delta_{kr} \\
+    &= \mathcal{G}\bigg(h'(a_r) \sum_{l}^{} w_{lr} \delta_{kl}\bigg) \\
+    &= \mathcal{G} \big(h'(a_r)\big) \sum_{l}^{} w_{lr} \delta_{kl} 
+        + h'(a_r) \sum_{l}^{} w_{lr} \mathcal{G}(\delta_{kl})
+\end{align*}
+\vspace{1em}
+
+\section*{Exercise 5.27 $\star \star$}
+Consider the framework for training with transformed data in the special case
+in which the transformation consists simply of the addition of random noise 
+$\mathbf{x} \to \mathbf{x} + \bm{\xi}$ where $\bm{\xi}$ has a 
+Gaussian distribution with zero mean and unit covariance. By following an argument analogous
+to that of Section 5.5.5, show that the resulting regularizer reduces to the Tikhonov
+from \eqref{eq:5.135}.
+
+\begin{proof}
+\end{proof}
