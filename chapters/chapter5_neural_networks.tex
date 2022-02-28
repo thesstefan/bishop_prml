@@ -1301,73 +1301,118 @@ Gaussian distribution with zero mean and unit covariance. By following an argume
 to that of Section 5.5.5, show that the resulting regularizer reduces to the Tikhonov
 from \eqref{eq:5.135}.
 
-\begin{proof}
-    The error function over the expanded data set can be written as
-    \begin{equation}\label{eq:5.130}\tag{5.130}
-        \widetilde{E} 
-        = \frac{1}{2} \iiint \{y(\mathbf{s}(\mathbf{x}, \bm{\xi}) - t\}^2 
-        p(t | \mathbf{x}) p(\mathbf{x}) p(\bm{\xi}) \diff \mathbf{x} \diff t \diff \bm{\xi}
-    \end{equation}
-    Since our transformation is given by
-    \[
-        s(\mathbf{x}, \bm{\xi}) = \mathbf{x} + \bm{\xi}
-    \] 
-    one can easily approximate the value of $y$ at that point by expanding
-    the function around $\mathbf{x}$. Note that this is possible because 
-    $\mathbf{x} + \bm{\xi}$ is in the neighbourhood of $\mathbf{x}$:
-    \[
-        y(s(\mathbf{x}, \bm{\xi})) 
-        = y(\mathbf{x} + \bm{\xi})
-        = y(\mathbf{x}) + \bm{\xi}^T \nabla y(\mathbf{x}) 
-        + \frac{1}{2} \bm{\xi}^T \nabla \nabla y(\mathbf{x}) \bm{\xi}
-        + O(\bm{\xi}^3)
-    \] 
-    Therefore, 
-    \begin{align*}
-    \frac{1}{2}\{y(s(\mathbf{x}, \bm{\xi})) - t\}^2
-        = \frac{1}{2}\{y(\mathbf{x}) - t\}^2 +  \{y(x) - t\}\bm{\xi}^T \nabla y(\mathbf{x})
-        + \frac{1}{2}\{y(x) - t\} \bm{\xi}^T \nabla \nabla y \bm{\xi}^T + \frac{1}{2}\{\bm{\xi}^T 
-        \nabla y(\mathbf{x})\}^2 + O(\bm{\xi}^3)
-    \end{align*}
-    Using the ciclicity property of the trace operator, one can show that
-    \[
-        \bm{\xi}^T \nabla \nabla y \bm{\xi}^T
-        = \Trace \big[\bm{\xi}^T \nabla \nabla y \bm{\xi}\big]
-        = \Trace \big[\bm{\xi} \bm{\xi}^T \nabla \nabla y\big]
-        = \bm{\xi} \bm{\xi}^T \nabla \nabla y
-    \] 
-    \[
-        \{\bm{\xi}^T \nabla y(\mathbf{x})\}^2
-        = \Trace\big[\bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T \bm{\xi}\big]
-        = \Trace\big[\bm{\xi} \bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T\big]
-        = \bm{\xi} \bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T
-    \] 
-    Hence, subtituting the obtained expressions into \eqref{eq:5.130} and evaluating
-    the $\bm{\xi}$ integrals gives a similar result to the one obtained in Section 5.5.5:
-    \begin{align*}
-        \widetilde{E} 
-        &= \frac{1}{2} \iint \{y(\mathbf{x} - t)\}^2 p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t \\
-        &+ \mathbb{E}[\bm{\xi}] \iint \{y(\mathbf{x}) - t\} \nabla y(\mathbf{x})^T 
-            p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t  \\
-        &+ \frac{1}{2}\mathbb{E}[\bm{\xi}\bm{\xi}^T] \iint \bigg[\{y(\mathbf{x}) - t\} \nabla \nabla y(\mathbf{x})
-            + \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T \bigg]p(t | \mathbf{x})p(\mathbf{x})
-            \diff \mathbf{x} \diff t + \mathcal{O}(\bm{\xi}^3)
-    \end{align*}
-    Because the distribution of transformations has zero mean, $\mathbb{E}[\bm{\xi}] = \bm{0}$. Also,
-    the unit covariance gives $\mathbb{E}[\bm{\xi}\bm{\xi}^T] = \mathbf{I}$. Omitting terms of $\mathcal{O}(\bm{\xi}^3)$,
-    the average error function then becomes
-    \begin{equation}\label{eq:5.131}\tag{5.131}
-        \widetilde{E} = E + \Omega
-    \end{equation}
-    where $E$ is the original sum-of-squares error, and the regularization term $\Omega$ takes
-    the form 
-    \begin{align*}
-        \Omega 
-        &= \frac{1}{2} \iint \bigg[y(\mathbf{x}) \nabla \nabla y(\mathbf{x}) 
-            - t \nabla \nabla y(\mathbf{x}) + \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T\bigg] 
-            p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t \\
-        &= \frac{1}{2} \int \{y(\mathbf{x}) - \mathbb{E}[t | \mathbf{x}]\} 
-            \nabla \nabla y(\mathbf{x}) + \norm{\nabla y(\mathbf{x})}^2 \diff \mathbf{x}
-    \end{align*}
+\vspace{1em}
 
+\begin{proof}
+    Using the same arguments as in Section 5.5.5, we have that the regularizer
+    is given by
+    \begin{equation}\label{eq:5.134}\tag{5.134}
+        \Omega = \frac{1}{2} \int_{}^{} \big(\bm{\tau}^T 
+        \nabla y(\mathbf{x})\big)^2 p(\mathbf{x}) \diff \mathbf{x}
+    \end{equation}
+    Under our specific transformation, we have that
+    \[
+        \bm{\tau} = \pdv{s(\mathbf{x}, \bm{\xi})}{\bm{\xi}} \bigg|_{\bm{\xi} = \bm{0}}
+        = \pdv{\bm{\xi}} \big(\mathbf{x} + \bm{\xi}\big) \bigg|_{\bm{\xi} = \bm{0}}
+        = \mathbf{I}
+    \] 
+    Hence, substituting back into \eqref{eq:5.134} gives the Tikhonov form
+    \begin{equation}\label{eq:5.135}\tag{5.135}
+        \Omega = \frac{1}{2} \int_{}^{} \norm{\nabla y(\mathbf{x})}^2 p(\mathbf{x}) \diff x
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 5.29 $\star$}
+Verify the result \eqref{eq:5.141}. (See PRML errata for the removal of $\lambda$ factors).
+
+\vspace{1em}
+
+\begin{proof}
+
+    Taking the derivative of the total error function 
+    \begin{equation}\label{eq:5.139}\tag{5.139}
+        \widetilde{E}(\mathbf{w}) = E(\mathbf{w}) + \Omega(\mathbf{w})
+    \end{equation}
+    with respect to $w_i$ yields
+    \begin{align*}
+        \pdv{\widetilde{E}}{w_i} = \pdv{E}{w_i} + \pdv{\Omega}{w_i}
+    \end{align*}
+    Our goal is to compute the second derivative term. Hence,
+    \begin{align*}
+        \pdv{\Omega}{w_i} 
+        &= \pdv{w_i} \bigg[-\sum_{i}^{} \ln\bigg(\sum_{j}^{} \pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg)\bigg] \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{j}^{} \pi_j \pdv{w_i} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{j}^{} \pi_j \frac{w_i - \mu_j}{\sigma_j^2} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \sum_{j}^{} \frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)} 
+            {\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)} \frac{w_i - \mu_j}{\sigma_j^2} \\
+        &= \sum_{j}^{} \gamma_j(w_i) \frac{w_i - \mu_j}{\sigma_j^2}
+    \end{align*}
+    where $\gamma_j(w)$ is defined by (5.140). 
+    Substituting into the expression above, one obtains
+    \begin{equation}\label{eq:5.141}\tag{5.141}
+        \pdv{\widetilde{E}}{w_i} = \pdv{E}{w_i} + \sum_{j}^{} \gamma_j(w_i) \frac{w_i - \mu_j}{\sigma_j^2}
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 5.30 $\star$}
+Verify the result \eqref{eq:5.142}. (See PRML errata for the removal of $\lambda$ factors).
+
+\vspace{1em}
+
+\begin{proof}
+    Similarly to the previous exercise, we're going to compute the derivative
+    of $\Omega(\mathbf{w})$ with respect to $\mu_j$:
+    \begin{align*}
+        \pdv{\Omega}{\mu_j} 
+        &= \pdv{\mu_j} \bigg[-\sum_{i}^{} \ln\bigg(\sum_{j}^{} \pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg)\bigg] \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{i}^{} \pi_j \pdv{\mu_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{j}^{} \pi_j \frac{\mu_j - w_i}{\sigma_j^2} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \sum_{i}^{} \frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)} 
+            {\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)} \frac{\mu_j - w_i}{\sigma_j^2} \\
+        &= \sum_{i}^{} \gamma_j(w_i) \frac{\mu_j - w_i}{\sigma_j^2}
+    \end{align*}
+    Since $E(\mathbf{w})$ has no dependence on $\mu_j$ the derivative term reduces, so
+    \begin{equation}\label{eq:5.142}\tag{5.143}
+        \pdv{\widetilde{E}}{\mu_j} = \pdv{E}{\mu_j} + \pdv{\Omega}{\mu_j}
+        = \pdv{\Omega}{\mu_j}
+        = \sum_{i}^{} \gamma_j(w_i) \frac{\mu_j - w_i}{\sigma_j^2}
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 5.31 $\star$}
+Verify the result \eqref{eq:5.143}. (See PRML errata for the removal of $\lambda$ factors).
+
+\begin{proof}
+\vspace{1em}
+    Like in the previous exercise, since $E(\mathbf{w})$ does not depend on the distribution of $\mathbf{w}$,
+    \[
+            \pdv{\widetilde{E}}{\sigma_j} 
+            = \pdv{E}{\sigma_j} + \pdv{\Omega}{\sigma_j}
+            = \pdv{\Omega}{\sigma_j}
+    \] 
+    The derivative term is now given by
+    \begin{align*}
+        \pdv{\Omega}{\sigma_j_j} 
+        &= \pdv{\sigma_j} \bigg[-\sum_{i}^{} \ln\bigg(\sum_{j}^{} \pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg)\bigg] \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{i}^{} \pi_j \pdv{\sigma_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{i}^{} \pi_j \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
+            \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \sum_{i}^{} \frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)} 
+            {\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)}
+            \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) \\
+        &= \sum_{i}^{} \gamma_j(w_i)
+            \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
+    \end{align*}
+    Therefore,
+    \begin{equation}\label{eq:5.143}\tag{5.143}
+        \pdv{\widetilde{E}}{\sigma_j}
+        = \sum_{i}^{} \gamma_j(w_i)
+            \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
+    \end{equation}
 \end{proof}
