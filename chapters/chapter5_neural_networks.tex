@@ -1302,4 +1302,72 @@ to that of Section 5.5.5, show that the resulting regularizer reduces to the Tik
 from \eqref{eq:5.135}.
 
 \begin{proof}
+    The error function over the expanded data set can be written as
+    \begin{equation}\label{eq:5.130}\tag{5.130}
+        \widetilde{E} 
+        = \frac{1}{2} \iiint \{y(\mathbf{s}(\mathbf{x}, \bm{\xi}) - t\}^2 
+        p(t | \mathbf{x}) p(\mathbf{x}) p(\bm{\xi}) \diff \mathbf{x} \diff t \diff \bm{\xi}
+    \end{equation}
+    Since our transformation is given by
+    \[
+        s(\mathbf{x}, \bm{\xi}) = \mathbf{x} + \bm{\xi}
+    \] 
+    one can easily approximate the value of $y$ at that point by expanding
+    the function around $\mathbf{x}$. Note that this is possible because 
+    $\mathbf{x} + \bm{\xi}$ is in the neighbourhood of $\mathbf{x}$:
+    \[
+        y(s(\mathbf{x}, \bm{\xi})) 
+        = y(\mathbf{x} + \bm{\xi})
+        = y(\mathbf{x}) + \bm{\xi}^T \nabla y(\mathbf{x}) 
+        + \frac{1}{2} \bm{\xi}^T \nabla \nabla y(\mathbf{x}) \bm{\xi}
+        + O(\bm{\xi}^3)
+    \] 
+    Therefore, 
+    \begin{align*}
+    \frac{1}{2}\{y(s(\mathbf{x}, \bm{\xi})) - t\}^2
+        = \frac{1}{2}\{y(\mathbf{x}) - t\}^2 +  \{y(x) - t\}\bm{\xi}^T \nabla y(\mathbf{x})
+        + \frac{1}{2}\{y(x) - t\} \bm{\xi}^T \nabla \nabla y \bm{\xi}^T + \frac{1}{2}\{\bm{\xi}^T 
+        \nabla y(\mathbf{x})\}^2 + O(\bm{\xi}^3)
+    \end{align*}
+    Using the ciclicity property of the trace operator, one can show that
+    \[
+        \bm{\xi}^T \nabla \nabla y \bm{\xi}^T
+        = \Trace \big[\bm{\xi}^T \nabla \nabla y \bm{\xi}\big]
+        = \Trace \big[\bm{\xi} \bm{\xi}^T \nabla \nabla y\big]
+        = \bm{\xi} \bm{\xi}^T \nabla \nabla y
+    \] 
+    \[
+        \{\bm{\xi}^T \nabla y(\mathbf{x})\}^2
+        = \Trace\big[\bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T \bm{\xi}\big]
+        = \Trace\big[\bm{\xi} \bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T\big]
+        = \bm{\xi} \bm{\xi}^T \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T
+    \] 
+    Hence, subtituting the obtained expressions into \eqref{eq:5.130} and evaluating
+    the $\bm{\xi}$ integrals gives a similar result to the one obtained in Section 5.5.5:
+    \begin{align*}
+        \widetilde{E} 
+        &= \frac{1}{2} \iint \{y(\mathbf{x} - t)\}^2 p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t \\
+        &+ \mathbb{E}[\bm{\xi}] \iint \{y(\mathbf{x}) - t\} \nabla y(\mathbf{x})^T 
+            p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t  \\
+        &+ \frac{1}{2}\mathbb{E}[\bm{\xi}\bm{\xi}^T] \iint \bigg[\{y(\mathbf{x}) - t\} \nabla \nabla y(\mathbf{x})
+            + \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T \bigg]p(t | \mathbf{x})p(\mathbf{x})
+            \diff \mathbf{x} \diff t + \mathcal{O}(\bm{\xi}^3)
+    \end{align*}
+    Because the distribution of transformations has zero mean, $\mathbb{E}[\bm{\xi}] = \bm{0}$. Also,
+    the unit covariance gives $\mathbb{E}[\bm{\xi}\bm{\xi}^T] = \mathbf{I}$. Omitting terms of $\mathcal{O}(\bm{\xi}^3)$,
+    the average error function then becomes
+    \begin{equation}\label{eq:5.131}\tag{5.131}
+        \widetilde{E} = E + \Omega
+    \end{equation}
+    where $E$ is the original sum-of-squares error, and the regularization term $\Omega$ takes
+    the form 
+    \begin{align*}
+        \Omega 
+        &= \frac{1}{2} \iint \bigg[y(\mathbf{x}) \nabla \nabla y(\mathbf{x}) 
+            - t \nabla \nabla y(\mathbf{x}) + \nabla y(\mathbf{x}) \nabla y(\mathbf{x})^T\bigg] 
+            p(t | \mathbf{x}) p(\mathbf{x}) \diff \mathbf{x} \diff t \\
+        &= \frac{1}{2} \int \{y(\mathbf{x}) - \mathbb{E}[t | \mathbf{x}]\} 
+            \nabla \nabla y(\mathbf{x}) + \norm{\nabla y(\mathbf{x})}^2 \diff \mathbf{x}
+    \end{align*}
+
 \end{proof}
