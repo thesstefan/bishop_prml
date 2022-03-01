@@ -1367,10 +1367,10 @@ Verify the result \eqref{eq:5.142}. (See PRML errata for the removal of $\lambda
     \begin{align*}
         \pdv{\Omega}{\mu_j} 
         &= \pdv{\mu_j} \bigg[-\sum_{i}^{} \ln\bigg(\sum_{j}^{} \pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg)\bigg] \\
-        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
-            \sum_{i}^{} \pi_j \pdv{\mu_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
-        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
-            \sum_{j}^{} \pi_j \frac{\mu_j - w_i}{\sigma_j^2} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \sum_{i}^{} \bigg[\bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \pi_j \pdv{\mu_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg] \\
+        &= \sum_{i}^{} \bigg[\bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \sum_{j}^{} \pi_j \frac{\mu_j - w_i}{\sigma_j^2} \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg] \\
         &= \sum_{i}^{} \frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)} 
             {\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)} \frac{\mu_j - w_i}{\sigma_j^2} \\
         &= \sum_{i}^{} \gamma_j(w_i) \frac{\mu_j - w_i}{\sigma_j^2}
@@ -1396,13 +1396,13 @@ Verify the result \eqref{eq:5.143}. (See PRML errata for the removal of $\lambda
     \] 
     The derivative term is now given by
     \begin{align*}
-        \pdv{\Omega}{\sigma_j_j} 
+        \pdv{\Omega}{\sigma_j} 
         &= \pdv{\sigma_j} \bigg[-\sum_{i}^{} \ln\bigg(\sum_{j}^{} \pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg)\bigg] \\
-        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
-            \sum_{i}^{} \pi_j \pdv{\sigma_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
-        &= \bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
-            \sum_{i}^{} \pi_j \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
-            \mathcal{N}(w_i | \mu_j, \sigma_j^2) \\
+        &= \sum_{i}^{} \bigg[\bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+        \pi_j \pdv{\sigma_j} \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg] \\
+        &= \sum_{i}^{} \bigg[\bigg(\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg)^{-1}
+            \pi_j \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
+        \mathcal{N}(w_i | \mu_j, \sigma_j^2)\bigg] \\
         &= \sum_{i}^{} \frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)} 
             {\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)}
             \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) \\
@@ -1415,4 +1415,43 @@ Verify the result \eqref{eq:5.143}. (See PRML errata for the removal of $\lambda
         = \sum_{i}^{} \gamma_j(w_i)
             \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
     \end{equation}
+\end{proof}
+
+\section*{Exercise 5.32 $\star \star$}
+Show that the derivatives of the mixing coefficients $\{\pi_k\}$, defined
+by \eqref{eq:5.146}, with respect to the auxiliary parameters $\{\eta_j\}$ are 
+given by  
+\begin{equation}\label{eq:5.208}\tag{5.208}
+    \pdv{\pi_k}{\eta_j} = \delta_{jk} \pi_j - \pi_j \pi_k
+\end{equation}
+Hence, by making use of the constraint $\sum_{k}^{} \pi_k = 1$, derive
+the result \eqref{eq:5.147}.
+
+\vspace{1em}
+
+\begin{proof}
+    The mixing coefficients are given by the softmax function
+    \begin{equation}\label{eq:5.146}\tag{5.146}
+        \pi_j = \frac{\exp{\eta_j}}{\sum_{k}^{} \exp{\eta_k}}
+    \end{equation}
+    Therefore, as seen in Exercise 4.17, the derivative of $\pi_j$ is 
+    given by 
+    \begin{equation}\label{eq:5.208}\tag{5.208}
+        \pdv{\pi_k}{\eta_j} = \delta_{jk} \pi_j - \pi_j \pi_k
+    \end{equation}
+    Since $E(\mathbf{w})$ does not depend on the distribution of
+    $\mathbf{w}$, the derivative of the total error is given by
+    \begin{align*}
+        \pdv{\widetilde{E}}{\eta_j}
+        = \pdv{\Omega}{\eta_j}
+        &= -\sum_{i}^{} \bigg[\bigg(\sum_{l}^{} \pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)\bigg)^{-1}
+        \sum_{k}^{} \pdv{\pi_k}{\eta_j} \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg]\\ 
+        &= -\sum_{i}^{} \bigg[\bigg(\sum_{l}^{} \pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)\bigg)^{-1}
+        \sum_{k}^{} (\delta_{kj} \pi_k - \pi_k \pi_j) \mathcal{N}(w_i | \mu_k, \sigma_k^2)\bigg] \\ 
+        &= -\sum_{i}^{} \bigg(\frac{\pi_j \mathcal{N}(w_i | \mu_j, \sigma_j^2)}
+            {\sum_{l}^{} \pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)}
+            - \pi_j \frac{\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)}
+            {\sum_{l} {\pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)}}\bigg) \\
+        &= \sum_{i}^{} \{\pi_j - \gamma_j(w_i)\} \label{eq:5.147}\tag{5.147}
+    \end{align*}
 \end{proof}
