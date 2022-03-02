@@ -1455,3 +1455,109 @@ the result \eqref{eq:5.147}.
         &= \sum_{i}^{} \{\pi_j - \gamma_j(w_i)\} \label{eq:5.147}\tag{5.147}
     \end{align*}
 \end{proof}
+
+\section*{Exercise 5.33 $\star$}
+Write down a pair of equations that express the Cartesian coordinates
+$(x_1, x_2)$ for the robot arm shown in Figure 5.18 in terms of the joint
+angles $\theta_1$ and $\theta_2$ and the lengths $L_1$ and $L_2$ of the links.
+Assume the origin of the coordinate system is given by the attachment point of
+the lower arm. These equations define the `forward kinematics` of the robot arm.
+
+\vspace{1em}
+    \begin{figure}[h]
+        \begin{tikzpicture}
+            \def\figThetaOne{130}
+            \def\figThetaTwo{50}
+
+            \def\LOne{6}
+            \def\LTwo{4}
+
+            \tkzInit[xmin=-5, xmax=5, ymin=0, ymax=8]
+            \tkzDrawX
+
+            \tkzDefPoint(0,0){O}
+
+            \tkzDefShiftPoint[O](\figThetaOne:\LOne){A}
+            \tkzDefShiftPoint[A](\figThetaTwo:\LTwo){B}
+
+            \tkzDefPointWith[colinear=at B](A,O)
+            \tkzGetPoint{C}
+
+            \tkzDrawSegment[red, line width=1.5pt, vector style](O,A)
+            \tkzDrawSegment[red, line width=1.5pt, vector style](A,B)
+            \tkzDrawSegment[line width=1pt, vector style](O, C)
+            \tkzDrawSegment(B, C)
+
+            \tkzDefRectangle(C,O) \tkzGetPoints{y_C}{E}
+            \tkzDefRectangle(A,O) \tkzGetPoints{y_A}{D}
+
+            \tkzDrawSegment[dashed](C,E)
+            \tkzDrawSegment[dashed](A,D)
+
+            \tkzMarkRightAngle(A,D,O)
+            \tkzMarkRightAngle(C,E,O)
+
+            \tkzMarkAngle[arrows=stealth-](O,A,B)
+            \tkzLabelAngle[pos=0.05cm](O,A,B){$\theta_2$}
+
+            \tkzMarkAngle[arrows=stealth-](E,O,A)
+            \tkzLabelAngle[pos=0.05cm](E,O,A){$\theta_1$}
+
+            \tkzLabelSegment(O,A){$L_1$}
+            \tkzLabelSegment(A,B){$L_2$}
+
+            \tkzDrawSegment[line width=1pt, vector style](O, B)
+
+            \tkzDrawPoints(O, A, B, C, E, D)
+            \tkzLabelPoints(O, A, B, C, E, D)
+        \end{tikzpicture}
+        \centering
+        \caption{Robot arm geometric interpretation}
+    \end{figure}
+\begin{proof}
+    Let the origin $O$ be the attachment point of the lower arm 
+    and $A$ be the attachment point of the upper arm. Also,
+    let $C$ be the end effector position and $OABC$ be a parallelogram.
+    One can easily find the coordinates of the end effector by noticing that
+    \[
+        \overrightarrow{OB} 
+        = \overrightarrow{OA} + \overrightarrow{OC}
+        = \overrightarrow{OD} + \overrightarrow{DA} + 
+        \overrightarrow{OE} + \overrightarrow{EC} 
+        = \overrightarrow{i}(OE - OD) + \overrightarrow{j}(DA + EC) 
+
+    \] 
+    where $D, E$ are the projections of $A$ and $C$ over the x-axis.
+    Since the angles around a parallelogram sum to $2\pi$, it's straightforward
+    to show that
+    \[
+        \angle{COA} = \pi - \theta_2
+        \hspace{3em}
+        \angle{COE} = \theta_1 + \theta_2 - \pi
+        \hspace{3em}
+        \angle{DOA} = \pi - \theta_1
+    \] 
+    Hence,
+    \[
+        \Delta OAD:
+        \begin{cases}
+            DA = OA\sin(\angle DOA) = L_1 \sin(\theta_1) \\
+            OD = OA\cos(\angle DOA) = -L_1 \cos(\theta_1)
+        \end{cases}
+    \]
+    \[
+        \Delta OCE:
+        \begin{cases}
+            EC = OC\sin(\angle COE) = -L_2 \sin(\theta_1 + \theta_2) \\
+            OE = OC\cos(\angle COE) = -L_2 \cos(\theta_1 + \theta_2)
+        \end{cases}
+    \] 
+    Finally, the equations that define the 'forward kinematics' of
+    the arm will be given by
+    \[
+        \begin{cases}
+            x_1 = OE - OD = L_1 \cos(\theta_1) - L_2 \cos(\theta_1 + \theta_2) \\
+            y_1 = DA + EC = L_1\sin(\theta_1) - L_2 \sin(\theta_1 + \theta_2)
+        \end{cases}
+    \] 
+\end{proof}
