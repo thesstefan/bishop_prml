@@ -1561,3 +1561,171 @@ the lower arm. These equations define the `forward kinematics` of the robot arm.
         \end{cases}
     \] 
 \end{proof}
+
+\section*{Exercise 5.34 $\star$}
+Derive the result $\eqref{eq:5.155}$ for the derivative
+of the error function with respect to the network output 
+activations controlling the mixing coefficients in the mixture
+density network.
+
+\vspace{1em}
+
+\begin{proof}
+    The error function for the network takes the form
+    \begin{equation}\label{eq:5.153}\tag{5.153}
+        E(\mathbf{w}) 
+        = -\sum_{n=1}^{N} \ln
+        \bigg\{\sum_{k=1}^{K} \pi_k(\mathbf{x}, \mathbf{w}) 
+            \mathcal{N}\big(\mathbf{t}_n | \bm{\mu}_k(\mathbf{x}_n, \mathbf{w}),
+        \mathbf{I}\sigma_k^2(\mathbf{x}_n, \mathbf{w})\big)\bigg\}
+    \end{equation}
+    Taking the derivative of the error function over an individual data point 
+    wrt. to the network output activations controlling the mixing coefficients
+    yields:
+    \begin{align*}
+        \pdv{E_n}{a_k^\pi}
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \sum_{l=1}^{K} \pdv{\pi_l}{a_k^\pi} \mathcal{N}_{nl} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \sum_{l=1}^{K} \big(\delta_{lk} \pi_k - \pi_l \pi_k\big) \mathcal{N}_{nl} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \bigg(\pi_k \mathcal{N}_{nk} - \pi_k \sum_{l=1}^{K} \pi_l \mathcal{N}_{nl}\bigg) \\
+        &= \pi_k - \gamma_{nk} \label{eq:5.155}\tag{5.155}
+    \end{align*}
+    where $\mathcal{N}_{nk}$ denotes 
+    $\mathcal{N}\big(\mathbf{t}_n | \bm{\mu}_k(\mathbf{x}_n, \mathbf{w}), 
+        \mathbf{I}\sigma_k^2(\mathbf{x}_n, \mathbf{w})\big)$ and $\pi_k, \gamma_{nk}$ 
+        are defined by (5.150) and (5.154).
+\end{proof}
+
+\section*{Exercise 5.35 $\star$}
+Derive the result \eqref{eq:5.156} for the derivative
+of the error function with respect to the network output
+activations controlling the component means in the mixture
+density network.
+
+\vspace{1em}
+
+\begin{proof}
+    Similarly to the previous exercise, using (5.152) and
+    then taking the derivative of the individual error wrt. the component
+    means gives
+    \begin{align*}
+        \pdv{E_n}{a_{kl}^\mu}
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \sum_{i=1}^{K} \pi_i \pdv{\mathcal{N}_{ni}}{a_{kl}^\mu} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \sum_{i=1}^{K} \pi_i \frac{1}{\sqrt{(2\pi)^L \sigma_i^{2L}}} \pdv{a_{kl}^\mu}
+        \exp{-\frac{1}{2\sigma_i^2} \norm{\mathbf{t}_n - \bm{\mu}_i}^2} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \frac{t_{nl} - \mu_{kl}}{\sigma_k^2} \pi_k \frac{1}{\sqrt{(2\pi)^L \sigma_k^{2L}}} 
+        \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+        \frac{t_{nl} - \mu_{kl}}{\sigma_k^2} \pi_k\mathcal{N}_{nk} \\
+        &= \gamma_{nk} \bigg\{\frac{t_{nl} - \mu_{kl}}{\sigma_k^2}\bigg\} 
+        \label{eq:5.156}\tag{5.156}
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 5.36 $\star$}
+Derive the result \eqref{eq:5.157} for the derivative of the error
+function with respect to the network output activations controlling
+the component variances in the mixture density network.
+(See errata for correct version of \eqref{eq:5.157}).
+
+\vspace{1em}
+
+\begin{proof}
+    Analogously to previous exercises, using (5.151) and 
+    taking the derivative of the individual error wrt. the component
+    variances yields
+    \begin{align*}
+        \pdv{E_n}{a_k^\sigma}
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+            \sum_{i=1}^{K} \pi_i \pdv{\mathcal{N}_{ni}}{a_{k}^\sigma} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+            \pi_k \pdv{\mathcal{N}_{nk}}{a_{k}^\sigma} \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+            \pi_k\bigg[\frac{1}{\sqrt{(2\pi)^L}} \bigg(\pdv{\sigma_k^{-L}}{a_k^\sigma}
+            \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2} +
+            \sigma_k^{L} \pdv{a_k^\sigma} 
+            \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2}\bigg)\bigg] \\
+        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+            \pi_k\bigg(-L \mathcal{N}_{nk} 
+            + \frac{\norm{\mathbf{t}_n - \bm{\mu}_k}^2}{\sigma_k^2} \mathcal{N}_{nk}\bigg) \\
+        &= \gamma_{nk}\bigg\{L-
+        \frac{\norm{\mathbf{t}_n - \bm{\mu}_k}^2}{\sigma_k^2}\bigg\}
+        \label{eq:5.157}\tag{5.157}
+    \end{align*}
+\end{proof}
+
+\section*{Exercise 5.37 $\star$}
+Verify the results \eqref{eq:5.158} and \eqref{eq:5.160} for the conditional mean and 
+variance of the mixture density network model.
+
+\vspace{1em}
+
+\begin{proof}
+    The conditional mean result is easily verified by using (5.148) and 
+    identifying the expected value factor:
+    \begin{align*}
+        \mathbb{E}[\mathbf{t} | \mathbf{x}]
+        &= \int \mathbf{t} p(\mathbf{t} | \mathbf{x}) \diff \mathbf{t} \\
+        &= \int \mathbf{t} \sum_{k=1}^{K} \pi_k(\mathbf{x}) 
+            \mathcal{N}\big(\mathbf{t} | \bm{\mu}_k(\mathbf{x}), \sigma_k^2(\mathbf{x})\big) 
+            \diff \mathbf{t} \\
+        &= \sum_{k=1}^{K} \pi_k(\mathbf{x}) \int \mathbf{t}
+            \mathcal{N}\big(\mathbf{t} | \bm{\mu}_k(\mathbf{x}), \sigma_k^2(\mathbf{x})\big) 
+            \diff \mathbf{t} \\
+        &= \sum_{k=1}^{K} \pi_k(\mathbf{x}) \bm{\mu}_k(\mathbf{x})
+        \label{eq:5.158}\tag{5.158}
+    \end{align*}
+    The proof for the variance is a little bit more involved. Note that
+    \begin{align*}
+        \mathbb{E}\big[\norm{\mathbf{t}}^2 | \mathbf{x}\big]
+        &= \mathbb{E}\big[\norm{\bm{\mu}_k(\mathbf{x}) + 
+            \big(\mathbf{t} - \bm{\mu}_k(\mathbf{x})\big)}^2 | \mathbf{x}\big] \\
+        &= \mathbb{E}\big[\norm{\bm{\mu}_k(\mathbf{x})}^2 | \mathbf{x}\big]
+            + 2\mathbb{E}\big[\bm{\mu}_k(\mathbf{x}) | \mathbf{x}\big]\mathbb{E}\big[\mathbf{t} 
+            - \bm{\mu}_k(\mathbf{x}) | \mathbf{x}\big] 
+            + \mathbb{E}[\norm{\mathbf{t} - \bm{\mu}_k(\mathbf{x})}^2 | \mathbf{x}\big] \\
+        &= \mathbb{E}\big[\norm{\bm{\mu}_k(\mathbf{x})}^2 | \mathbf{x}\big]
+            + \Tr\big\{\mathbb{E}[\norm{\mathbf{t} 
+                - \bm{\mu}_k(\mathbf{x})}^2 | \mathbf{x}\big]\big\} \\
+        &= \mathbb{E}\big[\norm{\bm{\mu}_k(\mathbf{x})}^2 | \mathbf{x}\big] 
+            + \mathbb{E}\big[\Tr\big\{\big(\mathbf{t} 
+            - \bm{\mu}_k(\mathbf{x})\big)\big(\mathbf{t} - \bm{\mu}_k(\mathbf{x})\big)^T\big\}
+            | \mathbf{x}\big]
+    \end{align*}
+    Since the second term vanished and the third term is actually the variance
+    of $\mathcal{N}\big(\bm{\mu}_k(\mathbf{x}), \mathbf{I}\sigma_k^2(\mathbf{x})\big)$,
+    one has that
+    \[
+        \mathbb{E}\big[\norm{\mathbf{t}}^2 | \mathbf{x}\big]
+        = \sum_{k=1}^{K} \pi_k(\mathbf{x}) \bigg\{\norm{\bm{\mu}_k(\mathbf{x})}^2 
+            + \Tr\big\{\mathbf{I} \sigma_k(\mathbf{x})^2\big\}\bigg\}
+        = \sum_{k=1}^{K} \pi_k(\mathbf{x})\bigg\{
+            \norm{\bm{\mu}_k(\mathbf{x})}^2 + M\sigma_k^2(\mathbf{x})\bigg\}
+    \] 
+    where $M$ is the dimensionality of $\mathbf{t}$.
+    Now, the variance of the density function about the conditional average is given by
+    \begin{align*}
+        s^2(\mathbf{x}) 
+        &= \mathbb{E}\big[\norm{\mathbf{t} 
+            - \mathbb{E}[\mathbf{t} | \mathbf{x}]}^2 | \mathbf{x}\big] \\
+        &= \mathbb{E}\big[\norm{\mathbf{t}}^2 | \mathbf{x}\big] 
+        - 2\mathbb{E}[\mathbf{t} | \mathbf{x}]^T 
+            \mathbb{E}[\mathbb{E}[\mathbf{t} | \mathbf{x}] | \mathbf{x}\big]
+            + \mathbb{E}[\norm{\mathbb{E}[\mathbf{t} | \mathbf{x}}^2 | \mathbf{x}] \\
+        &= \sum_{k=1}^{K} \pi_k(\mathbf{x}) \bigg\{
+            M\sigma_k^2(\mathbf{x}) + \norm{\bm{\mu}_k(\mathbf{x})}^2 
+            - 2\bm{\mu}_k^T \mathbb{E}[\mathbf{t} | \mathbf{x}] 
+            + \norm{\mathbb{E}[\mathbf{t} | \mathbf{x}]}^2\bigg\} \\
+        &= \sum_{k=1}^{K} \pi_k(\mathbf{x}) \bigg\{
+            M\sigma_k^2(\mathbf{x}) + 
+            \bigg\Vert
+            \bm{\mu}_k(\mathbf{x})
+            - \sum_{l=1}^{K} \pi_l(\mathbf{x}) \bm{\mu}_l(\mathbf{x})\bigg\Vert^2\bigg\}
+        \label{eq:5.160}\tag{5.160}
+    \end{align*}
+\end{proof}
