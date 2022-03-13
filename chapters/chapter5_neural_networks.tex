@@ -1729,3 +1729,115 @@ variance of the mixture density network model.
         \label{eq:5.160}\tag{5.160}
     \end{align*}
 \end{proof}
+
+\section*{Exercise 5.38 $\star$}
+Using the general result \eqref{eq:2.115}, derive the predictive distribution
+\eqref{eq:5.172} for the Laplace approximation to the Bayesian neural network model.
+
+\vspace{1em}
+
+\begin{proof}
+    We've seen in Section 5.7.1 that 
+    \begin{equation}\label{eq:5.168}\tag{5.168}
+        p(t | \mathbf{x}, \mathcal{D}) 
+        \simeq
+        \int p(t | \mathbf{x}, \mathbf{w}, \beta)q(\mathbf{w} | \mathcal{D}) \diff \mathbf{w}
+    \end{equation}
+    where 
+    \begin{equation}\label{eq:5.167}\tag{5.167}
+        q(\mathbf{w} | \mathcal{D}) 
+        = \mathcal{N}(\mathbf{w} | \mathbf{w}_{\text{MAP}}, \mathbf{A}^{-1})
+    \end{equation}
+    and 
+    \begin{equation}\label{eq:5.171}\tag{5.171}
+        p(t | \mathbf{x}, \mathbf{w}, \beta)
+        \simeq \mathcal{N}(t | y(\mathbf{x}, \mathbf{w}_\text{MAP}) 
+        + \mathbf{g}^T(\mathbf{w} - \mathbf{w}_\text{MAP}), \beta^{-1})
+    \end{equation}
+    where $\mathbf{g}$ is defined by (5.170). Therefore, we can rewrite the marginal
+    distribution $p(t)$ as 
+    \[
+        p(t | \mathbf{x}, \mathcal{D})
+        \simeq \int_{}^{} 
+        \mathcal{N}(t | y(\mathbf{x}, \mathbf{w}_\text{MAP}) 
+        + \mathbf{g}^T(\mathbf{w} - \mathbf{w}_\text{MAP}), \beta^{-1})
+        \mathcal{N}(\mathbf{w} | \mathbf{w}_{\text{MAP}}, \mathbf{A}^{-1})
+        \diff \mathbf{w}
+    \] 
+    Now, using \eqref{eq:2.115} for the mean of the predictive distribution
+    and setting the parameters to their MAP value gives
+    \[
+        \mu(\mathbf{x}) 
+        = y(\mathbf{x}, \mathbf{w}_\text{MAP}) -\mathbf{g}^T \mathbf{w}_\text{MAP}
+        + \mathbf{g}^T\mathbf{w}|_{\mathbf{w} = \mathbf{w}_\text{MAP}}
+        = y(\mathbf{x}, \mathbf{w}_\text{MAP})
+    \] 
+    The input-dependent variance is obtained analogously using $\eqref{eq:2.115}$:
+    \begin{equation}\label{eq:5.173}\tag{5.173}
+        \sigma^2(\mathbf{x}) = \beta^{-1} + \mathbf{g}^T\mathbf{A}^{-1}\mathbf{g} 
+    \end{equation}
+    Finally, the predictive distribution can be written as
+    \begin{equation}\label{eq:5.172}\tag{5.172}
+        p(t | \mathbf{x}, \mathcal{D}, \alpha, \beta)
+        \simeq \mathcal{N}(t | y(\mathbf{x}, \mathbf{w}_{MAP}), 
+        \beta^{-1} + \mathbf{g}^T\mathbf{A}^{-1}\mathbf{g})
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 5.39 $\star$}
+Make use of the Laplace approximation result (4.135) to show that the
+evidence function for the hyperparameters $\alpha$ and $\beta$ in the Bayesian
+neural network model can be approximated by \eqref{eq:5.175}.
+
+\vspace{1em}
+
+\begin{proof}
+    Since the marginal likelihood is given by
+    \begin{equation}\label{eq:5.174}\tag{5.174}
+        p(\mathcal{D} | \alpha, \beta)
+        = \int_{}^{} p(\mathcal{D} | \mathbf{w}, \beta) p(\mathbf{w} | \alpha) \diff \mathbf{w}
+    \end{equation}
+    by identifying $f(\mathbf{w}) = p(\mathcal{D} | \mathbf{w}, \beta)p(\mathbf{w} | \alpha)$
+    and $Z = p(\mathcal{D} | \alpha, \beta)$ and then making use of the Laplace approximation
+    result (4.135) similarly to Section 4.4.1 gives
+    \begin{align*}
+        \ln p(\mathcal{D} | \alpha, \beta)
+        \simeq \ln p(\mathcal{D} | \mathbf{w}_\text{MAP}, \beta) 
+        + \ln p(\mathbf{w}_\text{MAP} | \alpha)
+        &- \frac{1}{2} \ln\bigg|-\nabla \nabla \ln 
+        \big\{p(\mathcal{D} | \mathbf{w}_\text{MAP}, \beta) p(\mathbf{w}_\text{MAP} | \alpha)\big\}
+        \bigg|  \\
+        &+ \frac{W}{2} \ln \alpha
+        + \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi)
+    \end{align*}
+    where $W$ is the total number of parameters in $\mathbf{w}$. Since 
+    \[
+        p(\mathbf{w}_\text{MAP} | \mathcal{D}, \alpha, \beta) 
+        \propto p(\mathcal{D} | \mathbf{w}_\text{MAP}, \beta)p(\mathbf{w}_\text{MAP} | \alpha)
+    \] 
+    we have that
+    \[
+        \ln p(\mathcal{D} | \alpha, \beta)
+        \simeq \ln p(\mathbf{w}_\text{MAP} | \mathcal{D}, \alpha, \beta)
+        - \frac{1}{2} \ln |\mathbf{A}|
+        + \frac{W}{2} \ln \alpha
+        + \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi)
+    \] 
+    where
+    \begin{equation}\label{eq:5.166}\tag{5.166}
+        \mathbf{A} = -\nabla \nabla \ln p(\mathbf{w} | \mathcal{D}, \alpha, \beta)
+    \end{equation}
+    From (5.165) and and (5.176), one can easily see that
+    \[
+        \ln p(\mathbf{w}_\text{MAP} | \mathcal{D}, \alpha, \beta)
+        = -E(\mathbf{w}_\text{MAP})
+    \]
+    so
+    \begin{equation}\label{eq:5.175}\tag{5.175}
+        \ln p(\mathcal{D} | \alpha, \beta)
+        \simeq -E(\mathbf{w}_\text{MAP})
+        - \frac{1}{2} \ln |\mathbf{A}|
+        + \frac{W}{2} \ln \alpha
+        + \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi)
+    \end{equation}
+\end{proof}
