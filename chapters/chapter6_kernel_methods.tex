@@ -1,0 +1,272 @@
+\chapter{Kernel Methods}
+
+\section*{Exercise 6.1 $\star \star$}
+Consider the dual formulation of the least squares linear
+regression problem given in Section 6.1. Show that the
+solution for the components $a_n$ of the vector
+$\mathbf{a}$ can be expressed as a linear combination of the
+elements of the vector $\bm{\phi}(\mathbf{x}_n)$. Denoting 
+these coefficients by the vector $\mathbf{w}$, show
+that the dual of the dual formulation is given by
+the original representation in terms of the parameter vector
+$\mathbf{w}$.
+
+\vspace{1em}
+
+\begin{proof}
+    By rewriting (6.4), one has that
+    \begin{align*}
+        a_n 
+        &= -\frac{1}{\lambda} \{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n) - t_n\} \\
+        &= -\frac{1}{\lambda} \bigg\{\sum_{i=1}^{M} w_i \phi_i(\mathbf{x}_n) 
+            - \frac{t_n}{\sum_{i=1}^{M} \phi_i(\mathbf{x}_n)} \sum_{i=1}^{M} \phi_i(\mathbf{x}_n)
+        \bigg\} \\
+        &= \sum_{i=1}^{M} \bigg(
+            \frac{t_n}{\lambda \sum_{i=1}^{M} \phi_i(\mathbf{x}_n)} - \frac{w_i}{\lambda}\bigg)
+            \phi_i(\mathbf{x}_n) \\
+        &= \sum_{i=1}^{M} \Omega_{ni} \phi_i(\mathbf{x}_n) \\
+        &= \bm{\Omega}_n^T \bm{\phi}(\mathbf{x}_n)
+    \end{align*}
+    where
+    \[
+        \Omega_{ni} = 
+            \frac{t_n}{\lambda \sum_{i=1}^{M} \phi_i(\mathbf{x}_n)} - \frac{w_i}{\lambda}
+    \] 
+    Therefore, $a_n$ can be written as a linear combination of the elements
+    of $\bm{\phi}(\mathbf{x}_n)$ and
+    \[
+        \mathbf{a} = \text{diag}(\bm{\Omega}\bm{\Phi})
+    \] 
+\end{proof}
+
+\section*{Exercise 6.3 $\star$}
+The nearest-neighbour classifier (Section 2.5.2) assigns
+a new input vector $\mathbf{x}$ to the same class as that of the nearest input
+vector $\mathbf{x}_n$ from the training set, where in the simple case,
+the distance is defined by the Euclidean metric $\norm{\mathbf{x} - \mathbf{x}_n}^2$.
+By expressing this rule in terms of scalar product and then making use of kernel
+substitution, formulate the nearest-neighbour classifier for a general nonlinear kernel.
+
+\vspace{1em}
+
+\begin{proof}
+    Since we're dealing with inner products over $\mathbb{R}$,
+    the Euclidian metric can be rewritten as
+    \begin{align*}
+        \norm{\mathbf{x} - \mathbf{x}_n}^2
+        = \langle \mathbf{x} - \mathbf{x}_n, \mathbf{x} - \mathbf{x}_n\rangle
+        = \langle\mathbf{x}, \mathbf{x}\rangle - 2\langle \mathbf{x}, \mathbf{x}_n \rangle
+        + \langle \mathbf{x}_n \mathbf{x}_n \rangle
+    \end{align*}
+    Similarly to what happens in Section 6.2, using kernel
+    substitution above to replace $\langle \mathbf{x}, \mathbf{x}' \rangle$ with
+    a nonlinear kernel $\kappa(\mathbf{x}, \mathbf{x}')$ yields the
+    nearest-neighbour classifier for a general nonlinear kernel:
+    \[
+        k(\mathbf{x}, \mathbf{x}') 
+        = \kappa(\mathbf{x}, \mathbf{x}) - 2\kappa(\mathbf{x}, \mathbf{x}_n)
+        + \kappa(\mathbf{x}_n, \mathbf{x}_n)
+    \] 
+\end{proof}
+
+\section*{Exercise 6.4 $\star$}
+In Appendix C, we give an example of a matrix that has positive elements
+but that ahas a negative eigenvalue and hence that is not positive
+definite. Find an example of the converse property, namely a $2 \times 2$ 
+matrix with positive eigenvalues that has at least one negative element.
+
+\vspace{1em}
+
+\begin{proof}
+    Consider the matrix 
+    \[
+        A = 
+        \begin{bmatrix}
+            2 & 1 \\
+            -1 & 2
+        \end{bmatrix}
+    \] 
+    $A$ contains one negative element and the eigenvalues of $A$ 
+    are $\lambda_1 = 1$ and $\lambda_2 = 3$, which proves that
+    a matrix can be positive definite and have negative elements.
+\end{proof}
+
+\section*{Exercise 6.5 $\star$}
+Verify the results \eqref{eq:6.13} and \eqref{eq:6.14} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Since $k_1$ is a valid kernel, let $\bm{\alpha}$ be
+    a feature mapping such that
+    \[
+        k_1(\mathbf{x}, \mathbf{x}') 
+        = \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle
+    \] 
+    Using the fact that an inner product on a real vector space is a 
+    positive-definite symmetric bilinear form, we have that
+    \[
+        ck_1(\mathbf{x}, \mathbf{x}')
+        = c \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle
+        = \langle \sqrt{c} \bm{\alpha}(\mathbf{x}), \sqrt{c} \bm{\alpha}(\mathbf{x}') \rangle
+        = \langle \bm{\beta}(\mathbf{x}), \bm{\beta}(\mathbf{x}') \rangle
+    \] 
+    where $c > 0$ is a constant and $\bm{\beta}(\mathbf{x}) = \sqrt{c}\bm{\alpha}(\mathbf{x})$.
+    Therefore, the new kernel 
+    \begin{equation}\label{eq:6.13}\tag{6.13}
+        k(\mathbf{x}, \mathbf{x}') = ck_1(\mathbf{x}, \mathbf{x}')
+    \end{equation}
+    is valid. Analogously, since $f(\cdot)$ is a real-valued function, 
+    \[
+        f(\mathbf{x}) k_1(\mathbf{x}, \mathbf{x}') f(\mathbf{x}')
+        = f(\mathbf{x}) \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle
+        f(\mathbf{x}')
+        = \langle f(\mathbf{x}) \bm{\alpha}(\mathbf{x}), f(\mathbf{x}') \bm{\alpha}(\mathbf{x}')
+        \rangle
+        = \langle \bm{\gamma}(\mathbf{x}), \bm{\gamma}(\mathbf{x}') \rangle
+    \] 
+    where $\bm{\gamma}(\mathbf{x}) = f(\mathbf{x}) \bm{\alpha}(\mathbf{x})$.
+    As a result, the kernel
+    \begin{equation}\label{eq:6.14}\tag{6.14}
+        k(\mathbf{x}, \mathbf{x}') = f(\mathbf{x}) k_1(\mathbf{x}, \mathbf{x}') f(\mathbf{x}')
+    \end{equation}
+    will also be valid.
+\end{proof}
+
+\section*{Exercise 6.7 $\star$}
+Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $K_1$ and $K_2$ be the Gram matrices corresponding to the 
+    kernels $k_1$ and $k_2$. Therefore, they are positive semidefinite matrices, so
+    for any $\mathbf{a} \in \mathbb{R}^n$, one has that
+    \[
+        \mathbf{a}^T\mathbf{H}\mathbf{a}
+        = \mathbf{a}^T\big(\mathbf{H}_1 + \mathbf{H}_2\big)\mathbf{a}
+        = \mathbf{a}^T \mathbf{H}_1 \mathbf{a} + \mathbf{a}^T \mathbf{H}_2 \mathbf{a} > 0
+    \] 
+    Since $\mathbf{H} = \mathbf{H}_1 + \mathbf{H}_2$ is positive semidefinite
+    and corresponds to the Gram matrix of the 
+    kernel $k(\mathbf{x}, \mathbf{x}') = k_1(\mathbf{x}, \mathbf{x'}) + 
+    k_2(\mathbf{x}, \mathbf{x}')$, one has that the kernel
+    \begin{equation}\label{eq:6.17}\tag{6.17}
+        k(\mathbf{x}, \mathbf{x}') = k_1(\mathbf{x}, \mathbf{x}') + k_2(\mathbf{x}, \mathbf{x}')
+    \end{equation}
+    is valid. Now, let $\bm{\alpha}, \bm{\beta}$ be feature mappings such that
+    \[
+        k_1(\mathbf{x}, \mathbf{x}') 
+        = \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle 
+    \] 
+    \[
+        k_2(\mathbf{x}, \mathbf{x}') 
+        = \langle \bm{\beta}(\mathbf{x}), \bm{\beta}(\mathbf{x}') \rangle 
+    \]
+    As a result,
+    \begin{align*}
+        k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
+        &= \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle 
+        \langle \bm{\beta}(\mathbf{x}), \bm{\beta}(\mathbf{x}') \rangle \\
+        &= \bm{\alpha}(\mathbf{x})^T \bm{\alpha}(\mathbf{x}')
+        \bm{\beta}^T(\mathbf{x}) \bm{\beta}^T(\mathbf{x}') \\
+        &= \bigg[\sum_{i=1}^{N} \alpha_i(\mathbf{x}) \alpha_i(\mathbf{x}')\bigg]
+        \bigg[\sum_{j=1}^{N} \beta_i(\mathbf{x}) \beta_i(\mathbf{x}')\bigg] \\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
+        \alpha_i(\mathbf{x}') \beta_j(\mathbf{x}') \\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{N}  A_{ij}(\mathbf{x}) A_{ij}(\mathbf{x}') \\
+        &= \langle \mathbf{A}(\mathbf{x}), \mathbf{A}(\mathbf{x'}) \rangle_\mathbf{F}
+    \end{align*}
+    where $\mathbf{A}$ is a square matrix with
+    \[
+        A_{ij}(\mathbf{x}) = \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
+    \] 
+    and $\langle \cdot, \cdot \rangle_\mathbf{F}$ is the Frobenius inner product.
+    Since the product kernel can be rewritten as a valid inner product in the 
+    feature space defined by the feature mapping $\mathbf{A}(\mathbf{x})$,
+    the new kernel
+    \begin{equation}\label{eq:6.18}\tag{6.18}
+        k(\mathbf{x}, \mathbf{x}')
+        = k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
+    \end{equation}
+    is valid.
+\end{proof}
+
+\section*{Exercise 6.6 $\star$}
+Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $q(\cdot)$ be a polynomial with nonnegative coefficients. Since in the polynomial
+    kernels are summed and multiplied by nonnegative constants or other kernels, combining
+    \eqref{eq:6.13}, \eqref{eq:6.17} and \eqref{eq:6.18} proves that
+    the kernel
+    \begin{equation}\label{eq:6.15}\tag{6.15}
+        k(\mathbf{x}, \mathbf{x}') = q\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+    \end{equation}
+    is valid. Now, the exponential function is defined as
+    \[
+        \exp(x) \coloneqq \sum_{i=0}^{\infty} \frac{x^i}{i!} 
+    \],
+    so
+    \[
+        \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+        = \sum_{i=0}^{\infty} \frac{k_1(\mathbf{x}, \mathbf{x}')^i}{i!}
+    \] 
+    Note that the exponential of a kernel is an infinite sequence of kernel sums
+    and products (with itself or nonnegative constants), so by using
+    \eqref{eq:6.13}, \eqref{eq:6.17}, \eqref{eq:6.18} again, one has that
+    the new kernel
+    \begin{equation}\label{eq:6.16}\tag{6.16}
+        k(\mathbf{x}, \mathbf{x}') = \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+    \end{equation}
+    is valid.
+\end{proof}
+
+\section*{Exercise 6.7 $\star$}
+Verify the results \eqref{eq:6.19} and \eqref{eq:6.20} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $\bm{\psi}$ be a feature mapping such that
+    \[
+        k_3(\mathbf{x}, \mathbf{x}') 
+        = \langle \bm{\psi}(\mathbf{x}), \bm{\psi}(\mathbf{x}') \rangle
+    \] 
+    Then,
+    \begin{align*}
+        k_3\big(\bm{\phi}(\mathbf{x}), \bm{\phi}(\mathbf{x}')\big)
+        &= \langle \bm{\psi}\big(\bm{\phi}(\mathbf{x})\big),
+            \bm{\psi}\big(\bm{\phi}(\mathbf{x}')\big)\rangle \\
+        &= \langle \big(\bm{\psi} \circ \bm{\phi}\big)(\mathbf{x}),
+            \big(\bm{\psi} \circ \bm{\phi}\big)(\mathbf{x}')\rangle \\
+        &= \langle \bm{\gamma}(\mathbf{x}), \bm{\gamma}(\mathbf{x}')\rangle
+    \end{align*}
+    where $\bm{\phi}$ is a function from $\mathbf{x}$ to $\mathbb{R}^M$ and
+    $\bm{\gamma} = \bm{\psi} \circ \bm{\phi}$. Therefore, the kernel
+    \begin{equation}\label{eq:6.19}\tag{6.19} 
+        k(\mathbf{x}, \mathbf{x}') = k_3\big(\bm{\phi}(\mathbf{x}),
+        \bm{\phi}(\mathbf{x}')\big)
+    \end{equation}
+    is valid. For the second part, since $\mathbf{A}$ is a 
+    symmetric, positive semidefinite matrix, one can use the Cholesky
+    decomposition to obtain a matrix $\mathbf{L}$ such that
+    \[
+        \mathbf{A} = \mathbf{L} \mathbf{L}^T
+    \] 
+    As a result, one can show that
+    \begin{align*}
+        \mathbf{x}^T \mathbf{A} \mathbf{x}
+        = \mathbf{x}^T \mathbf{L} \mathbf{L}^T \mathbf{x}
+        = \big(\mathbf{L}^T \mathbf{x}\big)^T \big(\mathbf{L}^T \mathbf{x}\big)
+        = \langle \bm{\zeta}(\mathbf{x}), \bm{\zeta}(\mathbf{x}') \rangle
+    \end{align*}
+    where $\bm{\zeta}(\mathbf{x}) = \mathbf{L}^T \mathbf{x}$.
+    Hence, the kernel
+    \begin{equation}\label{eq:6.20}\tag{6.20}
+        k(\mathbf{x}, \mathbf{x}') = \mathbf{x}^T \mathbf{A} \mathbf{x}
+    \end{equation}
+    is valid.
+\end{proof} 
