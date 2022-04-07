@@ -133,6 +133,38 @@ Verify the results \eqref{eq:6.13} and \eqref{eq:6.14} for constructing valid ke
     will also be valid.
 \end{proof}
 
+\section*{Exercise 6.6 $\star$}
+Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $q(\cdot)$ be a polynomial with nonnegative coefficients. Since in the polynomial
+    kernels are summed and multiplied by nonnegative constants or other kernels, combining
+    \eqref{eq:6.13}, \eqref{eq:6.17} and \eqref{eq:6.18} proves that
+    the kernel
+    \begin{equation}\label{eq:6.15}\tag{6.15}
+        k(\mathbf{x}, \mathbf{x}') = q\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+    \end{equation}
+    is valid. Now, the exponential function is defined as
+    \[
+        \exp(x) \coloneqq \sum_{i=0}^{\infty} \frac{x^i}{i!} 
+    \],
+    so
+    \[
+        \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+        = \sum_{i=0}^{\infty} \frac{k_1(\mathbf{x}, \mathbf{x}')^i}{i!}
+    \] 
+    Note that the exponential of a kernel is an infinite sequence of kernel sums
+    and products (with itself or nonnegative constants), so by using
+    \eqref{eq:6.13}, \eqref{eq:6.17}, \eqref{eq:6.18} again, one has that
+    the new kernel
+    \begin{equation}\label{eq:6.16}\tag{6.16}
+        k(\mathbf{x}, \mathbf{x}') = \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
+    \end{equation}
+    is valid.
+\end{proof}
+
 \section*{Exercise 6.7 $\star$}
 Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid kernels.
 
@@ -169,7 +201,7 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
         &= \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle 
         \langle \bm{\beta}(\mathbf{x}), \bm{\beta}(\mathbf{x}') \rangle \\
         &= \bm{\alpha}(\mathbf{x})^T \bm{\alpha}(\mathbf{x}')
-        \bm{\beta}^T(\mathbf{x}) \bm{\beta}^T(\mathbf{x}') \\
+        \bm{\beta}^T(\mathbf{x}) \bm{\beta}(\mathbf{x}') \\
         &= \bigg[\sum_{i=1}^{N} \alpha_i(\mathbf{x}) \alpha_i(\mathbf{x}')\bigg]
         \bigg[\sum_{j=1}^{M} \beta_i(\mathbf{x}) \beta_i(\mathbf{x}')\bigg] \\
         &= \sum_{i=1}^{N} \sum_{j=1}^{M} \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
@@ -203,38 +235,6 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
     \] 
     where $\varoslash$ and $\odot$ denote integer division and remainder,
     respectively.
-\end{proof}
-
-\section*{Exercise 6.6 $\star$}
-Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid kernels.
-
-\vspace{1em}
-
-\begin{proof}
-    Let $q(\cdot)$ be a polynomial with nonnegative coefficients. Since in the polynomial
-    kernels are summed and multiplied by nonnegative constants or other kernels, combining
-    \eqref{eq:6.13}, \eqref{eq:6.17} and \eqref{eq:6.18} proves that
-    the kernel
-    \begin{equation}\label{eq:6.15}\tag{6.15}
-        k(\mathbf{x}, \mathbf{x}') = q\big(k_1(\mathbf{x}, \mathbf{x}')\big)
-    \end{equation}
-    is valid. Now, the exponential function is defined as
-    \[
-        \exp(x) \coloneqq \sum_{i=0}^{\infty} \frac{x^i}{i!} 
-    \],
-    so
-    \[
-        \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
-        = \sum_{i=0}^{\infty} \frac{k_1(\mathbf{x}, \mathbf{x}')^i}{i!}
-    \] 
-    Note that the exponential of a kernel is an infinite sequence of kernel sums
-    and products (with itself or nonnegative constants), so by using
-    \eqref{eq:6.13}, \eqref{eq:6.17}, \eqref{eq:6.18} again, one has that
-    the new kernel
-    \begin{equation}\label{eq:6.16}\tag{6.16}
-        k(\mathbf{x}, \mathbf{x}') = \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
-    \end{equation}
-    is valid.
 \end{proof}
 
 \section*{Exercise 6.8 $\star$}
@@ -316,7 +316,7 @@ Verify the results \eqref{eq:6.21} and \eqref{eq:6.22} for constructing valid ke
             \bm{\phi}_b(\mathbf{x}_b)
         \end{bmatrix}
     \] 
-    Therefore, the kernel 
+    Hence, the kernel 
     \begin{equation}\label{eq:6.21}\tag{6.21}
         k(\mathbf{x}, \mathbf{x}') = 
         k_a(\mathbf{x}_a, \mathbf{x}_a') +
@@ -344,7 +344,7 @@ Verify the results \eqref{eq:6.21} and \eqref{eq:6.22} for constructing valid ke
     Therefore, the new kernel
     \begin{equation}\label{eq:6.22}\tag{6.22}
         k(\mathbf{x}, \mathbf{x}') = 
-        k_a(\mathbf{x}_a, \mathbf{x}_a' k_b(\mathbf{x}_b, \mathbf{x}_b')
+        k_a(\mathbf{x}_a, \mathbf{x}_a') k_b(\mathbf{x}_b, \mathbf{x}_b')
     \end{equation}
     will also be valid.
 \end{proof}
