@@ -171,13 +171,13 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
         &= \bm{\alpha}(\mathbf{x})^T \bm{\alpha}(\mathbf{x}')
         \bm{\beta}^T(\mathbf{x}) \bm{\beta}^T(\mathbf{x}') \\
         &= \bigg[\sum_{i=1}^{N} \alpha_i(\mathbf{x}) \alpha_i(\mathbf{x}')\bigg]
-        \bigg[\sum_{j=1}^{N} \beta_i(\mathbf{x}) \beta_i(\mathbf{x}')\bigg] \\
-        &= \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
-        \alpha_i(\mathbf{x}') \beta_j(\mathbf{x}') \\
-        &= \sum_{i=1}^{N} \sum_{j=1}^{N}  A_{ij}(\mathbf{x}) A_{ij}(\mathbf{x}') \\
+        \bigg[\sum_{j=1}^{M} \beta_i(\mathbf{x}) \beta_i(\mathbf{x}')\bigg] \\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{M} \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
+        \alpha_i(\mathbf{x}') \beta_j(\mathbf{x}') \tag{*}\\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{M}  A_{ij}(\mathbf{x}) A_{ij}(\mathbf{x}') \\
         &= \langle \mathbf{A}(\mathbf{x}), \mathbf{A}(\mathbf{x'}) \rangle_\mathbf{F}
     \end{align*}
-    where $\mathbf{A}$ is a square matrix with
+    where $\mathbf{A}$ is a matrix with
     \[
         A_{ij}(\mathbf{x}) = \alpha_i(\mathbf{x}) \beta_j(\mathbf{x})
     \] 
@@ -189,7 +189,20 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
         k(\mathbf{x}, \mathbf{x}')
         = k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
     \end{equation}
-    is valid.
+    is valid. Note that we can continue differently from (*), so
+    \begin{align*}
+        k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
+        = \sum_{k=1}^{K} \phi_k (\mathbf{x}) \phi_k(\mathbf{x}')
+        = \langle \bm{\phi}(\mathbf{x}), \bm{\phi}(\mathbf{x}') \rangle
+    \end{align*}
+    where $K = NM$ and
+    \[
+        \phi_k(\mathbf{x}) 
+        = \alpha_{((k - 1) \varoslash N) + 1}(\mathbf{x})
+        \beta_{((k - 1) \odot N) + 1}(\mathbf{x})
+    \] 
+    where $\varoslash$ and $\odot$ denote integer division and remainder,
+    respectively.
 \end{proof}
 
 \section*{Exercise 6.6 $\star$}
@@ -224,7 +237,7 @@ Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid ke
     is valid.
 \end{proof}
 
-\section*{Exercise 6.7 $\star$}
+\section*{Exercise 6.8 $\star$}
 Verify the results \eqref{eq:6.19} and \eqref{eq:6.20} for constructing valid kernels.
 
 \vspace{1em}
@@ -270,3 +283,198 @@ Verify the results \eqref{eq:6.19} and \eqref{eq:6.20} for constructing valid ke
     \end{equation}
     is valid.
 \end{proof} 
+
+\section*{Exercise 6.9 $\star$}
+Verify the results \eqref{eq:6.21} and \eqref{eq:6.22} for constructing valid kernels.
+
+\vspace{1em}
+
+\begin{proof}
+    Let $\bm{\phi}_a$ and $\bm{\phi}_b$ be feature mappings so that
+    \[
+        k_a(\mathbf{x}, \mathbf{x}') 
+        = \langle\bm{\phi}_a(\mathbf{x}), \bm{\phi}_a(\mathbf{x}')\rangle
+    \] 
+    \[
+        k_b(\mathbf{x}, \mathbf{x}') 
+        = \langle\bm{\phi}_b(\mathbf{x}), \bm{\phi}_b(\mathbf{x}')\rangle
+    \] 
+    Therefore, since the inner product becomes a bilinear form on $\mathbb{R}$,
+    \begin{align*}
+        k_a(\mathbf{x}_a, \mathbf{x'}_a) + k_b(\mathbf{x}_b, \mathbf{x}_b')
+        &= \langle\bm{\phi}_a(\mathbf{x}_a), \bm{\phi}_a(\mathbf{x}_a')\rangle
+        + \langle\bm{\phi}_b(\mathbf{x}_b), \bm{\phi}_b(\mathbf{x}_b')\rangle \\
+        &= \langle \big(\bm{\phi}_a(\mathbf{x}_a), \bm{\phi}_a(\mathbf{x}_a')\big),
+        \big(\bm{\phi}_b(\mathbf{x}_b), \bm{\phi}_b(\mathbf{x}_b')\big) \rangle \\
+        &= \langle \bm{\phi}(\mathbf{x}), \bm{\phi}(\mathbf{x'}) \rangle
+    \end{align*}
+    where
+    \[
+        \bm{\phi}(\mathbf{x}) = 
+        \begin{bmatrix}
+            \bm{\phi}_a(\mathbf{x}_a) \\
+            \bm{\phi}_b(\mathbf{x}_b)
+        \end{bmatrix}
+    \] 
+    Therefore, the kernel 
+    \begin{equation}\label{eq:6.21}\tag{6.21}
+        k(\mathbf{x}, \mathbf{x}') = 
+        k_a(\mathbf{x}_a, \mathbf{x}_a') +
+        k_b(\mathbf{x}_b, \mathbf{x}_b')
+    \end{equation}
+    is valid. The product identity is obtained similarly to
+    what we do in Exercise 6.7. One has that
+    \begin{align*}
+        k_a(\mathbf{x}_a, \mathbf{x}_a')k_b(\mathbf{x}_b, \mathbf{x}_b')
+        &= \langle\bm{\phi}_a(\mathbf{x}_a), \bm{\phi}_a(\mathbf{x}_a')\rangle
+        \langle\bm{\phi}_b(\mathbf{x}_b), \bm{\phi}_b(\mathbf{x}_b')\rangle \\
+        &= \bigg[\sum_{i=1}^{N_a} \phi_{ai}(\mathbf{x}_a) \phi_{ai}(\mathbf{x}_a')\bigg]
+        \bigg[\sum_{j=1}^{N_b} \phi_{bj}(\mathbf{x}_b) \phi_{bj}(\mathbf{x}_b')\bigg] \\
+        &= \sum_{i=1}^{N_a} \sum_{j=1}^{N_b}
+        \phi_{ai}(\mathbf{x}_a) \phi_{bj}(\mathbf{x}_b)
+        \phi_{ai}(\mathbf{x}_a') \phi_{bj}(\mathbf{x}_b') \\
+        &= \sum_{i=1}^{N_a} \sum_{j=1}^{N_b} A_{ij}(\mathbf{x}) A_{ij}(\mathbf{x}') \\
+        &= \langle \mathbf{A}(\mathbf{x}), \mathbf{A}(\mathbf{x}') \rangle_\bm{F}
+    \end{align*}
+    where $\langle \cdot, \cdot \rangle_\bm{F}$ is the Frobenius inner product,
+    $\phi_{ai}(\mathbf{x})$ is the $i$-th element of $\bm{\phi}_a(\mathbf{x})$ and
+    \[
+        A_{ij}(\mathbf{x}) = \phi_{ai}(\mathbf{x}_a) \phi_{bj}(\mathbf{x}_b)
+    \] 
+    Therefore, the new kernel
+    \begin{equation}\label{eq:6.22}\tag{6.22}
+        k(\mathbf{x}, \mathbf{x}') = 
+        k_a(\mathbf{x}_a, \mathbf{x}_a' k_b(\mathbf{x}_b, \mathbf{x}_b')
+    \end{equation}
+    will also be valid.
+\end{proof}
+
+\section*{Exercise 6.10 $\star$}
+Show that an excellent choice of kernel for learning a function
+$f(\mathbf{x})$ is given by $k(\mathbf{x}, \mathbf{x}') = f(\mathbf{x})f(\mathbf{x}')$
+by showing that a linear learning machine-based on this kernel will always find a solution
+proportional to $f(\mathbf{x})$.
+
+\vspace{1em}
+
+\begin{proof}
+    By substituting the kernel and (6.8) into (6.9), one has that
+    \[
+        y(\mathbf{x}) 
+        = \mathbf{k}(\mathbf{x})^T(\mathbf{K} + \lambda \mathbf{I}_N)^{-1} \mathbf{t}
+        = \mathbf{k}(\mathbf{x})^T \mathbf{a}
+        = \sum_{n=1}^{N} k(\mathbf{x}, \mathbf{x}_n) a_n
+        = f(\mathbf{x}) \bigg[\sum_{n=1}^{N} f(\mathbf{x}_n) a_n\bigg]
+    \] 
+    which shows that the prediction function will always be proportional
+    to $f(\mathbf{x})$.
+\end{proof}
+
+\section*{Exercise 6.11 $\star$}
+By making use of the expansion \eqref{eq:6.25}, and then expanding
+the middle factor as a power series, show that the Gaussian kernel
+(6.23) can be expressed as the inner product
+of an infinite-dimensional feature vector.
+
+\vspace{1em}
+
+\begin{proof}
+    We've seen in Section 6.2 that the Gaussian kernel can be expanded
+    as
+    \begin{equation}\label{eq:6.25}\tag{6.25}
+        k(\mathbf{x}, \mathbf{x}') 
+        = \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}}
+        \exp{\frac{\langle \mathbf{x}, \mathbf{x}' \rangle}{\sigma^2}}
+        \exp{-\frac{\norm{\mathbf{x}'}^2}{2\sigma^2}}
+    \end{equation}
+    In Exercise 6.7 we proved that if $\bm{\alpha}, \bm{\beta}$ are feature maps,
+    there exists a feature map $\bm{\psi}$ such that
+    \[
+        \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}') \rangle
+        \langle \bm{\beta}(\mathbf{x}), \bm{\beta}(\mathbf{x}') \rangle
+        = \langle \bm{\bm{\psi}}(\mathbf{x}), \bm{\psi}(\mathbf{x}') \rangle
+    \] 
+    Therefore, one can prove using induction that there exists a feature map $\bm{\zeta}$
+    such that for $n \in \mathbb{N}$,
+    \[
+        \langle \bm{\alpha}(\mathbf{x}), \bm{\alpha}(\mathbf{x}')\rangle^n
+        = \langle \bm{\zeta}(\mathbf{x}), \bm{\zeta}(\mathbf{x}') \rangle
+    \] 
+    Now, using the definition of the exponential function for the middle term gives
+    \begin{align*}
+        \exp{\frac{\langle \mathbf{x}, \mathbf{x}' \rangle}{\sigma^2}}
+        = \sum_{i=0}^{\infty} \frac{1}{i! \sigma^{2i}} \langle \mathbf{x}, \mathbf{x}' \rangle^i
+        = \sum_{i=0}^{\infty} \frac{1}{i! \sigma^{2i}}
+        \langle \bm{\Psi}_i(\mathbf{x}), \bm{\Psi}_i(\mathbf{x}') \rangle
+        &= \sum_{i=0}^{\infty} 
+        \bigg\langle \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}),
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}') \bigg\rangle
+    \end{align*}
+    where $\bm{\Psi}_i$ are feature maps such that
+    \[
+        \langle\mathbf{x}, \mathbf{x}'\rangle^i 
+        = \langle \bm{\Psi}_i(\mathbf{x}), \bm{\Psi}_i(\mathbf{x}')\rangle 
+    \] 
+    Substituting this result back into \eqref{eq:6.25} yields
+    \begin{align*}
+        k(\mathbf{x}, \mathbf{x}')
+        &= \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}}
+        \exp{-\frac{\norm{\mathbf{x}'}^2}{2\sigma^2}}
+        \sum_{i=0}^{\infty} \bigg\langle \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}),
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}') \bigg\rangle \\
+        &= \sum_{i=0}^{\infty} 
+        \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}}
+        \exp{-\frac{\norm{\mathbf{x}'}^2}{2\sigma^2}}
+        \bigg\langle \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}),
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}') \bigg\rangle \\
+        &= \sum_{i=0}^{\infty} \bigg\langle
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x})
+        \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}},
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x}')
+        \exp{-\frac{\norm{\mathbf{x}'}^2}{2\sigma^2}} \bigg\rangle \\ 
+        &= \sum_{i=0}^{\infty} \phi_i(\mathbf{x}) \phi_i(\mathbf{x}') \\
+        &= \langle \bm{\phi}(\mathbf{x}), \bm{\phi}(\mathbf{x}') \rangle
+    \end{align*}
+    where $\bm{\phi}(\mathbf{x})$ is a feature vector of infinite dimensionality with
+    \[
+        \phi_i(\mathbf{x}) = 
+        \bigg\langle
+        \frac{1}{\sigma}\sqrt{\frac{1}{i!}} \bm{\Psi}_i(\mathbf{x})
+        \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}}\bigg\rangle
+    \] 
+\end{proof}
+
+\section*{Exercise 6.12 $\star \star$}
+Consider the space fo all possible subsets $A$ of a given fixed set $D$.
+Show that the kernel function \eqref{eq:6.27} corresponds to an inner product in a feature
+space of dimensionality $2^{|D|}$ defined by the mapping $\bm{\phi}(A)$ where $A$ 
+is a subset of $D$ and the element $\phi_U(\mathbf{A})$, indexed by the subset
+$U$, is given by
+\begin{equation}\label{eq:6.95}\tag{6.95}
+    \phi_U(A) = \begin{cases}
+        1, & \text{ if }  U \subseteq A \\
+        0, & \text{ otherwise }
+    \end{cases}
+\end{equation}
+Here $U \subseteq A$ denotes that $U$ is either a subset of $A$ or is equal to $A$. 
+
+\vspace{1em}
+
+\begin{proof}
+    Using simple combinatorics, one can easily show that the number
+    of subsets of a given fixed set $D$ is given by $2^{|D|}$.
+    Therefore, $\bm{\phi}(A)$ will be of dimensionality $2^{|D|}$. Since
+    the element $\phi_U(A)$ is 1 if $U \subseteq A$ and 0 otherwise,
+    the result of the inner product $\langle \bm{\phi}(A_1), \bm{\phi}(A_2) \rangle$
+    will give the number of subsets of $D$ contained by both $A_1$ and $A_2$. 
+    However, since $A_1, A_2 \subseteq D$ this can also be expressed by counting
+    the number of subsets of $A_1 \cap A_2$. This is done by the kernel
+    \begin{equation}\label{eq:6.27}\tag{6.27}
+        k(A_1, A_2) = 2^{|A_1 \cap A_2|}
+    \end{equation}
+    Hence, the kernel can be written as an inner product in the space defined
+    by the mapping $\bm{\phi}(A)$ since
+     \[
+        k(A_1, A_2) = 2^{|A_1 \cap A_2|} = \langle \bm{\phi}(A_1), \bm{\phi}(A_2) \rangle
+    \] 
+\end{proof}
