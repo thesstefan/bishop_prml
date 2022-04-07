@@ -478,3 +478,107 @@ Here $U \subseteq A$ denotes that $U$ is either a subset of $A$ or is equal to $
         k(A_1, A_2) = 2^{|A_1 \cap A_2|} = \langle \bm{\phi}(A_1), \bm{\phi}(A_2) \rangle
     \] 
 \end{proof}
+
+\section*{Exercise 6.13 $\star$ TODO}
+Show that the Fisher kernel, defined by \eqref{eq:6.33}, remains
+invariant if we make a nonlinear transformation of the parameter
+vector $\bm{\theta} \to \bm{\psi}(\bm{\theta})$, where the function
+$\bm{\psi}(\cdot)$ is invertible and differentiable.
+
+\vspace{1em}
+
+\begin{proof}
+    The Fisher kernel is defined by
+    \begin{equation}\label{eq:6.33}\tag{6.33}
+        k(\mathbf{x}, \mathbf{x}') 
+        = \mathbf{g}(\bm{\theta}, \mathbf{x})^T \mathbf{F}^{-1} \mathbf{g}(\bm{\theta}, \mathbf{x}')
+    \end{equation}
+    where 
+    \begin{equation}\label{eq:6.32}\tag{6.32}
+        \mathbf{g}(\bm{\theta}, \mathbf{x}) 
+        = \nabla_{\bm{\theta}} \ln p(\mathbf{x} | \bm{\theta})
+    \end{equation}
+    is the Fisher \emph{score} and $\mathbf{F}$ is the Fisher \emph{information matrix}, given
+    by
+    \begin{equation}\label{eq:6.34}\tag{6.34}
+        \mathbf{F} = \mathbb{E}_\mathbf{x}\big[
+        \mathbf{g}(\bm{\theta}, \mathbf{x})\mathbf{g}(\bm{\theta}, \mathbf{x})^T\big]
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 6.14 $\star$}
+Write down the form of the Fisher kernel, defined by \eqref{eq:6.33},
+for the case of a distribution 
+$p(\mathbf{x} | \bm{\mu}) = \mathcal{N}(\mathbf{x} | \bm{\mu}, \mathbf{S})$ 
+that is Gaussian with mean $\bm{\mu}$ and fixed covariance $\mathbf{S}$.
+
+\vspace{1em}
+
+\begin{proof}
+    We start by evaluating the Fisher \emph{score} using \eqref{eq:6.32}:
+    \begin{align*}
+        \mathbf{g}(\bm{\mu}, \mathbf{x})
+        &= \nabla_{\bm{\mu}} \ln p(\mathbf{x} | \bm{\mu}) \\
+        &= \nabla_{\bm{\mu}} \ln \mathcal{N}(\mathbf{x} | \bm{\mu}, \mathbf{S}) \\
+        &= \nabla_{\bm{\mu}} \ln \bigg[\frac{1}{(2\pi)^{k/2} |\mathbf{S}|^{1/2}}
+        \exp{-\frac{1}{2}(\mathbf{x} - \bm{\mu})^T \mathbf{S}^{-1}(\mathbf{x} - \bm{\mu})}\bigg] \\
+        &= \nabla_{\bm{\mu}} \bigg[-\frac{1}{2}(\mathbf{x} - \bm{\mu}) 
+            \mathbf{S}^{-1} (\mathbf{x} - \bm{\mu})\bigg] \\
+        &= \mathbf{S}^{-1}(\mathbf{x} - \bm{\mu})
+    \end{align*}
+    Now, the \emph{information matrix} will be given by \eqref{eq:6.34}:
+    \begin{align*}
+        \mathbf{F} 
+        = \mathbb{E}_{\mathbf{x}}\big[\mathbf{g}(\bm{\mu}, \mathbf{x}) 
+        \mathbf{g}(\bm{\mu}, \mathbf{x})^T\big]
+        = \mathbb{E}_{\mathbf{x}}\big[\mathbf{S}^{-1}
+        (\mathbf{x} - \bm{\mu})(\mathbf{x} - \bm{\mu})^T \mathbf{S}^{-1}\big]
+        = \mathbf{S}^{-1} \mathbb{E}_{\mathbf{x}}\big[
+        (\mathbf{x} - \bm{\mu})(\mathbf{x} - \bm{\mu})^T\big] \mathbf{S}^{-1}
+    \end{align*}
+    Since the expectation corresponds to the covariance matrix, we have that
+    \[
+        \mathbf{F} = \mathbf{S}^{-1}
+    \] 
+    Finally, the Fisher kernel can be obtained by substituting the obtained values
+    into \eqref{eq:6.33}:
+    \[
+        k(\mathbf{x}, \mathbf{x}')
+        = \mathbf{g}(\bm{\mu}, \mathbf{x})^T \mathbf{F}^{-1} \mathbf{g}(\bm{\mu}, \mathbf{x}')
+        = (\mathbf{x} - \bm{\mu})^T \mathbf{S}^{-1} \mathbf{S} \mathbf{S}^{-1} (\mathbf{x} - \bm{\mu})
+        = (\mathbf{x} - \bm{\mu})^T \mathbf{S}^{-1} (\mathbf{x} - \bm{\mu})
+    \] 
+    which turns out to be the Mahalanobis distance.
+\end{proof}
+
+\section*{Exercise 6.15 $\star$}
+By considering the determinant of a $2 \times 2$ Gram matrix,
+show that a positive definite kernel function $k(x, x')$ satisfies
+the Cauchy-Schwartz inequality
+\begin{equation}\label{eq:6.96}\tag{6.96}
+    k(x_1, x_2)^2 \leq k(x_1, x_1)k(x_2, x_2)
+\end{equation}
+
+\vspace{1em}
+
+\begin{proof}
+    Consider the $2 \times 2$ Gram matrix corresponding to the kernel $k$:
+    \[
+        \mathbf{K} = 
+        \begin{bmatrix}
+            k(x_1, x_1) & k(x_1, x_2) \\
+            k(x_2, x_1) & k(x_2, x_2)
+        \end{bmatrix}
+    \] 
+    Since the kernel function is symmetric, the determinant of $K$ is given by
+    \[
+        |\mathbf{K}| = k(x_1, x_1) k(x_2, x_2) - k(x_1, x_2)^2
+    \] 
+    Now, since the Gram matrix $\mathbf{K}$ is positive definite, its eigenvalues
+    are positive. Since the determinant of a matrix is given by the product
+    of its eigenvalues, then the determinant of $\mathbf{K}$ must then be positive.
+    Hence,
+    \begin{equation}\tag{6.96}
+        k(x_1, x_2)^2 \leq k(x_1, x_1)k(x_2, x_2)
+    \end{equation}
+\end{proof}
