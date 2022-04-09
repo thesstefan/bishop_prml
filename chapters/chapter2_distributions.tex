@@ -3,30 +3,35 @@
 \section*{Exercise 2.1 $\star$}
 Verify that the Bernoulli distribution (2.2) satisfies
 the following properties
-\begin{equation}\label{eq:2.257}\tag{2.257}
+\begin{equation*}
     \sum_{x=0}^{1} p(x | \mu) = 1
-\end{equation}
+    \tag{2.257}\label{eq:2.257}
+\end{equation*}
 \vspace{-1em}
-\begin{equation}\label{eq:2.258}\tag{2.258}
+\begin{equation*}
     \mathbb{E}[x] = \mu
-\end{equation}
+    \tag{2.258}\label{eq:2.258}
+\end{equation*}
 \vspace{-1em}
-\begin{equation}\label{eq:2.259}\tag{2.259}
+\begin{equation*}
     \text{var}[x] = \mu(1 - \mu)
-\end{equation}
+    \tag{2.259}\label{eq:2.259}
+\end{equation*}
 Show that the entropy $H[x]$ of a Bernoulli distributed
 random binary variable $x$ is given by
-\begin{equation}\label{eq:2.260}\tag{2.260}
+\begin{equation*}
     H[x] = -\mu \ln \mu - (1 - \mu) \ln(1 - \mu)
-\end{equation}
+    \tag{2.260}\label{eq:2.260}
+\end{equation*}
 
 \vspace{1em}
 
 \begin{proof}
     The Bernoulli distribution is given by
-    \begin{equation}\label{eq:2.2}\tag{2.2}
+    \begin{equation*}
         \text{Bern}(x | \mu) = \mu^x (1 - \mu)^{1-x}
-    \end{equation}
+        \tag{2.2}\label{eq:2.2}
+    \end{equation*}
     The properties are easily verified:
     \[
         \sum_{x=0}^{1} p(x | \mu) = p(x = 0 | \mu) + p(x = 1 | \mu)
@@ -56,9 +61,10 @@ The form of the Bernoulli distribution given by ($\ref{eq:2.2}$)
 is not symmetric between the two values of $x$. In some situations,
 it will be more convenient to use an equivalent formulation for which
 $x \in \{-1 , 1\}$, in which case the distribution can be written
-\begin{equation}\label{eq:2.261}\tag{2.261}
+\begin{equation*}
     p(x | \mu) = \bigg(\frac{1 - \mu}{2}\bigg)^{(1 - x)/2} \bigg(\frac{1 + \mu}{2}\bigg)^{(1 + x)/2}
-\end{equation}
+    \tag{2.261}\label{eq:2.261}
+\end{equation*}
 where $\mu \in [-1, 1].$ Show that the distribution ($\ref{eq:2.261}$) is normalized,
 and evaluate its mean, variance and entropy.
 
@@ -97,27 +103,31 @@ and evaluate its mean, variance and entropy.
 In this exercise, we prove that the binomial distribution ($\ref{eq:2.9}$)
 is normalized. First use the definition (2.10) of the number of combinations of
 $m$ identical objects chosen from a total of $N$ to show that
-\begin{equation}\label{eq:2.262}\tag{2.262}
+\begin{equation*}
     \binom{N}{m} + \binom{N}{m-1} = \binom{N+1}{m}
-\end{equation}
+    \tag{2.262}\label{eq:2.262}
+\end{equation*}
 Use this result to prove by induction the following result
-\begin{equation}\label{eq:2.263}\tag{2.263}
+\begin{equation*}
     (1 + x)^N = \sum_{m=0}^{N} \binom{N}{m}x^m
-\end{equation}
+    \tag{2.263}\label{eq:2.263}
+\end{equation*}
 which is known as the $\emph{binomial theorem}$, and which is valid 
 for all real values of $x$. 
 Finally, show that the binomial distribution is normalized, so that
-\begin{equation}\label{eq:2.264}\tag{2.264}
+\begin{equation*}
     \sum_{m=0}^{N} \binom{N}{m} \mu^m(1 - \mu)^{N - m} = 1 
-\end{equation}
+    \tag{2.264}\label{eq:2.264}
+\end{equation*}
 which can be done by first pulling out a factor $(1 - \mu)^N$ out of the summation
 and then making use of the binomial theorem.
 
 \begin{proof}
     The binomial distribution is given by
-    \begin{equation}\label{eq:2.9}\tag{2.9}
+    \begin{equation*}
         \text{Bin}(m | N, \mu) = \binom{N}{m} \mu^m (1-\mu)^{N - m}
-    \end{equation}
+        \tag{2.9}\label{eq:2.9}
+    \end{equation*}
     By using $(2.10)$, we prove ($\ref{eq:2.262}$)
     \begin{align*}
         \binom{N}{m} + \binom{N}{m - 1} 
@@ -180,9 +190,10 @@ of the binomial distribution prove the result (2.12) for the variance of the bin
         \bigg(\frac{1 - \mu}{\mu} + 1\bigg) \mathbb{E}[m] &= N
     \end{align*}
     which directly gives us the desired result, that is
-    \begin{equation}\label{eq:2.11}\tag{2.11}
+    \begin{equation*}
         \mathbb{E}[m] = \sum_{m=0}^{N} m\text{Bin}(m | N, \mu) = N\mu
-    \end{equation}
+        \tag{2.11}\label{eq:2.11}
+    \end{equation*}
 
     To derive the variance, we differentiate twice both sides
     of ($\ref{eq:2.264}$), so
@@ -196,24 +207,27 @@ of the binomial distribution prove the result (2.12) for the variance of the bin
         \text{var}[m] + (2\mu - 1)\mathbb{E}[m] - N\mu^2 &= 0
     \end{align*}
     which gives us the desired result, i.e.
-    \begin{equation}\label{eq:2.12}\tag{2.12}
+    \begin{equation*}
         \text{var}[m] \equiv \sum_{m=0}^{N} (m - \mathbb{E}[m])^2 \text{Bin}(m | N, \mu) = N\mu(1 - \mu)
-    \end{equation}
+        \tag{2.12}\label{eq:2.12}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 2.5 $\star \star$}
 In this exercise, we prove that the beta distribution, given by
 ($\ref{eq:2.13}$), is correctly normalized, so that (2.14) holds.
 This is equivalent to showing that
-\begin{equation}\label{eq:2.265}\tag{2.265}
+\begin{equation*}
     \int_{0}^{1} \mu^{a-1}(1 - \mu)^{b - 1} \diff \mu = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
-\end{equation}
+    \tag{2.265}\label{eq:2.265}
+\end{equation*}
 From the definition ($\ref{eq:1.141}$) of the gamma function,
 we have 
-\begin{equation}\label{eq:2.266}\tag{2.266}
+\begin{equation*}
     \Gamma(a)\Gamma(b) = \int_{0}^{\infty} \exp(-x)x^{a - 1} \diff x +
     \int_{0}^{\infty} \exp(-y)y^{b - 1} \diff y
-\end{equation}
+    \tag{2.266}\label{eq:2.266}
+\end{equation*}
 Use this expression to prove ($\ref{eq:2.265}$) as follows. First
 bring the integral over $y$ inside the integrand of the integral 
 over $x$, next make the change of variable $t = y + x$, where $x$
@@ -256,32 +270,36 @@ and finally make the change of variable $x = t\mu$ where $t$ is fixed.
     Finally, we notice that the first integral is equal to $\Gamma(a+b)$ 
     and by noting the fact that $\mu$ is a probability, so its
     range is $[0, 1]$, we obtain the desired result:
-    \begin{equation}\tag{2.265}
+    \begin{equation*}\tag{2.265}
         \int_{0}^{1} \mu^{a-1}(1 - \mu)^{b - 1} \diff \mu = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
-    \end{equation}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 2.6 $\star$} 
 Make use of the result ($\ref{eq:2.265}$) to show that the mean,
 variance, and mode of the beta distribution ($\ref{eq:2.13}$) are given 
 respectively by 
-\begin{equation}\label{eq:2.267}\tag{2.267}
+\begin{equation*}
     \mathbb{E}[\mu] = \frac{a}{a + b}
-\end{equation}
-\begin{equation}\label{eq:2.268}\tag{2.268}
+    \tag{2.267}\label{eq:2.267}
+\end{equation*}
+\begin{equation*}
     \text{var}[\mu] = \frac{ab}{(a + b)^2(a + b + 1)}
-\end{equation}
-\begin{equation}\label{eq:2.269}\tag{2.269}
+    \tag{2.268}\label{eq:2.268}
+\end{equation*}
+\begin{equation*}
     \text{mode}[\mu] = \frac{a - 1}{a + b - 2}
-\end{equation}
+    \tag{2.269}\label{eq:2.269}
+\end{equation*}
 
 \vspace{1em}
 
 \begin{proof}
     The beta distribution is given by
-    \begin{equation}\label{eq:2.13}\tag{2.13}
+    \begin{equation*}
         \text{Beta}(\mu | a, b) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)} \mu^{a - 1}(1 - \mu)^{b - 1}
-    \end{equation}
+        \tag{2.13}\label{eq:2.13}
+    \end{equation*}
     By using $(\ref{eq:2.265})$ and the fact that $\Gamma(x + 1) = x\Gamma(x)$, we 
     obtain the mean of the Beta distribution:
     \begin{align*}
@@ -353,13 +371,15 @@ distribution and the maximum likelihood solution.
 \section*{Exercise 2.8 $\star$}
 Consider two variables $x$ and $y$ with joint distribution $p(x, y)$.
 Prove the following two results
-\begin{equation}\label{eq:2.270}\tag{2.270}
+\begin{equation*}
     \mathbb{E}[x] = \mathbb{E}_y[\mathbb{E}_x[x | y]]
-\end{equation}
+    \tag{2.270}\label{eq:2.270}
+\end{equation*}
 \vspace{-1em}
-\begin{equation}\label{eq:2.271}\tag{2.271}
+\begin{equation*}
     \text{var}[x] = \mathbb{E}_y[\text{var}_x[x | y]] + \text{var}_y[\mathbb{E}_x[x|y]]
-\end{equation}
+    \tag{2.271}\label{eq:2.271}
+\end{equation*}
 Here $\mathbb{E}_x[x | y]$ denotes the expectation of $x$ under the conditional
 distribution $p(x | y)$, with a similar notation for the conditional
 variance.
@@ -386,27 +406,31 @@ variance.
 Using the property $\Gamma(x+1) = x\Gamma(x)$ of the gamma function,
 derive the following results for the mean, variance, and covariance
 of the Dirichlet distribution given by $(\ref{eq:2.38})$
-\begin{equation}\label{eq:2.273}\tag{2.273}
+\begin{equation*}
     \mathbb{E}[\mu_j] = \frac{\alpha_j}{\alpha_j}
-\end{equation}
-\begin{equation}\label{eq:2.274}\tag{2.274}
+    \tag{2.273}\label{eq:2.273}
+\end{equation*}
+\begin{equation*}
     \text{var}[\mu_j] = \frac{\alpha_j(\alpha_0 - \alpha_j)}{\alpha_0^2(\alpha_0 + 1)}
-\end{equation}
-\begin{equation}\label{eq:2.275}\tag{2.275}
+    \tag{2.274}\label{eq:2.274}
+\end{equation*}
+\begin{equation*}
     \text{cov}[\mu_j\mu_l] = -\frac{\alpha_j\alpha_l}{\alpha_0^2(\alpha_0 + 1)},
     \hspace{3em} j \neq l
-\end{equation}
+    \tag{2.275}\label{eq:2.275}
+\end{equation*}
 where $\alpha_0$ is defined by  (2.39).
 
 \vspace{1em}
 
 \begin{proof}
     The Dirichlet distribution is given by
-    \begin{equation}\label{eq:2.38}\tag{2.38}
+    \begin{equation*}
         \text{Dir}(\bm{\mu} | \bm{\alpha})
         = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\ldots\Gamma(\alpha_K)}
         \prod_{k = 1}^K \mu_k^{\alpha_k - 1}
-    \end{equation}
+        \tag{2.38}\label{eq:2.38}
+    \end{equation*}
     Besides the property that $\Gamma(x+1) = x\Gamma(x)$, we'll be using the fact that the distribution is normalized,
     specifically that
     \[
@@ -477,13 +501,15 @@ where $\alpha_0$ is defined by  (2.39).
 By expressing the expectation of $\ln \mu_j$ under the Dirichlet
 distribution ($\ref{eq:2.38}$) as a derivative with respect
 to $\alpha_j$, show that
-\begin{equation}\label{eq:2.276}\tag{2.276}
+\begin{equation*}
     \mathbb{E}[\ln \mu_j] = \psi(\alpha_j) - \psi(\alpha_0)
-\end{equation}
+    \tag{2.276}\label{eq:2.276}
+\end{equation*}
 where $\alpha_0$ is given by (2.39) and
-\begin{equation}\label{eq:2.277}\tag{2.277}
+\begin{equation*}
     \psi(a) \equiv \dv{a} \ln \Gamma(a)
-\end{equation}
+    \tag{2.277}\label{eq:2.277}
+\end{equation*}
 is the $\emph{digamma}$ function.
 
 \vspace{1em}

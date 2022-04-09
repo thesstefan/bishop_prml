@@ -8,13 +8,15 @@ which the function $y(x, \mathbf{w})$ is given by the polynomial
 (1.1). Show that the coefficients $\mathbf{w} = \{ w_i \}$ that minimize
 this error function are given by the solution to the following
 set of linear equations
-\begin{equation}\label{eq:1.122}\tag{1.122}
+\begin{equation*}
     \sum_{j=0}^{M} A_{ij}w_j = T_i
-\end{equation}
+    \tag{1.122}\label{eq:1.122}
+\end{equation*}
 where 
-\begin{equation}\label{eq:1.123}\tag{1.123}
+\begin{equation*}
     A_{ij} = \sum_{n=1}^{N} (x_n)^{i + j}, \hspace{5em} T_i = \sum_{n=1}^{N} (x_n)^it_n.
-\end{equation}
+    \tag{1.123}\label{eq:1.123}
+\end{equation*}
 Here a suffix $i$ or $j$ denotes the index of a component, whereas
 $(x)^i$ denotes $x$ raised to the power of $i$.
 
@@ -22,12 +24,14 @@ $(x)^i$ denotes $x$ raised to the power of $i$.
 
 \begin{proof}
     The function $y(x, \mathbf{w})$ is given by
-    \begin{equation*}\label{eq:1.1}\tag{1.1}
+    \begin{equation*}
         y(x, \mathbf{w}) = \sum_{j = 0}^M w_j x^j
+        \tag{1.1}\label{eq:1.1}
     \end{equation*}
     and the error function is given by
-    \begin{equation*}\label{eq:1.2}\tag{1.2}
+    \begin{equation*}
         E(\mathbf{w}) = \frac{1}{2} \sum_{n = 1}^N \{y(x_n, \mathbf{w}) - t_n\}^2
+        \tag{1.2}\label{eq:1.2}
     \end{equation*}
 
     Since we want to find the coefficients $\mathbf{w}$ for which
@@ -38,23 +42,25 @@ $(x)^i$ denotes $x$ raised to the power of $i$.
         =& \dv{\mathbf{w}} \bigg(\frac{1}{2} \sum_{n = 1}^N \{y(x_n, \mathbf{w}) - t_n\}^2\bigg)
         = \frac{1}{2} \sum_{n = 1}^{N} \dv{\mathbf{w}} \{y(x_n, \mathbf{w})^2 - 2t_ny(x_n, \mathbf{w}) + t_n^2\} \\
         =& \sum_{n = 1}^N y(x_n, \mathbf{w}) \dv{\mathbf{w}} y(x_n, \mathbf{w})
-            - \sum_{n = 1}^N t_n \dv{\mathbf{w}} y(x_n, \mathbf{w}) \label{eq:1.1.1}\tag{1.1.1}
+            - \sum_{n = 1}^N t_n \dv{\mathbf{w}} y(x_n, \mathbf{w}) \tag{1.1.1}\label{eq:1.1.1}
     \end{align*}
 
     We continue by computing the derivative of $y(x_n, \mathbf{w})$ separately and obtain that:
-    \begin{equation}\label{eq:1.1.2}\tag{1.1.2}
+    \begin{equation*}
         \dv{\mathbf{w}} y(x_n, \mathbf{w}) 
         = \begin{bmatrix}
             x_n^1 \\
             \vdots \\
             x_n^M
         \end{bmatrix}
-    \end{equation}
+        \tag{1.1.2}\label{eq:1.1.2}
+    \end{equation*}
 
     By substituting the result of ($\ref{eq:1.1.2}$) into ($\ref{eq:1.1.1}$) we get that:
-    \begin{equation}\label{eq:1.1.3}\tag{1.1.3}
+    \begin{equation*}
         \dv{\mathbf{w}} E(\mathbf{w}) = B - T
-    \end{equation}
+        \tag{1.1.3}\label{eq:1.1.3}
+    \end{equation*}
     where $T$ is given by (\ref{eq:1.123}) and
     \[
         B_i = \sum_{n = 1}^{N} x_n^i y(x_n, \mathbf{w})  
@@ -83,10 +89,11 @@ function given by ($\ref{eq:1.4}$).
 
 \begin{proof}
     The regularized sum-of-squares error function is given by
-    \begin{equation}\label{eq:1.4}\tag{1.4}
+    \begin{equation*}
         \widetilde{E}(\mathbf{w}) = \frac{1}{2} \sum_{i = 1}^N 
             \{y(x_n, \mathbf{w}) - t_n\}^2 + \frac{\lambda}{2} ||\mathbf{w}||^2
-    \end{equation}
+        \tag{1.4}\label{eq:1.4}
+    \end{equation*}
 
     We'll have a similar approach to the previous exercise, i.e. we compute
     the derivative of the regularized error function and find the associated
@@ -153,8 +160,9 @@ the green box?
     If we know the selected fruit is an orange, the probability that it came from
     the green box is given by the Bayes' theorem:
 
-    \begin{equation*}\label{eq:1.3.1}\tag{1.3.1}
+    \begin{equation*}
         p(g | \text{orange}) = \frac{p(g)p(\text{orange} | g)}{p(\text{orange})}
+        \tag{1.3.1}\label{eq:1.3.1}
     \end{equation*}
 
     The probability of choosing the green box is known and the probability of getting
@@ -190,9 +198,10 @@ transforms in the same way as the variable itself.
 \begin{proof}
     If we make a nonlinear change of variable $x = g(y)$ in the probbability density 
     $p_x(x)$, it transforms according to
-    \begin{equation}\label{eq:1.27}\tag{1.27}
+    \begin{equation*}
         p_y(y) = p_x(g(y)) |g'(y)|
-    \end{equation}
+        \tag{1.27}\label{eq:1.27}
+    \end{equation*}
 
     We assume that the mode of $p_x(x)$ is given by an unique $\widehat{x}$, i.e.
      \[
@@ -222,9 +231,10 @@ Using the definition ($\ref{eq:1.38}$) show that var$[f(x)]$ satisfies ($\ref{eq
 
 \begin{proof}
     The variance is defined by 
-    \begin{equation}\label{eq:1.38}\tag{1.38}
+    \begin{equation*}
         \text{var}[f] = \mathbb{E}\big[(f(x) - \mathbb{E}[f(x)])^2\big]
-    \end{equation}
+        \tag{1.38}\label{eq:1.38}
+    \end{equation*}
 
     We expand the square and then use the linearity of expectation to obtain:
     \[
@@ -234,11 +244,12 @@ Using the definition ($\ref{eq:1.38}$) show that var$[f(x)]$ satisfies ($\ref{eq
     \] 
 
     Since $\mathbb{E}[f(x)]$ is a constant, the expression of the variance becomes:
-    \begin{equation}\label{eq:1.39}\tag{1.39}
+    \begin{equation*}
         \text{var}[f] 
         = \mathbb{E}[f(x)^2] - 2\mathbb{E}[f(x)]^2 + \mathbb{E}[f(x)]^2
         = \mathbb{E}[f(x)^2] - \mathbb{E}[f(x)]^2
-    \end{equation}
+        \tag{1.39}\label{eq:1.39}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 1.6 $\star$}
@@ -248,39 +259,43 @@ Show that if two variables $x$ and $y$ are independent, then their covariance is
 
 \begin{proof}
     The covariance of two random variables is given by:
-    \begin{equation}\label{eq:1.41}\tag{1.41}
+    \begin{equation*}
         \text{cov}[x, y] = \mathbb{E}_{x, y} [xy] - E[x]E[y]
-    \end{equation}
+        \tag{1.41}\label{eq:1.41}
+    \end{equation*}
 
     We assume that the variables are continuous, but the discrete case result is similarly obtained.
     If $x$ and $y$ are independent, we have that $p(x, y) = p(x)p(y)$, so
-     \[
+    \begin{align*}
          E_{x, y}[xy] = \iint p(x, y) xy \hspace{0.25em} \diff x \diff y 
          = \iint p(x) p(y) xy \hspace{0.25em} \diff x \diff y
-         = \bigg(\int p(x) x \hspace{0.25em} \diff x\bigg) \bigg(\int p(y) y \hspace{0.25em} \diff y\bigg)
-         = E[x]E[y]
-    \] 
+         &= \bigg(\int p(x) x \hspace{0.25em} \diff x\bigg) \bigg(\int p(y) y \hspace{0.25em} \diff y\bigg) \\
+         &= E[x]E[y]
+    \end{align*}
     and ($\ref{eq:1.41}$) becomes 0.
 \end{proof}
 
 \section*{Exercise 1.7 $\star \star$}
 In this exercise, we prove the normalization condition (1.48) for the univariate
 Gaussian. To do this consider the integral
-\begin{equation}\label{eq:1.124}\tag{1.124}
+\begin{equation*}
     I = \int_{-\infty}^{\infty} \exp\bigg(-\frac{1}{2\sigma^2}x^2\bigg) \hspace{0.25em} \diff x
-\end{equation}
+    \tag{1.124}\label{eq:1.124}
+\end{equation*}
 which we can evaluate by first writing its square in the form
-\begin{equation}\label{eq:1.125}\tag{1.125}
+\begin{equation*}
     I^2 = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \exp 
         \bigg(-\frac{1}{2\sigma^2}x^2 - \frac{1}{2\sigma^2}y^2\bigg) \hspace{0.25em} \diff x\diff y
-\end{equation}
+    \tag{1.125}\label{eq:1.125}
+\end{equation*}
 
 Now make the transformation from Cartesian coordinates $(x, y)$ to polar coordinates $(r, \theta)$ 
 and then substitute $u = r^2$. Show that, by performing the integrals over $\theta$ and $u$,
 and then taking the square root of both sides, we obtain
-\begin{equation}\label{eq:1.126}\tag{1.126}
+\begin{equation*}
     I = (2\pi\sigma^2)^{1/2}
-\end{equation}
+    \tag{1.126}\label{eq:1.126}
+\end{equation*}
 
 Finally, use this result to show that the Gaussian distribution $\mathcal{N}(x | \mu, \sigma^2)$ is 
 normalized.
@@ -303,9 +318,9 @@ normalized.
     \] 
 
     If we take the square root of this we see that
-    \begin{equation}\tag{1.126}
+    \begin{equation*}\tag{1.126}
         I = (2\pi\sigma^2)^{1/2}
-    \end{equation}
+    \end{equation*}
 
     We can assume without loss of generality that the mean of the Gaussian is 0,
     as we could make the change of variable $y = x - \mu$. Therefore, by using
@@ -322,8 +337,9 @@ normalized.
 By using a change of variables, verify that the univariate Gaussian
 given by (1.46) satisfies ($\ref{eq:1.49}$). Next, by differentiating both sides
 of the normalization condition
-\begin{equation*}\label{eq:1.127}\tag{1.127}
+\begin{equation*}
     \int_{-\infty}^{\infty} \mathcal{N} (x | \mu, \sigma^2) \diff x = 1
+    \tag{1.127}\label{eq:1.127}
 \end{equation*}
 with respect to $\sigma^2$, verify that the Gaussian satisfies (1.50). Finally,
 show that (1.51) holds.
@@ -353,9 +369,10 @@ show that (1.51) holds.
 
     We notice that the endpoints of the integral are "equal" (one could rewrite it as a
     limit of an integral with actual equal endpoints), so its value is 0. Therefore,
-    \begin{equation}\label{eq:1.49}\tag{1.49}
+    \begin{equation*}
         \mathbb{E}[x] = \mu
-    \end{equation}
+        \tag{1.49}\label{eq:1.49}
+    \end{equation*}
 
     Now, we take the derivative of ($\ref{eq:1.127}$) with respect to $\sigma^2$ and obtain:
     \begin{align*}
@@ -390,14 +407,16 @@ show that (1.51) holds.
         -\frac{1}{2\sigma^2} + \frac{1}{2\sigma^4}(\mathbb{E}[x^2] - 2\mu^2 + \mu^2) = 0
     \] 
     from which is straightforard to show that 
-    \begin{equation}\label{eq:1.50}\tag{1.50}
+    \begin{equation*}
         E[x^2] = \sigma^2 + \mu^2
-    \end{equation}
+        \tag{1.50}\label{eq:1.50}
+    \end{equation*}
 
     Finally, one can easily see that:
-    \begin{equation}\label{eq:1.51}\tag{1.51}
+    \begin{equation*}
         \text{var}[x] = E[x^2] - E[x]^2 = \sigma^2
-    \end{equation}
+        \tag{1.51}\label{eq:1.51}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 1.9 $\star$}
@@ -452,13 +471,15 @@ given by $\mu$. Similarly, show that the mode of the multivariate Gaussian
 \section*{Exercise 1.10 $\star$}
 Suppose that the two variables $x$ and $z$ are statistically independent. Show that
 the mean and variance of their sum satisfies
-\begin{equation}\label{eq:1.128}\tag{1.128}
+\begin{equation*}
     \mathbb{E}[x + z] = \mathbb{E}[x] + \mathbb{E}[z]
-\end{equation}
+    \tag{1.128}\label{eq:1.128}
+\end{equation*}
 \vspace{-1em}
-\begin{equation}\label{eq:1.129}\tag{1.129}
+\begin{equation*}
     \text{var}[x + z] = \text{var}[x] + \text{var}[z]
-\end{equation}
+    \tag{1.129}\label{eq:1.129}
+\end{equation*}
 
 \vspace{1em}
 
@@ -498,10 +519,11 @@ and $\sigma^2$ equal to zero, verify the results $(\ref{eq:1.55})$ and ($\ref{eq
 
 \begin{proof}
     The log likelihood of the Gaussian is given by:
-    \begin{equation}\label{eq:1.54}\tag{1.54}
+    \begin{equation*}
         \ln p(\mathbf{x} | \mu, \sigma^2) = -\frac{1}{2\sigma^2} \sum_{n = 1}^{N} (x_n - \mu)^2 
         -\frac{N}{2}\ln\sigma^2 - \frac{N}{2} \ln(2\pi)
-    \end{equation}
+        \tag{1.54}\label{eq:1.54}
+    \end{equation*}
 
     By taking the derivative of $(\ref{eq:1.54})$ with respect to $\mu$ we
     get that:
@@ -514,9 +536,10 @@ and $\sigma^2$ equal to zero, verify the results $(\ref{eq:1.55})$ and ($\ref{eq
         &= \frac{1}{\sigma^2} \bigg(\sum_{n=1}^{N} x_n - N\mu \bigg)
     \end{align*}
     which is 0 for the maximum point:
-    \begin{equation}\label{eq:1.55}\tag{1.55}
+    \begin{equation*}
         \mu_{ML} = \frac{1}{N} \sum_{n = 1}^{N} x_n
-    \end{equation}
+        \tag{1.55}\label{eq:1.55}
+    \end{equation*}
 
     Now, we want the variance that maximizes the log likelihood, so we take
     the derivative of $(\ref{eq:1.54})$ (by using $\mu_{ML}$) with respect to $\sigma^2$:
@@ -527,16 +550,18 @@ and $\sigma^2$ equal to zero, verify the results $(\ref{eq:1.55})$ and ($\ref{eq
     \] 
 
     The derivative is 0 for the maximum point
-    \begin{equation}\label{eq:1.56}\tag{1.56}
+    \begin{equation*}
         \sigma^2_{ML} = \frac{1}{N}\sum_{n = 1}^{N} (x_n - \mu_{ML})^2
-    \end{equation}
+        \tag{1.56}\label{eq:1.56}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 1.12 $\star \star$}
 Using the results $(\ref{eq:1.49})$ and $(\ref{eq:1.50})$, show that
-\begin{equation}\label{eq:1.130}\tag{1.130}
+\begin{equation*}
     \mathbb{E}[x_nx_m] = \mu^2 + I_{nm}\sigma^2
-\end{equation}
+    \tag{1.130}\label{eq:1.130}
+\end{equation*}
 where $x_n$ and $x_m$ denote data points sampled from a Gaussian distribution
 with mean $\mu$ and variance $\sigma^2$, and $I_{nm}$ satisfies $I_{nm} = 1$ 
 if $n = m$ and $I_{nm} = 0$ otherwise. Hence prove the results ($\ref{eq:1.57}$)
@@ -558,11 +583,12 @@ and  $(\ref{eq:1.58})$.
     \] 
     which is equivalent with ($\ref{eq:1.130})$.
     Now, the expectation of $\mu_{ML}$ is given by:
-    \begin{equation}\label{eq:1.57}\tag{1.57}
+    \begin{equation*}
          \mathbb{E}[\mu_{ML}] 
          = \mathbb{E} \bigg[\frac{1}{N} \sum_{n=1}^{N} x_n\bigg]
          = \frac{1}{N} \sum_{n=1}^{N} \mathbb{E}[x_n] = \mu
-    \end{equation}
+        \tag{1.57}\label{eq:1.57}
+    \end{equation*}
 
     Similarly, the expectation of $\sigma_{ML}^2$ is given by: 
     \begin{align*}
@@ -586,9 +612,10 @@ and  $(\ref{eq:1.58})$.
     \]
 
     By putting everything together, we obtain
-    \begin{equation}\label{eq:1.58}\tag{1.58}
+    \begin{equation*}
         \mathbb{E}[\sigma_{ML}^2] = \bigg(\frac{N - 1}{N}\bigg) \sigma^2
-    \end{equation}
+        \tag{1.58}\label{eq:1.58}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 1.13 $\star$}
@@ -618,14 +645,16 @@ be written in the form $w_{ij} = w_{ij}^S + w_{ij}^A$ where $w_{ij}^S$ and $w_{i
 symmetric and anti-symmetric matrices, respectively, satisfying $w_{ij}^S = w_{ji}^S$ and
 $w_{ij}^A = -w_{ji}^A$ for all $i$ and $j$. Now consider the second order term in a higher
 order polynomial in $D$ dimensions, given by
-\begin{equation}\label{eq:1.131}\tag{1.131}
+\begin{equation*}
     \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}x_ix_j
-\end{equation}
+    \tag{1.131}\label{eq:1.131}
+\end{equation*}
 
 Show that 
-\begin{equation}\label{eq:1.132}\tag{1.132}
+\begin{equation*}
     \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}x_ix_j = \sum_{i=1}^{D} \sum_{j=1}^{D} w_{ij}^S x_ix_j
-\end{equation}
+    \tag{1.132}\label{eq:1.132}
+\end{equation*}
 so that the contribution from the anti-symmetric vanishes. We therefore see
 that, without loss of generality, the matrix of coefficients $w_{ij}$ can be chosen
 to be symmetric, and so not all of the $D^2$ elements of this matrix can be chosen
@@ -642,11 +671,12 @@ is given by  $D(D+1)/2$.
         w_{ji} = w_{ij}^S - w_{ij}^A
     \]
     we quickly reach the conclusion that the solutions are given by
-    \begin{equation}\label{eq:1.14.1}\tag{1.14.1}
+    \begin{equation*}
         w_{ij}^S = \frac{w_{ij} + w_{ji}}{2}
         \hspace{3em}
         w_{ij}^A = \frac{w_{ij} - w_{ji}}{2}
-    \end{equation}
+        \tag{1.14.1}\label{eq:1.14.1}
+    \end{equation*}
     such that for all $i$ and $j$, 
     \[
         w_{ij} = w_{ij}^S + w_{ij}^A 
@@ -671,39 +701,44 @@ In this exercise and the next, we explore how the number of independent
 parameters in a polynomial grows with the order $M$ of the polynomial and with
 the dimensionality $D$ of the input space. We start by writing down the $M^{\text{th}}$ order
 term for a polynomial in $D$ dimensions in the form
-\begin{equation}\label{eq:1.133}\tag{1.133}
+\begin{equation*}
     \sum_{i_1=1}^{D} \sum_{i_2=1}^{D} \ldots \sum_{i_M=1}^{D} 
         w_{i_1,i_2,\ldots,i_M}x_{i_1}x_{i_2} \cdot \ldots x_{i_M} 
-\end{equation}
+    \tag{1.133}\label{eq:1.133}
+\end{equation*}
 
 The coefficients $w_{i_1, i_2, \ldots i_M}$ compromise $D^M$ elements, but the number
 of independent parameters is significantly fewer due to the many interchange symmetries
 of the factor $x_{i_1}, x_{i_2} \ldots x_{i_M}$. Begin by showing that the redundancy in the
 coefficients can be removed by rewriting the $M^\text{th}$ order term in the form
-\begin{equation}\label{eq:1.134}\tag{1.134}
+\begin{equation*}
     \sum_{i_1=1}^{D} \sum_{i_2=1}^{i_1} \ldots \sum_{i_M=1}^{i_{M-1}} 
         \widetilde{w}_{i_1,i_2,\ldots,i_M}x_{i_1}x_{i_2} \cdot \ldots x_{i_M} 
-\end{equation}
+    \tag{1.134}\label{eq:1.134}
+\end{equation*}
 
 Note that the precise relationship between the $\widetilde{w}$ coefficients and
  $w$ coefficients need not be made explicit. Use this result to show that the number
  of $\emph{independent}$ parameters $n(D, M)$, which appear at order $M$, satisfies
  the following recursion relation
- \begin{equation}\label{eq:1.135}\tag{1.135}
+ \begin{equation*}
     n(D, M) = \sum_{i=1}^{D} n(i, M - 1) 
-\end{equation}
+    \tag{1.135}\label{eq:1.135}
+\end{equation*}
 
 Next use proof by induction to show that the following result holds
-\begin{equation}\label{eq:1.136}\tag{1.136}
+\begin{equation*}
     \sum_{i=1}^{D} \frac{(i + M - 2)!}{(i - 1)!(M - 1)!} = \frac{(D + M - 1)!}{(D - 1)!M!}
-\end{equation}
+    \tag{1.136}\label{eq:1.136}
+\end{equation*}
 which can be done by first proving the result for $D = 1$ and arbitrary $M$ by
 making use of the result $0! = 1$, then assuming it is correct for dimension $D$ 
 and verifying that it is correct for dimension $D + 1$. Finally, use the two previous
 results, together with proof by induction, to show
-\begin{equation}\label{eq:1.137}\tag{1.137}
+\begin{equation*}
     n(D, M) = \frac{(D + M - 1)!}{(D - 1)!M!}
-\end{equation}
+    \tag{1.137}\label{eq:1.137}
+\end{equation*}
 
 To do this, first show that the result is true for $M = 2$, and any value of $D \geq 1$,
 by comparison with the result of Exercise 1.14. Then make use of ($\ref{eq:1.135}$), together
@@ -718,9 +753,10 @@ also hold at order $M$.
 
 \section*{Exercise 1.17 $\star \star$}
 The gamma function is defined by 
-\begin{equation}\label{eq:1.141}\tag{1.141}
+\begin{equation*}
     \Gamma(x) = \int_{0}^{\infty} u^{x - 1}e^{-u} \diff u 
-\end{equation}
+    \tag{1.141}\label{eq:1.141}
+\end{equation*}
 
 Using integration by parts, prove the relation $\Gamma(x + 1) = x\Gamma(x)$. Show
 also that $\Gamma(1) = 1$ and hence that $\Gamma(x + 1) = x!$ when $x$ is
@@ -760,22 +796,25 @@ We can use the result $(\ref{eq:1.126})$ to derive an expression for the
 surface area $S_D$ and the volume $V_D$, of a sphere of unit radius in  
 $D$ dimensions. To do this, consider the following result, which is obtained
 by transforming from Cartesian to polar coordinates
-\begin{equation}\label{eq:1.142}\tag{1.142}
+\begin{equation*}
     \prod_{i = 1}^D \int_{-\infty}^{\infty} e^{-x_i^2} \diff x_i 
     = S_D \int_{0}^{\infty} e^{-r^2} r^{D - 1} \diff r 
-\end{equation}
+    \tag{1.142}\label{eq:1.142}
+\end{equation*}
 
 Using the definition ($\ref{eq:1.141}$) of the Gamma function, together with
 $(\ref{eq:1.126})$, evaluate both sides of this equation, and hence show that
-\begin{equation}\label{eq:1.143}\tag{1.143}
+\begin{equation*}
     S_D =\frac{2\pi^{D/2}}{\Gamma(D/2)}
-\end{equation}
+    \tag{1.143}\label{eq:1.143}
+\end{equation*}
 
 Next, by integrating with respect to radius from 0 to 1, show that the volume
 of the unit sphere in $D$ dimensions is given by
-\begin{equation}\label{eq:1.144}\tag{1.144}
+\begin{equation*}
     V_D = \frac{S_D}{D}
-\end{equation}
+    \tag{1.144}\label{eq:1.144}
+\end{equation*}
 
 Finally, use the results $\Gamma(1) = 1$ and $\Gamma(3/2) = \sqrt{\pi}/2$ to show
 that ($\ref{eq:1.143}$) and ($\ref{eq:1.144}$) reduce to the usual
@@ -803,14 +842,14 @@ expressions for $D = 2$ and $D = 3$.
     where we made the substitution $u = r^2$.
 
     Therefore, from those results and from $(\ref{eq:1.142})$, we find that
-    \begin{equation}\tag{1.143}
+    \begin{equation*}\tag{1.143}
         S_D =\frac{2\pi^{D/2}}{\Gamma(D/2)}
-    \end{equation}
+    \end{equation*}
 
     The volume of the unit hypersphere is now given by the integral
-    \begin{equation}\tag{1.144}
+    \begin{equation*}\tag{1.144}
         V_D = \int_{0}^{1} S_D r^{D - 1} \diff r = \frac{S_D}{D}
-    \end{equation}
+    \end{equation*}
 
     Now, we get the expected results for $D = 2$ and $D = 3$:
     \[
@@ -830,15 +869,17 @@ the concentric hypercube of side $2a$, so that the sphere touches
 the hypercube at the centres of each of its sides. By using the results
 of Exercise 1.18, show that the ratio of the volume of the sphere
 to the volume of the cube is given by
-\begin{equation}\label{eq:1.145}\tag{1.145}
+\begin{equation*}
     \frac{\text{volume of sphere}}{\text{volume of cube}} 
     = \frac{\pi^{D/2}}{D2^{D - 1}\Gamma(D/2)}
-\end{equation}
+    \tag{1.145}\label{eq:1.145}
+\end{equation*}
 
 Now, make use of Stirling's formula in the form
-\begin{equation}\label{eq:1.146}\tag{1.146}
+\begin{equation*}
     \Gamma(x + 1) \simeq (2\pi)^{1/2} e^{-x} x^{x + 1/2}
-\end{equation}
+    \tag{1.146}\label{eq:1.146}
+\end{equation*}
 which is valid for $x \gg 1$, to show that, as $D \to \infty$, the
 ratio ($\ref{eq:1.145}$) goes to zero. Show also that the ratio
 of the distance from the centre of the hypercube to one
@@ -864,9 +905,9 @@ of corners, which themselves become very lone 'spikes'!
     \] 
 
     Therefore the ratio of the volumes is given by
-    \begin{equation}\tag{1.145}
+    \begin{equation*}\tag{1.145}
         \frac{V_{D_{\text{sphere}}(a)}}{V_{D_{\text{cube}}}(a)} = \frac{\pi^{D/2}}{D 2^{D - 1}\Gamma(D/2)}
-    \end{equation}
+    \end{equation*}
 
     By using Stirling's approximation, we have that
     \begin{align*}
@@ -895,10 +936,11 @@ Consider two nonnegative numbers $a$ and $b$, and show that, if $a \leq b$, then
 $a \leq (ab)^{1/2}$. Use this result to show that, if the decision regions of a two-class
 classification problem are chosen to minimize the probability of misclassification,
 this probability will satisfy
-\begin{equation}\label{eq:1.150}\tag{1.150}
+\begin{equation*}
     p(\text{mistake}) \leq \int \{p(\mathbf{x}, \mathcal{C}_1)p(\mathbf{x}, \mathcal{C}_2)\}^{1/2} 
     \diff \mathbf{x}
-\end{equation}
+    \tag{1.150}\label{eq:1.150}
+\end{equation*}
 
 \begin{proof}
     We start by proving the identity. We have that 
@@ -957,9 +999,10 @@ of this form of loss matrix?
 \begin{proof}
     The expectation is minimized if for each $\mathbf{x}$ we choose the class $\mathcal{C}_j$ such
     that the quantity
-    \begin{equation}\label{eq:1.81}\tag{1.81}
+    \begin{equation*}
         \sum_k L_{kj} p(\mathcal{C}_k | \mathbf{x})
-    \end{equation}
+        \tag{1.81}\label{eq:1.81}
+    \end{equation*}
     is minimized. For $L_{kj} = 1 - I_{kj}$ the quantity becomes
     \[
         \sum_k (1 - I_{kj})p(\mathcal{C}_k | \mathbf{x}) 
@@ -981,9 +1024,10 @@ is a general loss matrix and general prior probabilities for the classes.
 
 \begin{proof}
     Minimizing the expected loss
-    \begin{equation}\label{eq:1.80}\tag{1.80}
+    \begin{equation*}
         \mathbb{E}[L] = \sum_k \sum_j \int_{\mathcal{R}_j} L_{kj} p(\mathbf{x}, \mathcal{C}_j) \diff \mathbf{x}
-    \end{equation}
+        \tag{1.80}\label{eq:1.80}
+    \end{equation*}
     is equivalent with minimizing 
     \[
         \sum_k L_{kj} p(\mathbf{x}, \mathcal{C}_k)
@@ -1034,11 +1078,12 @@ threshold $\theta$?
 Consider the generalization of the squared loss function (1.87) for
 a single target variable $t$ to the case of multiple target variables
 described by the vector $\mathbf{t}$ given by
-\begin{equation}\label{eq:1.151}\tag{1.151}
+\begin{equation*}
     \mathbb{E}[L(\mathbf{t}, \mathbf{y}(\mathbf{x})] 
     = \iint ||\mathbf{y}(\mathbf{x}) - \mathbf{t}||^2 p(\mathbf{x}, \mathbf{t}) 
     \diff \mathbf{x} \diff \mathbf{t}
-\end{equation}
+    \tag{1.151}\label{eq:1.151}
+\end{equation*}
 Using the calculus of the variations, show that the function $\mathbf{y}(\mathbf{x})$ for
 which this expected loss is minimized is given by 
 $\mathbf{y}(\mathbf{x}) = \mathbb{E}_{\mathbf{t}}[\mathbf{t}|\mathbf{x}]$. 
@@ -1129,9 +1174,10 @@ $p(x)$ satisfies $H[x] \leq \ln M$.
 
     We apply Jensen's inequality with $\lambda_i = p(x_i)$ and the convex
     function $f(x) = \ln(x)$ to obtain:
-    \begin{equation}\label{eq:1.29.1}\tag{1.29.1}
+    \begin{equation*}
         H[x] \leq -\ln\bigg(\sum_{i=1}^{M} p(x)^2\bigg)
-    \end{equation}
+        \tag{1.29.1}\label{eq:1.29.1}
+    \end{equation*}
 
     One can prove by using Lagrange multipliers that
     \[
@@ -1154,9 +1200,10 @@ $p(x) = \mathcal{N}(x | \mu, \sigma^2)$ and $q(x) = \mathcal{N}(x | m, s^2)$.
 
 \begin{proof}
     The Kullback-Leibler divergence is given by 
-    \begin{equation}\label{eq:1.113}\tag{1.113}
+    \begin{equation*}
         \text{KL}(p || q) = - \int p(x) \ln \bigg\{ \frac{q(x)}{p(x)} \bigg\} \diff x
-    \end{equation}
+        \tag{1.113}\label{eq:1.113}
+    \end{equation*}
 
     We start by splitting the integral into:
     \[
@@ -1166,9 +1213,10 @@ $p(x) = \mathcal{N}(x | \mu, \sigma^2)$ and $q(x) = \mathcal{N}(x | m, s^2)$.
 
     The negation of the second term will be equal to the entropy of the Gaussian,
     that is:
-    \begin{equation}\label{eq:1.110}\tag{1.110}
+    \begin{equation*}
         H_p[x] = \frac{1}{2} \{1 + \ln (2\pi \sigma^2)\}
-    \end{equation}
+        \tag{1.110}\label{eq:1.110}
+    \end{equation*}
 
     We have that
     \[
@@ -1191,9 +1239,10 @@ $p(x) = \mathcal{N}(x | \mu, \sigma^2)$ and $q(x) = \mathcal{N}(x | m, s^2)$.
 Consider two variables $\mathbf{x}$ and $\mathbf{y}$ having joint distribution
 $p(\mathbf{x}, \mathbf{y})$. Show that the differential entropy of this pair of 
 variables satisfies
-\begin{equation}\label{eq:1.152}\tag{1.152}
+\begin{equation*}
     H[\mathbf{x}, \mathbf{y}] \leq H[\mathbf{x}] + H[\mathbf{y}]
-\end{equation}
+    \tag{1.152}\label{eq:1.152}
+\end{equation*}
 with equality if, and only if $\mathbf{x}$ and $\mathbf{y}$ are statistically
 independent.
 
@@ -1202,13 +1251,15 @@ independent.
 \begin{proof}
     The differential entropy of two variables $\mathbf{x}$ and  $\mathbf{y}$
     is given by 
-    \begin{equation}\label{eq:1.112}\tag{1.112}
+    \begin{equation*}
         H[\mathbf{x}, \mathbf{y}] = H[\mathbf{y} | \mathbf{x}] + H[\mathbf{x}]
-    \end{equation}
+        \tag{1.112}\label{eq:1.112}
+    \end{equation*}
     so $(\ref{eq:1.152})$ becomes equivalent with
-    \begin{equation}\label{eq:1.31.1}\tag{1.31.1}
+    \begin{equation*}
         H[\mathbf{y} | \mathbf{x}] - H[\mathbf{y}] \leq 0
-    \end{equation}
+        \tag{1.31.1}\label{eq:1.31.1}
+    \end{equation*}
     which we're going to prove now. 
 
     We start by rewriting the entropy $H[\mathbf{y}]$ as
@@ -1219,10 +1270,11 @@ independent.
     \] 
 
     Therefore, since the differential entropy is given by
-    \begin{equation}\label{eq:1.111}\tag{1.111}
+    \begin{equation*}
         H[\mathbf{y} | \mathbf{x}] 
         = \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{y} | \mathbf{x}) \diff \mathbf{x} \diff \mathbf{y}
-    \end{equation}
+        \tag{1.111}\label{eq:1.111}
+    \end{equation*}
     we have that
     \begin{align*}
          H[\mathbf{y} | \mathbf{x}] - H[\mathbf{y}] 
@@ -1325,13 +1377,13 @@ univariate Gaussian (1.109) is given by ($\ref{eq:1.110}$).
     The entropy of the univariate Gaussian is given by:
     \begin{align*}
         H[x] 
-        =& -\int \mathcal{N}(x | \mu, \sigma^2) \ln \mathcal{N}(x | \mu, \sigma^2) \diff x
-        = -\frac{1}{2} \ln (2\pi \sigma^2) \int \mathcal{N}(x | \mu, \sigma^2) \diff x 
+        &= -\int \mathcal{N}(x | \mu, \sigma^2) \ln \mathcal{N}(x | \mu, \sigma^2) \diff x \\
+        &= -\frac{1}{2} \ln (2\pi \sigma^2) \int \mathcal{N}(x | \mu, \sigma^2) \diff x 
             + \int \mathcal{N}(x | \mu, \sigma^2) \frac{(x - \mu)^2}{\sigma^2} \diff x \\
-        =& \bigg\{-\frac{1}{2} \ln (2\pi \sigma^2) + \frac{\mu^2}{\sigma^2} \bigg\}
+        &= \bigg\{-\frac{1}{2} \ln (2\pi \sigma^2) + \frac{\mu^2}{\sigma^2} \bigg\}
             \int \mathcal{N}(x | \mu, \sigma^2) \diff x 
             + \frac{1}{2\sigma^2} \int \mathcal{N}(x | \mu, \sigma^2) x^2 \diff x 
-            - \frac{2\mu}{2\sigma^2} \int \mathcal{N}(x | \mu, \sigma^2) x\diff x
+            - \frac{\mu}{\sigma^2} \int \mathcal{N}(x | \mu, \sigma^2) x\diff x
     \end{align*}
 
     By using the fact that the Gaussian is normalized and 
@@ -1412,14 +1464,16 @@ convex functions implies the result ($\ref{eq:1.115}$).
     We'll prove Jensen's inequality by induction, i.e.
     if we have $N$ points $x_1, \ldots x_n$, $f$ is a convex function and $\lambda_i \geq 0$, 
     $\displaystyle \sum_{i=1}^{N} \lambda_i = 1$, then
-    \begin{equation}\label{eq:1.115}\tag{1.115}
+    \begin{equation*}
         f\bigg(\sum_{i=1}^{N} \lambda_i x_i\bigg) \leq \sum_{i=1}^{N} \lambda_i f(x_i)
-    \end{equation}
+        \tag{1.115}\label{eq:1.115}
+    \end{equation*}
 
     We consider the base case of the induction to be given by
-    \begin{equation}\label{eq:1.114}\tag{1.114}
+    \begin{equation*}
         f(\lambda a + (1 - \lambda)b) \leq \lambda f(a) + (1 - \lambda) f(b)
-    \end{equation}
+        \tag{1.114}\label{eq:1.114}
+    \end{equation*}
 
     Now, we assume that Jensen's inequality is true for a
     set of $N$ points and want to prove that it's also true for
@@ -1531,11 +1585,12 @@ information $I(\mathbf{x}, \mathbf{y})$ satisfies the relation  $(\ref{eq:1.121}
 \begin{proof}
     The mutual information between the variables $\mathbf{x}$ and $\mathbf{y}$ is
     given by:
-    \begin{equation}\label{eq:1.120}\tag{1.120}
+    \begin{equation*}
         I[\mathbf{x}, \mathbf{y}] 
         = -\iint p(\mathbf{x}, \mathbf{y}) \ln \bigg(\frac{p(\mathbf{x})p(\mathbf{y})}
         {p(\mathbf{x}, \mathbf{y})}\bigg) \diff \mathbf{x} \diff \mathbf{y}
-    \end{equation}
+        \tag{1.120}\label{eq:1.120}
+    \end{equation*}
 
     We split the integral and use the product and sum rules of probability to obtain
     the desired result:
@@ -1545,7 +1600,7 @@ information $I(\mathbf{x}, \mathbf{y})$ satisfies the relation  $(\ref{eq:1.121}
         + \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{x} | \mathbf{y}) \diff \mathbf{x} \diff \mathbf{y} \\
         &= -\int p(\mathbf{x}) \ln p(\mathbf{x}) \diff \mathbf{x} 
         + \iint p(\mathbf{x}, \mathbf{y}) \ln p(\mathbf{x} | \mathbf{y}) \diff \mathbf{x} \diff \mathbf{y} \\
-        &= H[\mathbf{x}] - H[\mathbf{x} | \mathbf{y}] \label{eq:1.121}\tag{1.121}
+        &= H[\mathbf{x}] - H[\mathbf{x} | \mathbf{y}] \tag{1.121}\label{eq:1.121}
     \end{align*}
 
     Analogously, one could easily show that also

@@ -4,9 +4,10 @@
 Given a set of data points $\{\mathbf{x}_n\}$, we can define the
 $\emph{convex hull}$ to be the data set of all points 
 $\mathbf{x}$ given by
-\begin{equation}\label{eq:4.156}\tag{4.156}
+\begin{equation*}
     \mathbf{x} = \sum_{n} \alpha_n \mathbf{x}_n
-\end{equation}
+    \tag{4.156}\label{eq:4.156}
+\end{equation*}
 where $\alpha_n \geq 0$ and $\sum_{n} \alpha_n = 1$. Consider
 a second set of points $\{\mathbf{y}_n\}$ together with
 their corresponding convex hull. By definition,
@@ -21,7 +22,7 @@ that if they are linearly separable, their covex hulls do not intersect.
 \vspace{1em}
 
 \begin{proof}
-    The vertices of the convex hulls are the data points $\{\mathbf{x}_n\}$ and $\{\mathbf{y}_n$\}. 
+    The vertices of the convex hulls are the data points $\{\mathbf{x}_n\}$ and $\{\mathbf{y}_n\}$. 
     Therefore, the edges of the hulls will be represented by some segments beteween the data points.
     As a result, any point situated on the boundary of the hull can be written as a convex
     combination of the end-points of the segment it's contained by. Also,
@@ -73,21 +74,23 @@ that if they are linearly separable, their covex hulls do not intersect.
     it's valid too.
 \end{proof}
 
-\section*{Exercise 4.2 $\start \star$ \textbf{TODO}} 
+\section*{Exercise 4.2 $\star \star$ \bf TODO} 
 Consider the minimization of a sum-of-squares error
-function ($\ref{eq:4.15}$), and suppose that all of the 
+function (4.15), and suppose that all of the 
 target vectors in the training set satisfy a linear constraint
-\begin{equation}\label{eq:4.157}\tag{4.157}
+\begin{equation*}
     \mathbf{a}^T\mathbf{t}_n + b = 0
-\end{equation}
+    \tag{4.157}\label{eq:4.157}
+\end{equation*}
 where $\mathbf{t}_n$ corresponds to the $n^\text{th}$ row of the matrix $\mathbf{T}$
-in $(\ref{eq:4.15})$. Show that as a consequence of this constraint,
+in (4.15). Show that as a consequence of this constraint,
 the elements of the model prediction $\mathbf{y}(\mathbf{x})$ given
-by the least-squares solution ($\ref{eq:4.17}$) also satisfy
+by the least-squares solution (4.17) also satisfy
 this constraint, so that
-\begin{equation}\label{eq:4.158}\tag{4.158}
+\begin{equation*}
     \mathbf{a}^T\mathbf{y}(\mathbf{x}) + b = 0
-\end{equation}
+    \tag{4.158}\label{eq:4.158}
+\end{equation*}
 To do so, assume that one of the basis functions $\phi_0(\mathbf{x}) = 1$,
 so that the corresponding parameter $w_0$ plays the role of a bias.
 
@@ -101,9 +104,10 @@ result that $\mathbf{w} \propto (\mathbf{m}_2 - \mathbf{m}_1)$.
 
 \begin{proof}
     Our goal is to maximize
-    \begin{equation}\label{eq:3.24}\tag{3.24}
+    \begin{equation*}
         m_2 - m_1 = \mathbf{w}^T(\mathbf{m}_2 - \mathbf{m}_1)
-    \end{equation}
+        \tag{3.24}\label{eq:3.24}
+    \end{equation*}
     with the constraint that $\mathbf{w}^T\mathbf{w} = 1$.
     The corresponding Lagrangian is given by
     \[
@@ -143,17 +147,20 @@ criterion ($\ref{eq:4.25}$) can be written in the form ($\ref{eq:4.26}$).
 \begin{proof}
     The Fisher criterion is defined to be the ratio of the between-class
     variance to the within-class variance and is given by
-    \begin{equation}\label{eq:4.25}\tag{4.25}
+    \begin{equation*}
         J(\mathbf{w}) = \frac{(m_2 - m_1)^2}{s_1^2 + s_2^2}
-    \end{equation}
+        \tag{4.25}\label{eq:4.25}
+    \end{equation*}
     where 
-    \begin{equation}\label{eq:4.23}\tag{4.23}
+    \begin{equation*}
         m_k = \mathbf{w}^T\mathbf{m}_k
-    \end{equation}
+        \tag{4.23}\label{eq:4.23}
+    \end{equation*}
     and
-    \begin{equation}\label{eq:4.24}\tag{4.24}
+    \begin{equation*}
         s_k^2 = \sum_{n \in \mathcal{C}_k} (y_n - m_k)^2
-    \end{equation}
+        \tag{4.24}\label{eq:4.24}
+    \end{equation*}
     By substituting $(\ref{eq:4.23})$ into the numerator of the Fischer expression,
     \begin{align*}
         (m_2 - m_1)^2 
@@ -163,14 +170,16 @@ criterion ($\ref{eq:4.25}$) can be written in the form ($\ref{eq:4.26}$).
         &= \mathbf{w}^T\mathbf{S}_B\mathbf{w}
     \end{align*}
     where $\mathbf{S}_B$ is the $\emph{between-class}$ covariance matrix and is given by
-    \begin{equation}\label{eq:4.27}\tag{4.27}
+    \begin{equation*}
         \mathbf{S}_B = (\mathbf{m}_2 - \mathbf{m}_1)(\mathbf{m}_2 - \mathbf{m}_1)^T
-    \end{equation}
+        \tag{4.27}\label{eq:4.27}
+    \end{equation*}
     Similarily, we use the fact that the projection of the D-dimensional input vector
     $\mathbf{w}$ to one dimension is given by
-    \begin{equation}\label{eq:4.20}\tag{4.20}
+    \begin{equation*}
         y = \mathbf{w}^T\mathbf{x}
-    \end{equation}
+        \tag{4.20}\label{eq:4.20}
+    \end{equation*}
     along with $(\ref{eq:4.23})$ and $(\ref{eq:4.24})$ to rewrite the denominator as 
     \begin{align*}
         s_1^2 + s_2^2
@@ -189,18 +198,20 @@ criterion ($\ref{eq:4.25}$) can be written in the form ($\ref{eq:4.26}$).
         &= \mathbf{w}^T\mathbf{S}_W\mathbf{w}
     \end{align*}
     where $\mathbf{S}_W$ is the $\emph{within-class}$ covariance matrix and is given by
-    \begin{equation}\label{eq:4.28}\tag{4.28}
+    \begin{equation*}
         \mathbf{S}_W = 
            \sum_{n \in \mathcal{C}_1} 
             (\mathbf{x}_n - \mathbf{m}_1)(\mathbf{x}_n - \mathbf{m}_1)^T
             + \sum_{n \in \mathcal{C}_2}  
             (\mathbf{x}_n - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
-    \end{equation}
+        \tag{4.28}\label{eq:4.28}
+    \end{equation*}
     Finally, by substituting the new expressions into ($\ref{eq:4.25}$), we can rewrite
     the Fischer criterion as
-    \begin{equation}\label{eq:4.26}\tag{4.26}
+    \begin{equation*}
         J(\mathbf{w}) = \frac{\mathbf{w}^T\mathbf{S}_B\mathbf{w}}{\mathbf{w}^T\mathbf{S}_W\mathbf{w}}
-    \end{equation}
+        \tag{4.26}\label{eq:4.26}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.7 $\star$}
@@ -212,24 +223,26 @@ $\sigma^{-1}(y) = \ln\bigg(\displaystyle \frac{y}{1 - y}\bigg)$.
 
 \begin{proof}
     The sigmoid function is given by
-    \begin{equation}\label{eq:4.59}\tag{4.59}
+    \begin{equation*}
         \sigma(a) = \frac{1}{1 + e^{-a}}
-    \end{equation}
+        \tag{4.59}\label{eq:4.59}
+    \end{equation*}
     The symmetry property is easily satisfied, as
-    \begin{equation}\label{eq:4.60}\tag{4.60}
+    \begin{equation*}
         \sigma(-a) 
         = \frac{1}{1 + e^a} 
         = \frac{1 + e^a + 1 + e^{-a}}{(1 + e^{-a})(1 + e^a)}
         - \frac{1 + e^a}{(1 + e^{-a})(1 + e^a)}
         = 1 - \frac{1}{1 + e^{-a}} 
         = 1 - \sigma(a)
-    \end{equation}\label{eq:4.60}
+        \tag{4.60}\label{eq:4.60}
+    \end{equation*}
     The sigmoid function is bijective, so inversable. Therefore, let $\sigma(x) = y$.
     Then,
     \[
         y = \frac{1}{1 + e^{-x}} 
         \iff (1 + e^{-x})y = 1 
-        \iff e^{-x} &= \frac{1 - y}{y} 
+        \iff e^{-x} = \frac{1 - y}{y} 
         \iff x = \ln\bigg(\frac{y}{1-y}\bigg)
     \] 
     so the inverse of the sigmoid function is given by
@@ -249,14 +262,16 @@ parameters $\mathbf{w}$ and $w_0$.
 \begin{proof}
     It is known that the posterior probability for class $\mathcal{C}_1$ can
     be written as
-    \begin{equation}\label{eq:4.57}\tag{4.57}
+    \begin{equation*}
         p(\mathcal{C}_1 | \mathbf{x}) = \sigma(a)
-    \end{equation}
+        \tag{4.57}\label{eq:4.57}
+    \end{equation*}
     where we have defined 
-    \begin{equation}\label{eq:4.58}\tag{4.58}
+    \begin{equation*}
         a = \ln \frac{p(\mathbf{x} | \mathcal{C}_1)p(\mathcal{C}_1)}
             {p(\mathbf{x} | \mathcal{C}_2)p(\mathcal{C}_2)}
-    \end{equation}
+        \tag{4.58}\label{eq:4.58}
+    \end{equation*}
     and $\sigma$ is the logistic sigmoid function defined by $(\ref{eq:4.59})$.
     We start by expanding $a$ and rewritting it as
     \[
@@ -265,12 +280,13 @@ parameters $\mathbf{w}$ and $w_0$.
     \] 
     Since the class-conditional densities are Gaussian, i.e. the density
     for a class $\mathcal{C}_k$ is given by
-    \begin{equation}\label{eq:4.64}\tag{4.64}
+    \begin{equation*}
         p(\mathbf{x} | \mathcal{C}_k) = \mathcal{N}(\mathbf{x} | \bm{\mu}_k, \mathbf{\Sigma})
         = \frac{1}{(2\pi)^{D/2}} \frac{1}{|\mathbf{\Sigma}|^{1/2}}
         \exp \bigg\{-\frac{1}{2} (\mathbf{x} - \bm{\mu}_k)^T\mathbf{\Sigma}^{-1}
         (\mathbf{x} - \bm{\mu}_k)\bigg\}
-    \end{equation}
+        \tag{4.64}\label{eq:4.64}
+    \end{equation*}
     one can easily obtain that
     \begin{align*}
         a 
@@ -288,21 +304,24 @@ parameters $\mathbf{w}$ and $w_0$.
         &= \mathbf{w}^T\mathbf{x} + w_0
     \end{align*}
     where we have defined 
-    \begin{equation}\label{eq:4.66}\tag{4.66}
+    \begin{equation*}
         \mathbf{w} = \mathbf{\Sigma}^{-1}(\bm{\mu}_1 - \bm{\mu}_2)
-    \end{equation}
+        \tag{4.66}\label{eq:4.66}
+    \end{equation*}
     \vspace{-1em}
-    \begin{equation}\label{eq:4.67}\tag{4.67}
+    \begin{equation*}
         w_0 = 
         - \frac{1}{2} \bm{\mu}_1^T\mathbf{\Sigma}^{-1}\bm{\mu}_1
         + \frac{1}{2} \bm{\mu}_2^T\mathbf{\Sigma}^{-1}\bm{\mu}_2
         + \ln \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)}
-    \end{equation}
+        \tag{4.67}\label{eq:4.67}
+    \end{equation*}
     Therefore, the posterior probability for class $\mathcal{C}_1$ 
     is given by
-    \begin{equation}\label{eq:4.65}\tag{4.65}
+    \begin{equation*}
         p(\mathcal{C}_1 | \mathbf{x}) = \sigma(\mathbf{w}^T\mathbf{x} + w_0)
-    \end{equation}
+        \tag{4.65}\label{eq:4.65}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.9 $\star$}
@@ -318,9 +337,9 @@ $n$ is from class $\mathcal{C}_k$. Assuming that the data points
 are drawn independently from this model, show that the 
 maximum-likelihood solution for the prior probabilites is given
 by 
-\begin{equation}\label{eq:4.159}\tag{4.159}
+\begin{equation*}
     \pi_k = \frac{N_k}{N}
-\end{equation}
+\end{equation*}
 where $N_k$ is the number of data points assigned to class 
 $\mathcal{C}_k$.
 
@@ -385,25 +404,29 @@ $\mathcal{C}_k$.
 Consider the classification model of Exercise 4.9 and now suppose
 that the class-conditional densities are given by Gaussian 
 distributions with a shared covariance matrix, so that
-\begin{equation}\label{eq:4.160}\tag{4.160}
+\begin{equation*}
     p(\bm{\phi} | \mathcal{C}_k) = \mathcal{N}(\bm{\phi} | \bm{\mu}_k, \mathbf{\Sigma})
-\end{equation}
+    \tag{4.160}\label{eq:4.160}
+\end{equation*}
 Show that the maximum likelihood solution for the mean of the
 Gaussian distribution for class $\mathcal{C}_k$ is given by
-\begin{equation}\label{eq:4.161}\tag{4.161}
+\begin{equation*}
     \bm{\mu}_k = \frac{1}{N_k} \sum_{n=1}^{N} t_{nk} \bm{\phi}_n
-\end{equation}
+    \tag{4.161}\label{eq:4.161}
+\end{equation*}
 which represents the mean of those feature vectors assigned
 to class $\mathcal{C}_k$. Similarly, show that the maximum likelihood
 solution for the shared covariance matrix is given by
-\begin{equation}\label{eq:4.162}\tag{4.162}
+\begin{equation*}
     \mathbf{\Sigma} = \sum_{k=1}^{K} \frac{N_k}{N}\mathbf{S}_k
-\end{equation}
+    \tag{4.162}\label{eq:4.162}
+\end{equation*}
 where 
-\begin{equation}\label{eq:4.163}\tag{4.163}
-\mathbf{S}_k = \frac{1}{N_k} \sum_{n=1}^{N} 
-t_{nk}(\bm{\phi}_n - \bm{\mu_k})(\bm{\phi}_{k} - \bm{\mu}_k)^T
-\end{equation}
+\begin{equation*}
+    \mathbf{S}_k = \frac{1}{N_k} \sum_{n=1}^{N} 
+    t_{nk}(\bm{\phi}_n - \bm{\mu_k})(\bm{\phi}_{k} - \bm{\mu}_k)^T
+    \tag{4.163}\label{eq:4.163}
+\end{equation*}
 Thus $\mathbf{\Sigma}$ is given by a weighted average of the covariances
 of the data associated with each class, in which the weighting coefficients
 are given by the prior probabilities of the classes.
@@ -503,14 +526,16 @@ which is discussed in Section 8.2.2.
 \begin{proof}
     We've seen in Section 4.2 that the posterior probabilities
     can be written as $\emph{normalized}$ $\emph{exponentials}$:
-    \begin{equation}\label{eq:4.62}\tag{4.62}
+    \begin{equation*}
         p(\mathcal{C}_k | \bm{\phi}) 
         = \frac{\exp(a_k)}{\sum_{j} \exp(a_j)}
-    \end{equation}
+        \tag{4.62}\label{eq:4.62}
+    \end{equation*}
     where
-    \begin{equation}\label{eq:4.63}\tag{4.63}
+    \begin{equation*}
         a_k = \ln p(\bm{\phi} | \mathcal{C}_k)p(\mathcal{C}_k)
-    \end{equation}
+        \tag{4.63}\label{eq:4.63}
+    \end{equation*}
     Considering the setup of our classification problem,
     our class-conditional distribution will be of the form
     \[
@@ -546,9 +571,10 @@ function defined by ($\ref{eq:4.59}$).
         = \frac{1}{1 + e^{-a}} - \bigg(\frac{1}{1 + e^{-a}}\bigg)^2
     \] 
     We recognize the expression of the logistic sigmoid function, so
-    \begin{equation}\label{eq:4.88}\tag{4.88}
+    \begin{equation*}
         \pdv{a} \sigma(a) = \sigma(a) - \sigma(a)^2 = \sigma(a) \big(1 - \sigma(a)\big)
-    \end{equation}
+        \tag{4.88}\label{eq:4.88}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.13 $\star$}
@@ -560,11 +586,12 @@ the logistic regression model is given by (\ref{eq:4.91}).
 
 \begin{proof}
     The error function for the logistic regression is given by
-    \begin{equation}\label{eq:4.90}\tag{4.90}
+    \begin{equation*}
         E(\mathbf{w}) 
         = -\ln p(\mathbf{t} | \mathbf{w})
         = -\sum_{n = 1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\} 
-    \end{equation}
+        \tag{4.90}\label{eq:4.90}
+    \end{equation*}
     where $y_n = \sigma(a_n)$ and $a_n = \mathbf{w}^T\bm{\phi}_n$.
     Taking the derivative of the log likelihood function with respect to $\mathbf{w}$
     gives
@@ -581,7 +608,7 @@ the logistic regression model is given by (\ref{eq:4.91}).
         &= \sum_{n=1}^{N} \frac{t_n(1 - y_n) - y_n(1 - t_n)}{y_n(1 - y_n)}
             \nabla_\mathbf{w} y_n \\
         &= \sum_{n=1}^{N} \frac{t_n - y_n}{y_n(1 - y_n)}
-            \nabla_\mathbf{w} y_n \label{eq:4.13.1}\tag{4.13.1}
+            \nabla_\mathbf{w} y_n \tag{4.13.1}\label{eq:4.13.1}
     \end{align*}
     Using ($\ref{eq:4.88}$), we can compute the gradient term:
     \begin{align*}
@@ -596,11 +623,12 @@ the logistic regression model is given by (\ref{eq:4.91}).
         = \sum_{n=1}^{N} (t_n - y_n) \bm{\phi}_n
     \] 
     and the gradient of the error function is then given by
-    \begin{equation}\label{eq:4.91}\tag{4.91}
+    \begin{equation*}
         \nabla_\mathbf{w} E(\mathbf{w})
         = -\nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w})
         = - \sum_{n=1}^{N} (t_n - y_n) \bm{\phi}_n
-    \end{equation}
+        \tag{4.91}\label{eq:4.91}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.14 $\star$}
@@ -662,12 +690,13 @@ and it has an unique minimum.
 
 \begin{proof}
     The Hessian of the error function is given by
-    \begin{equation}\label{eq:4.97}\tag{4.97}
+    \begin{equation*}
         \mathbf{H} 
         = \nabla \nabla E(\mathbf{w})
         = \sum_{n=1}^{N} y_n(1 - y_n)\bm{\phi}_n\bm{\phi}_n^T
         = \mathbf{\Phi}^T\mathbf{R}\mathbf{\Phi}
-    \end{equation}
+        \tag{4.97}\label{eq:4.97}
+    \end{equation*}
     Let $\mathbf{u}$ be a $M$-dimensional column vector.
     By using the sum formulation for the hessian matrix, we have that
     \[
@@ -724,13 +753,15 @@ given by $(\ref{eq:4.106})$.
 
 \begin{proof}
     The softmax activation function is given by
-    \begin{equation}\label{eq:4.104}\tag{4.104}
+    \begin{equation*}
         y_k = \frac{\exp(a_k)}{\sum_{j} \exp(a_j)}
-    \end{equation}
+        \tag{4.104}\label{eq:4.104}
+    \end{equation*}
     where
-    \begin{equation}\label{eq:4.105}\tag{4.105}
+    \begin{equation*}
         a_k = \mathbf{w}_k^T\bm{\phi}
-    \end{equation}
+        \tag{4.105}\label{eq:4.105}
+    \end{equation*}
     Taking the derivative of $(\ref{eq:4.104})$ with respect to
     $a_j$ and applying the quotient rule gives
     \begin{align*}
@@ -742,9 +773,10 @@ given by $(\ref{eq:4.106})$.
         \bigg(I_{kj} - \frac{\exp(a_j)}{\sum_{j} \exp(a_j)}\bigg)
     \end{align*}
     which is equivalent to 
-    \begin{equation}\label{eq:4.106}\tag{4.106}
+    \begin{equation*}
         \pdv{a_j} y_k = y_k(I_{kj} - y_j)
-    \end{equation}
+        \tag{4.106}\label{eq:4.106}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.18 $\star$}
@@ -757,11 +789,12 @@ are given by ($\ref{eq:4.109}$).
 
 \begin{proof}
     The cross-entropy error is given by
-    \begin{equation}\label{eq:4.108}\tag{4.108}
+    \begin{equation*}
         E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
         = -\ln p(\mathbf{T} | \mathbf{w}_1, \ldots, \mathbf{w}_K)
         = - \sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln y_{nk}
-    \end{equation}
+        \tag{4.108}\label{eq:4.108}
+    \end{equation*}
     Taking its derivative with respect to $\mathbf{w}_j$ yields 
     \begin{align*}
         \pdv{\mathbf{w}_j} E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
@@ -784,10 +817,11 @@ are given by ($\ref{eq:4.109}$).
         + \sum_{n=1}^{N} \bigg(\sum_{k=1}^{N} t_{nk}\bigg) y_{nj} \bm{\phi}_n
     \] 
     gives the desired result
-    \begin{equation}\label{eq:4.109}\tag{4.109}
+    \begin{equation*}
         \pdv{\mathbf{w}_j}E(\mathbf{w}_1, \ldots, \mathbf{w}_K)
         = \sum_{n=1}^{N} (y_{nj} - t_{nj})\bm{\phi}_n
-    \end{equation}
+        \tag{4.109}\label{eq:4.109}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.19 $\star$}
@@ -800,9 +834,10 @@ a model using IRLS.
 
 \begin{proof}
     The probit function is given by 
-    \begin{equation}\label{eq:4.114}\tag{4.114}
+    \begin{equation*}
         \Phi(a) = \int_{-\infty}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
-    \end{equation}
+        \tag{4.114}\label{eq:4.114}
+    \end{equation*}
     Therefore, from the fundamental theorem of calculus, we have that
     \[
         \pdv{a} \Phi(a) 
@@ -833,7 +868,7 @@ a model using IRLS.
     using the chain rule:
     \begin{align*}
         \mathbf{H} 
-        = \nabla_\mathbf{w} \nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w}) 
+        &= \nabla_\mathbf{w} \nabla_\mathbf{w} \ln p(\mathbf{t} | \mathbf{w}) \\
         &= \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N}
         \nabla_\mathbf{w}\bigg[\frac{t_n - y_n}{y_n(1 - y_n)}\exp{-\frac{a_n^2}{2}}\bigg]\bm{\phi}_n \\
         &= \frac{1}{\sqrt{2\pi}} \sum_{n=1}^{N} \bigg[
@@ -873,9 +908,10 @@ related by ($\ref{eq:4.116}$).
 
 \begin{proof}
     The error function is given by
-    \begin{equation}\label{eq:4.115}\tag{4.115}
+    \begin{equation*}
         \erf(a) = \frac{2}{\sqrt{\pi}} \int_{0}^{a} \exp{-\frac{\theta^2}{2}} \diff \theta
-    \end{equation}
+        \tag{4.115}\label{eq:4.115}
+    \end{equation*}
     By using the fact that the Gaussian is symmetric around the mean, 
     the probit function can be rewritten as
     \begin{align*}
@@ -884,7 +920,7 @@ related by ($\ref{eq:4.116}$).
         = \int_{-\infty}^{0} \mathcal{N}(\theta | 0, 1) \diff \theta
         + \int_{0}^{a} \mathcal{N}(\theta | 0, 1) \diff \theta
         &= \frac{1}{2} + \frac{1}{\sqrt{2\pi}} \int_{0}^{a} \exp{-\frac{\theta^2}{2}} \diff \theta \\
-        &= \frac{1}{2} \bigg\{1 + \frac{1}{\sqrt{2}} \erf(a)\bigg\} \label{eq:4.116}\tag{4.116}
+        &= \frac{1}{2} \bigg\{1 + \frac{1}{\sqrt{2}} \erf(a)\bigg\} \tag{4.116}\label{eq:4.116}
     \end{align*}
 \end{proof}
 
@@ -898,10 +934,11 @@ approximation.
 \begin{proof}
     The proof of this is almost identical to the one in Section 4.4.1.
     From Bayes' theorem the model evidence is given by
-    \begin{equation}\label{eq:4.136}\tag{4.136}
+    \begin{equation*}
         p(\mathcal{D}) 
         = \int p(\mathcal{D} | \bm{\theta}) p(\bm{\theta}) \diff \bm{\theta}
-    \end{equation}
+        \tag{4.136}\label{eq:4.136}
+    \end{equation*}
     Identifying $f(\bm{\theta}) = p(\mathcal{D} | \bm{\theta})p(\bm{\theta})$
     and $Z = p(\mathcal{D})$, and applying the result (4.135),
     we obtain the model evidence under the Laplace approximation:
@@ -913,18 +950,20 @@ approximation.
     where $\bm{\theta}_{MAP}$ is the value of $\bm{\theta}$ at the mode
     of the posterior distribution, and $\mathbf{A}$ is the $\emph{Hessian}$ 
     matrix of second derivatives of the negative log posterior
-    \begin{equation}\label{eq:4.138}\tag{4.138}
+    \begin{equation*}
         \mathbf{A} 
         = -\nabla \nabla \ln p(\mathcal{D} | \bm{\theta}_{MAP})p(\bm{\theta}_{MAP})
         = -\nabla \nabla \ln p(\bm{\theta}_{MAP} | \mathcal{D})
-    \end{equation}
+        \tag{4.138}\label{eq:4.138}
+    \end{equation*}
 
     Therefore, the log model evidence is given by 
-    \begin{equation}\label{eq:4.137}\tag{4.137}
+    \begin{equation*}
         \ln p(\mathcal{D}) 
         = \ln p(\mathcal{D} | \bm{\theta}_{MAP}) + \ln p(\bm{\theta}_{MAP})
         + \frac{M}{2} \ln (2\pi) - \frac{1}{2} \ln |\mathbf{A}|
-    \end{equation}
+        \tag{4.137}\label{eq:4.137}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 4.25 $\star \star$}

@@ -113,9 +113,10 @@ Verify the results \eqref{eq:6.13} and \eqref{eq:6.14} for constructing valid ke
     \] 
     where $c > 0$ is a constant and $\bm{\beta}(\mathbf{x}) = \sqrt{c}\bm{\alpha}(\mathbf{x})$.
     Therefore, the new kernel 
-    \begin{equation}\label{eq:6.13}\tag{6.13}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = ck_1(\mathbf{x}, \mathbf{x}')
-    \end{equation}
+        \tag{6.13}\label{eq:6.13}
+    \end{equation*}
     is valid. Analogously, since $f(\cdot)$ is a real-valued function, 
     \[
         f(\mathbf{x}) k_1(\mathbf{x}, \mathbf{x}') f(\mathbf{x}')
@@ -127,9 +128,10 @@ Verify the results \eqref{eq:6.13} and \eqref{eq:6.14} for constructing valid ke
     \] 
     where $\bm{\gamma}(\mathbf{x}) = f(\mathbf{x}) \bm{\alpha}(\mathbf{x})$.
     As a result, the kernel
-    \begin{equation}\label{eq:6.14}\tag{6.14}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = f(\mathbf{x}) k_1(\mathbf{x}, \mathbf{x}') f(\mathbf{x}')
-    \end{equation}
+        \tag{6.14}\label{eq:6.14}
+    \end{equation*}
     will also be valid.
 \end{proof}
 
@@ -143,9 +145,10 @@ Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid ke
     kernels are summed and multiplied by nonnegative constants or other kernels, combining
     \eqref{eq:6.13}, \eqref{eq:6.17} and \eqref{eq:6.18} proves that
     the kernel
-    \begin{equation}\label{eq:6.15}\tag{6.15}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = q\big(k_1(\mathbf{x}, \mathbf{x}')\big)
-    \end{equation}
+        \tag{6.15}\label{eq:6.15}
+    \end{equation*}
     is valid. Now, the exponential function is defined as
     \[
         \exp(x) \coloneqq \sum_{i=0}^{\infty} \frac{x^i}{i!} 
@@ -159,9 +162,10 @@ Verify the results \eqref{eq:6.15} and \eqref{eq:6.16} for constructing valid ke
     and products (with itself or nonnegative constants), so by using
     \eqref{eq:6.13}, \eqref{eq:6.17}, \eqref{eq:6.18} again, one has that
     the new kernel
-    \begin{equation}\label{eq:6.16}\tag{6.16}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = \exp\big(k_1(\mathbf{x}, \mathbf{x}')\big)
-    \end{equation}
+        \tag{6.16}\label{eq:6.16}
+    \end{equation*}
     is valid.
 \end{proof}
 
@@ -183,9 +187,10 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
     and corresponds to the Gram matrix of the 
     kernel $k(\mathbf{x}, \mathbf{x}') = k_1(\mathbf{x}, \mathbf{x'}) + 
     k_2(\mathbf{x}, \mathbf{x}')$, one has that the kernel
-    \begin{equation}\label{eq:6.17}\tag{6.17}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = k_1(\mathbf{x}, \mathbf{x}') + k_2(\mathbf{x}, \mathbf{x}')
-    \end{equation}
+        \tag{6.17}\label{eq:6.17}
+    \end{equation*}
     is valid. Now, let $\bm{\alpha}, \bm{\beta}$ be feature mappings such that
     \[
         k_1(\mathbf{x}, \mathbf{x}') 
@@ -217,10 +222,11 @@ Verify the results \eqref{eq:6.17} and \eqref{eq:6.18} for constructing valid ke
     Since the product kernel can be rewritten as a valid inner product in the 
     feature space defined by the feature mapping $\mathbf{A}(\mathbf{x})$,
     the new kernel
-    \begin{equation}\label{eq:6.18}\tag{6.18}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}')
         = k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
-    \end{equation}
+        \tag{6.18}\label{eq:6.18}
+    \end{equation*}
     is valid. Note that we can continue differently from (*), so
     \begin{align*}
         k_1(\mathbf{x}, \mathbf{x}') k_2(\mathbf{x}, \mathbf{x}')
@@ -259,10 +265,11 @@ Verify the results \eqref{eq:6.19} and \eqref{eq:6.20} for constructing valid ke
     \end{align*}
     where $\bm{\phi}$ is a function from $\mathbf{x}$ to $\mathbb{R}^M$ and
     $\bm{\gamma} = \bm{\psi} \circ \bm{\phi}$. Therefore, the kernel
-    \begin{equation}\label{eq:6.19}\tag{6.19} 
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = k_3\big(\bm{\phi}(\mathbf{x}),
         \bm{\phi}(\mathbf{x}')\big)
-    \end{equation}
+        \tag{6.19}\label{eq:6.19} 
+    \end{equation*}
     is valid. For the second part, since $\mathbf{A}$ is a 
     symmetric, positive semidefinite matrix, one can use the Cholesky
     decomposition to obtain a matrix $\mathbf{L}$ such that
@@ -278,9 +285,10 @@ Verify the results \eqref{eq:6.19} and \eqref{eq:6.20} for constructing valid ke
     \end{align*}
     where $\bm{\zeta}(\mathbf{x}) = \mathbf{L}^T \mathbf{x}$.
     Hence, the kernel
-    \begin{equation}\label{eq:6.20}\tag{6.20}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = \mathbf{x}^T \mathbf{A} \mathbf{x}
-    \end{equation}
+        \tag{6.20}\label{eq:6.20}
+    \end{equation*}
     is valid.
 \end{proof} 
 
@@ -317,11 +325,12 @@ Verify the results \eqref{eq:6.21} and \eqref{eq:6.22} for constructing valid ke
         \end{bmatrix}
     \] 
     Hence, the kernel 
-    \begin{equation}\label{eq:6.21}\tag{6.21}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = 
         k_a(\mathbf{x}_a, \mathbf{x}_a') +
         k_b(\mathbf{x}_b, \mathbf{x}_b')
-    \end{equation}
+        \tag{6.21}\label{eq:6.21}
+    \end{equation*}
     is valid. The product identity is obtained similarly to
     what we do in Exercise 6.7. One has that
     \begin{align*}
@@ -334,18 +343,19 @@ Verify the results \eqref{eq:6.21} and \eqref{eq:6.22} for constructing valid ke
         \phi_{ai}(\mathbf{x}_a) \phi_{bj}(\mathbf{x}_b)
         \phi_{ai}(\mathbf{x}_a') \phi_{bj}(\mathbf{x}_b') \\
         &= \sum_{i=1}^{N_a} \sum_{j=1}^{N_b} A_{ij}(\mathbf{x}) A_{ij}(\mathbf{x}') \\
-        &= \langle \mathbf{A}(\mathbf{x}), \mathbf{A}(\mathbf{x}') \rangle_\bm{F}
+        &= \langle \mathbf{A}(\mathbf{x}), \mathbf{A}(\mathbf{x}') \rangle_{\bm{F}}
     \end{align*}
-    where $\langle \cdot, \cdot \rangle_\bm{F}$ is the Frobenius inner product,
+    where $\langle \cdot, \cdot \rangle_{\bm{F}}$ is the Frobenius inner product,
     $\phi_{ai}(\mathbf{x})$ is the $i$-th element of $\bm{\phi}_a(\mathbf{x})$ and
     \[
         A_{ij}(\mathbf{x}) = \phi_{ai}(\mathbf{x}_a) \phi_{bj}(\mathbf{x}_b)
     \] 
     Therefore, the new kernel
-    \begin{equation}\label{eq:6.22}\tag{6.22}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') = 
         k_a(\mathbf{x}_a, \mathbf{x}_a') k_b(\mathbf{x}_b, \mathbf{x}_b')
-    \end{equation}
+        \tag{6.22}\label{eq:6.22}
+    \end{equation*}
     will also be valid.
 \end{proof}
 
@@ -381,12 +391,13 @@ of an infinite-dimensional feature vector.
 \begin{proof}
     We've seen in Section 6.2 that the Gaussian kernel can be expanded
     as
-    \begin{equation}\label{eq:6.25}\tag{6.25}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') 
         = \exp{-\frac{\norm{\mathbf{x}}^2}{2\sigma^2}}
         \exp{\frac{\langle \mathbf{x}, \mathbf{x}' \rangle}{\sigma^2}}
         \exp{-\frac{\norm{\mathbf{x}'}^2}{2\sigma^2}}
-    \end{equation}
+        \tag{6.25}\label{eq:6.25}
+    \end{equation*}
     In Exercise 6.7 we proved that if $\bm{\alpha}, \bm{\beta}$ are feature maps,
     there exists a feature map $\bm{\psi}$ such that
     \[
@@ -450,12 +461,13 @@ Show that the kernel function \eqref{eq:6.27} corresponds to an inner product in
 space of dimensionality $2^{|D|}$ defined by the mapping $\bm{\phi}(A)$ where $A$ 
 is a subset of $D$ and the element $\phi_U(\mathbf{A})$, indexed by the subset
 $U$, is given by
-\begin{equation}\label{eq:6.95}\tag{6.95}
+\begin{equation*}
     \phi_U(A) = \begin{cases}
         1, & \text{ if }  U \subseteq A \\
         0, & \text{ otherwise }
     \end{cases}
-\end{equation}
+    \tag{6.95}\label{eq:6.95}
+\end{equation*}
 Here $U \subseteq A$ denotes that $U$ is either a subset of $A$ or is equal to $A$. 
 
 \vspace{1em}
@@ -469,9 +481,10 @@ Here $U \subseteq A$ denotes that $U$ is either a subset of $A$ or is equal to $
     will give the number of subsets of $D$ contained by both $A_1$ and $A_2$. 
     However, since $A_1, A_2 \subseteq D$ this can also be expressed by counting
     the number of subsets of $A_1 \cap A_2$. This is done by the kernel
-    \begin{equation}\label{eq:6.27}\tag{6.27}
+    \begin{equation*}
         k(A_1, A_2) = 2^{|A_1 \cap A_2|}
-    \end{equation}
+        \tag{6.27}\label{eq:6.27}
+    \end{equation*}
     Hence, the kernel can be written as an inner product in the space defined
     by the mapping $\bm{\phi}(A)$ since
      \[
@@ -489,21 +502,24 @@ $\bm{\psi}(\cdot)$ is invertible and differentiable.
 
 \begin{proof}
     The Fisher kernel is defined by
-    \begin{equation}\label{eq:6.33}\tag{6.33}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x}') 
         = \mathbf{g}(\bm{\theta}, \mathbf{x})^T \mathbf{F}^{-1} \mathbf{g}(\bm{\theta}, \mathbf{x}')
-    \end{equation}
+        \tag{6.33}\label{eq:6.33}
+    \end{equation*}
     where 
-    \begin{equation}\label{eq:6.32}\tag{6.32}
+    \begin{equation*}
         \mathbf{g}(\bm{\theta}, \mathbf{x}) 
         = \nabla_{\bm{\theta}} \ln p(\mathbf{x} | \bm{\theta})
-    \end{equation}
+        \tag{6.32}\label{eq:6.32}
+    \end{equation*}
     is the Fisher \emph{score} and $\mathbf{F}$ is the Fisher \emph{information matrix}, given
     by
-    \begin{equation}\label{eq:6.34}\tag{6.34}
+    \begin{equation*}
         \mathbf{F} = \mathbb{E}_\mathbf{x}\big[
         \mathbf{g}(\bm{\theta}, \mathbf{x})\mathbf{g}(\bm{\theta}, \mathbf{x})^T\big]
-    \end{equation}
+        \tag{6.34}\label{eq:6.34}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 6.14 $\star$}
@@ -555,9 +571,10 @@ that is Gaussian with mean $\bm{\mu}$ and fixed covariance $\mathbf{S}$.
 By considering the determinant of a $2 \times 2$ Gram matrix,
 show that a positive definite kernel function $k(x, x')$ satisfies
 the Cauchy-Schwartz inequality
-\begin{equation}\label{eq:6.96}\tag{6.96}
+\begin{equation*}
     k(x_1, x_2)^2 \leq k(x_1, x_1)k(x_2, x_2)
-\end{equation}
+    \tag{6.96}\label{eq:6.96}
+\end{equation*}
 
 \vspace{1em}
 
@@ -578,7 +595,8 @@ the Cauchy-Schwartz inequality
     are positive. Since the determinant of a matrix is given by the product
     of its eigenvalues, then the determinant of $\mathbf{K}$ must then be positive.
     Hence,
-    \begin{equation}\tag{6.96}
+    \begin{equation*}
         k(x_1, x_2)^2 \leq k(x_1, x_1)k(x_2, x_2)
-    \end{equation}
+        \tag{6.96}
+    \end{equation*}
 \end{proof}

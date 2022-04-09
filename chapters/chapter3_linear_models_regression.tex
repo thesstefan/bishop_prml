@@ -9,38 +9,42 @@ Exercise 3.23 seems to be the ones we've got, and not the ones from the book.
 \section*{Exercise 3.1 $\star$}
 Show that the $\tanh$ function and the logistic
 sigmoid function ($\ref{eq:3.6}$) are related by 
-\begin{equation}\label{eq:3.100}\tag{3.100}
+\begin{equation*}
     \tanh(a) = 2\sigma(2a) - 1
-\end{equation}
+    \tag{3.100}\label{eq:3.100}
+\end{equation*}
 Hence show that a general linear combination of logistic sigmoid functions
 of the form
-\begin{equation}\label{eq:3.101}\tag{3.101}
+\begin{equation*}
     y(x, \mathbf{w}) = w_0 + \sum_{j=1}^{M} w_j \sigma\bigg(\frac{x-\mu_j}{s}\bigg)
-\end{equation}
+    \tag{3.101}\label{eq:3.101}
+\end{equation*}
 is equivalent to a linear combination of $\tanh$ functions of the form
-\begin{equation}\label{eq:3.102}\tag{3.102}
-    y(x, \mathbf{u}) = u_0 + \sum_{j=1}^{M} u_j \tanh\bigg(\frac{x-\mu_j}{2s}\bigg)
-\end{equation}
+\begin{equation*}
+    y(x, \mathbf{u}) = u_0 + \sum_{j=1}^{M} u_j \tanh\bigg(\frac{x-\mu_j}{s}\bigg)
+    \tag{3.102}\label{eq:3.102}
+\end{equation*}
 and find expressions to relate the new parameters $\{u_0, \ldots, u_M\}$
-to the original parameters $\{w_0, \ldots, w_M\}$.
+to the original parameters \linebreak $\{w_0, \ldots, w_M\}$.
 
 \vspace{1em}
 
 \begin{proof}
     The logistic sigmoid function is given by
-    \begin{equation}\label{eq:3.6}\tag{3.6}
+    \begin{equation*}
         \sigma(x) = \frac{1}{1 + \exp(-x)}
-    \end{equation}
+        \tag{3.6}\label{eq:3.6}
+    \end{equation*}
     and the $\tanh$ function is given by
-    \begin{equation}
+    \[
         \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} = \frac{e^{2x} - 1}{e^{2x} + 1}
-    \end{equation}
+    \] 
     By starting from the right-hand side of ($\ref{eq:3.100}$) and then 
     using the fact that $\tanh$ is odd, we obtain 
-    \begin{equation}\tag{3.100}
+    \begin{equation*}\tag{3.100}
         2\sigma(2a) - 1 = \frac{2}{e^{-2a}} - 1 = \frac{1 - e^{-2a}}{1 + e^{-2a}}
         = -\tanh(-a) = \tanh(a)
-    \end{equation}
+    \end{equation*}
     Now, we can express the logistic sigmoid functions as
     \[
         \sigma(x) = \frac{1}{2}\tanh\frac{x}{2} + \frac{1}{2}
@@ -62,9 +66,10 @@ to the original parameters $\{w_0, \ldots, w_M\}$.
 
 \section*{Exercise 3.2 $\star \star$}
 Show that the matrix 
-\begin{equation}\label{eq:3.103}\tag{3.103}
+\begin{equation*}
     \mathbf{\Phi}(\mathbf{\Phi}^T\mathbf{\Phi})^{-1}\mathbf{\Phi}^T
-\end{equation}
+    \tag{3.103}\label{eq:3.103}
+\end{equation*}
 takes any vector $\mathbf{v}$ and projects it onto the space spanned by the columns
 of $\mathbf{\Phi}$. Use this result to show that the least-squares solution 
 ($\ref{eq:3.15}$) corresponds to an orthogonal projection of the vector $\mathbf{t}$ onto
@@ -98,19 +103,21 @@ the manifold $\mathcal{S}$ as shown in Figure 3.2.
     the projection of $\mathbf{t}$ onto the manifold $\mathcal{S}$ 
     is given by $\mathbf{y} = \mathbf{\Phi}\mathbf{w}_{\text{ML}}$,
     where 
-    \begin{equation}\label{eq:3.15}\tag{3.15}
+    \begin{equation*}
         \mathbf{w}_{\text{ML}} = (\mathbf{\Phi}^T \mathbf{\Phi})^{-1} \mathbf{\Phi}^T \mathbf{t}
-    \end{equation}
+        \tag{3.15}\label{eq:3.15}
+    \end{equation*}
     is the least-squares solution.
 \end{proof}
 
 \section*{Exercise 3.3 $\star$}
 Consider a data set in which each data point $t_n$ is associated with a weighting
 factor $r_n > 0$, so that the sum of squares error function becomes
-\begin{equation}\label{eq:3.104}\tag{3.104}
+\begin{equation*}
     E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
     r_n\{t_n - \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\}^2
-\end{equation}
+    \tag{3.104}\label{eq:3.104}
+\end{equation*}
 Find an expression for the solution $\mathbf{w}^\star$ that minimizes this error function.
 Give two alternative interpretations of the weighted sum-of-squares error function
 in terms of (i) data dependent noise variance and (ii) replicated data points.
@@ -149,10 +156,10 @@ in terms of (i) data dependent noise variance and (ii) replicated data points.
 
 \textbf{Method 2.}
 \begin{proof}
-
-    We define the diagonal matrices $R = \text{diag}(r_1, r_2, \ldots, r_n)$ and
-    $R^{1/2} = \text{diag}(\sqrt{r_1}, \sqrt{r_2}, \ldots, \sqrt{r_n})$
-    such that $R^{1/2}R^{1/2} = R$. We notice that we can rewrite ($\ref{eq:3.104}$) as:
+    Let $R = \text{diag}(r_1, r_2, \ldots, r_n)$ and
+    $R^{1/2} = \text{diag}(\sqrt{r_1}, \sqrt{r_2}, \ldots, \sqrt{r_n})$ be
+    diagonal matrices such that $R^{1/2}R^{1/2} = R$. We notice that we can 
+    rewrite ($\ref{eq:3.104}$) as:
     \[
         E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
         \big(\sqrt{r_n}\{t_n - \mathbf{w}^T \bm{\phi}(\mathbf{x}_n)\}\big)^2
@@ -178,15 +185,17 @@ in terms of (i) data dependent noise variance and (ii) replicated data points.
 
 \section*{Exercise 3.4 $\star$}
 Consider a linear model of the form
-\begin{equation}\label{eq:3.105}\tag{3.105}
+\begin{equation*}
     y(\mathbf{x}, \mathbf{w}) = w_0 + \sum_{i=1}^{D} w_ix_i
-\end{equation}
+    \tag{3.105}\label{eq:3.105}
+\end{equation*}
 together with a sum-of-squares error function of 
 the form
-\begin{equation}\label{eq:3.106}\tag{3.106}
+\begin{equation*}
     E_D(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N}
     \{y(\mathbf{x}_n, \mathbf{w}) - t_n\}^2
-\end{equation}
+    \tag{3.106}\label{eq:3.106}
+\end{equation*}
 Now suppose that Gaussian noise $\epsilon_i$ with zero
 mean and variance $\sigma^2$ is added independently
 to each of the input variables $x_i$. By making
@@ -276,14 +285,16 @@ between the parameters $\eta$ and $\lambda$.
 Consider a linear basis function regression model
 for a multivariate target variable $\mathbf{t}$ having 
 a Gaussian distribution of the form
-\begin{equation}\label{eq:3.107}\tag{3.107}
+\begin{equation*}
     p(\mathbf{t} | \mathbf{W}, \mathbf{\Sigma})
     = \mathcal{N}(\mathbf{t} | \mathbf{y}(\mathbf{x}, \mathbf{W}), \mathbf{\Sigma})
-\end{equation}
+    \tag{3.107}\label{eq:3.107}
+\end{equation*}
 where 
-\begin{equation}\label{eq:3.108}\tag{3.108}
+\begin{equation*}
     \mathbf{y}(\mathbf{x}, \mathbf{W}) = \mathbf{W}^T \bm{\phi}(\mathbf{x})
-\end{equation}
+    \tag{3.108}\label{eq:3.108}
+\end{equation*}
 together with a training data set compromising input
 basis vectors $\bm{\phi}(\mathbf{x}_n)$ and corresponding
 target vectors $\mathbf{t}_n$, with $n = 1, \ldots, N$. Show
@@ -294,11 +305,12 @@ which was the solution for an isotropic noise distribution.
 Note that this is independent of the covariance matrix
 $\mathbf{\Sigma}$. Show that the maximum likelihood solution
 for $\mathbf{\Sigma}$ is given by
-\begin{equation}\label{eq:3.109}\tag{3.109}
+\begin{equation*}
     \mathbf{\Sigma} = \frac{1}{N} \sum_{n=1}^{N} 
     \big(\mathbf{t}_n - \mathbf{W}_{\text{ML}}^T\bm{\phi}(\mathbf{x}_n)\big)
     \big(\mathbf{t}_n - \mathbf{W}_{\text{ML}}^T\bm{\phi}(\mathbf{x}_n)\big)^T
-\end{equation}
+    \tag{3.109}\label{eq:3.109}
+\end{equation*}
 
 \vspace{1em}
 
@@ -390,12 +402,13 @@ model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$
             \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1})
     \end{align*}
     we have that
-    \begin{equation}\label{eq:3.7.1}\tag{3.7.1}
+    \begin{equation*}
         \ln p(\mathbf{w} | \mathbf{t})
         = \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N) 
             + \ln \prod_{n=1}^N \mathcal{N}(t_n | \mathbf{w}^T\bm{\phi}(\mathbf{x}_n), \beta^{-1}) 
             + \text{const}
-    \end{equation}
+        \tag{3.7.1}\label{eq:3.7.1}
+    \end{equation*}
     We compute the first logarithm, expand the square and keep only the terms that depend
     on $\mathbf{w}$ to obtain:
     \begin{align*}
@@ -427,22 +440,25 @@ model in which $\mathbf{m}_N$ and $\mathbf{S}_N$ are defined by ($\ref{eq:3.50}$
             + \text{const}
     \end{align*}
     The quadratic term corresponds to a Gaussian with the covariance matrix $\mathbf{S}_N$, where
-    \begin{equation}\label{eq:3.51}\tag{3.51}
+    \begin{equation*}
         \mathbf{S}_N^{-1} = \mathbf{S}_0^{-1} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
-    \end{equation}
+        \tag{3.51}\label{eq:3.51}
+    \end{equation*}
     Now, since the mean is found in the linear term, we'd have that
     \begin{equation*}
         \mathbf{w}^T(\mathbf{S}_0^{-1}\mathbf{m}_0 + \beta\mathbf{\Phi}^T\mathbf{t})
         = \mathbf{w}^T\mathbf{S}_N^{-1}\mathbf{m}_N
     \end{equation*}
     which gives
-    \begin{equation}\label{eq:3.50}\tag{3.50}
+    \begin{equation*}
         \mathbf{m}_N = \mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m_0} + \beta\mathbf{\Phi}^T\mathbf{t})
-    \end{equation}
+        \tag{3.50}\label{eq:3.50}
+    \end{equation*}
     Since we proved both $(\ref{eq:3.50})$ and $(\ref{eq:3.51})$, we showed that
-    \begin{equation}\label{eq:3.49}\tag{3.49}
+    \begin{equation*}
         p(\mathbf{w} | \mathbf{t}) = \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
-    \end{equation}
+        \tag{3.49}\label{eq:3.49}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.8 $\star \star$}
@@ -467,12 +483,13 @@ and $\mathbf{m}_N$ replaced by $\mathbf{m}_{N + 1}$.
             \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_{N + 1}), \beta^{-1})
     \end{align*}
     , so
-    \begin{equation}\label{eq:3.8.1}\tag{3.8.1}
+    \begin{equation*}
         \ln p(\mathbf{w} | \mathbf{t})
         = \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{S}_N)
         + \ln \mathcal{N}(t_{N + 1} | \mathbf{w}^T\bm{\phi}(\mathbf{x}_{N + 1}), \beta^{-1})
         + \text{const}
-    \end{equation}
+        \tag{3.8.1}\label{eq:3.8.1}
+    \end{equation*}
     We now compute the log likelihood and keep only the terms depending on
     $\mathbf{w}$ to obtain:
     \begin{align*}
@@ -503,10 +520,11 @@ and $\mathbf{m}_N$ replaced by $\mathbf{m}_{N + 1}$.
         \ln p(\mathbf{w} | \mathbf{t}) = \mathcal{N}(\mathbf{w} | \mathbf{m}_{N + 1}, \mathbf{S}_{N + 1})
     \end{equation*}
     for
-    \begin{equation}\label{eq:3.8.2}\tag{3.8.2}
+    \begin{equation*}
         \mathbf{S}_{N + 1}^{-1}
         = \mathbf{S}_N^{-1} + \beta \bm{\phi}(\mathbf{x}_{N + 1})\bm{\phi}(\mathbf{x}_{N + 1})^T
-    \end{equation}
+        \tag{3.8.2}\label{eq:3.8.2}
+    \end{equation*}
     and
     \begin{equation*}
         \mathbf{m}_{N + 1}
@@ -526,25 +544,29 @@ make use of the general result for linear-Gaussian models given by
     As shown in Section 2.3.3, given a marginal Gaussian distribution for 
     $\mathbf{x}$ and a conditional Gaussian distribution for $\mathbf{y}$
     given $\mathbf{x}$ in the form
-    \begin{equation}\label{eq:2.113}\tag{2.113}
+    \begin{equation*}
         p(\mathbf{x}) = \mathcal{N}(\mathbf{x} | \bm{\mu}, \mathbf{\Lambda}^{-1})
-    \end{equation}
+        \tag{2.113}\label{eq:2.113}
+    \end{equation*}
     \vspace{-1em}
-    \begin{equation}\label{eq:2.114}\tag{2.114}
+    \begin{equation*}
         p(\mathbf{y} | \mathbf{x}) 
         = \mathcal{N}(\mathbf{y} | \mathbf{Ax} + \mathbf{b}, \mathbf{L}^{-1})
-    \end{equation}
+        \tag{2.114}\label{eq:2.114}
+    \end{equation*}
     the conditional distribution of $\mathbf{x}$ given $\mathbf{y}$ is given
     by
-    \begin{equation}\label{eq:2.116}\tag{2.116}
+    \begin{equation*}
         p(\mathbf{x} | \mathbf{y}) 
         = \mathcal{N}(\mathbf{x} | \mathbf{\Sigma}
             \{\mathbf{A}^T\mathbf{L}(\mathbf{y} - \mathbf{b}) + \mathbf{\Lambda}\bm{\mu}\}, \mathbf{\Sigma})
-    \end{equation}
+        \tag{2.116}\label{eq:2.116}
+    \end{equation*}
     where
-    \begin{equation}\label{eq:2.117}\tag{2.117}
+    \begin{equation*}
         \mathbf{\Sigma} = (\mathbf{\Lambda} + \mathbf{A}^T\mathbf{L}\mathbf{A})^{-1}
-    \end{equation}
+        \tag{2.117}\label{eq:2.117}
+    \end{equation*}
     Our goal is to match these results with our model.
     The prior is given by
     \begin{equation*}
@@ -598,11 +620,12 @@ given by ($\ref{eq:3.59})$.
     for $\mathbf{x}$ and a conditional Gaussian distribution for $\mathbf{y}$
     given $\mathbf{x}$ in the forms ($\ref{eq:2.113}$) and ($\ref{eq:2.114}$),
     we have that the marginal distribution of $\mathbf{y}$ is given by
-    \begin{equation}\label{eq:2.115}\tag{2.115}
+    \begin{equation*}
         p(\mathbf{y}) 
         = \mathcal{N}(\mathbf{y} | \mathbf{A}\bm{\mu} + \mathbf{b}, \mathbf{L}^{-1}
             + \mathbf{A\Lambda}^{-1} \mathbf{A}^T) 
-    \end{equation}
+        \tag{2.115}\label{eq:2.115}
+    \end{equation*}
     Therefore, if we consider the terms under the integral in (\ref{eq:3.57}),
     we have that
     \[
@@ -639,31 +662,35 @@ given by ($\ref{eq:3.59})$.
     Finally, by substituting our values into $(\ref{eq:2.115})$, it is 
     straightforward to see that the predictive distribution for the Bayesian 
     linear regression model is given by
-    \begin{equation}\label{eq:3.58}\tag{3.58}
+    \begin{equation*}
         p(t | \mathbf{t}, \mathbf{x}, \alpha, \beta) 
         = \mathcal{N}\big(t | \bm{\phi}(\mathbf{x})^T\mathbf{m}_N, \sigma^2_N(\mathbf{x})\big)
-    \end{equation}
+        \tag{3.58}\label{eq:3.58}
+    \end{equation*}
     where the input-dependent variance is given by
-    \begin{equation}\label{eq:3.59}\tag{3.59}
+    \begin{equation*}
         \sigma_{N}^2(\mathbf{x})
         = \frac{1}{\beta} + \bm{\phi}(\mathbf{x})\mathbf{S}_N\bm{\phi}(\mathbf{x})^T
-    \end{equation}
+        \tag{3.59}\label{eq:3.59}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.11 $\star \star$}
 We have seen that, as the size of a data set increases, the uncertainty associated
 with the posterior distribution over model parameters decreases. Make use of the
 matrix identity (Appendix C)
-\begin{equation}\label{eq:3.110}\tag{3.110}
+\begin{equation*}
     \big(\mathbf{M} + \mathbf{v}\mathbf{v}^T\big)^{-1}
     = \mathbf{M}^{-1} - \frac{(\mathbf{M}^{-1}\mathbf{v})\big(\mathbf{v}^T\mathbf{M}^{-1}\big)}
         {1 + \mathbf{v}^T\mathbf{M}^{-1}\mathbf{v}}
-\end{equation}
+    \tag{3.110}\label{eq:3.110}
+\end{equation*}
 to show that the uncertainty $\sigma^2_{N + 1}(\mathbf{x})$ associated with the
 linear regression function given by (\ref{eq:3.59}) satisfies
-\begin{equation}\label{eq:3.111}\tag{3.111}
+\begin{equation*}
     \sigma^2_{N + 1}(\mathbf{x}) \leq \sigma^2_N(\mathbf{x})
-\end{equation}
+    \tag{3.111}\label{eq:3.111}
+\end{equation*}
 
 \vspace{1em}
 
@@ -697,13 +724,14 @@ linear regression function given by (\ref{eq:3.59}) satisfies
             \bm{\phi}(\mathbf{x}) \\
     \end{align*}
     Therefore,
-    \begin{equation}\label{eq:3.11.1}\tag{3.11.1}
+    \begin{equation*}
         \sigma_N^2(\mathbf{x}) - \sigma_{N + 1}^2(\mathbf{x})
         = \bm{\phi}(\mathbf{x})^T
             \frac{\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N}
             {\frac{1}{\beta} + \bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N\bm{\phi}(\mathbf{x}_N)}
             \bm{\phi}(\mathbf{x})
-    \end{equation}
+        \tag{3.11.1}\label{eq:3.11.1}
+    \end{equation*}
     Since $\mathbf{S}_N$ is a precision matrix, it is symmetric, so:
     \[
         \mathbf{S}_N\bm{\phi}(\mathbf{x}_N)\bm{\phi}(\mathbf{x}_N)^T\mathbf{S}_N
@@ -736,16 +764,18 @@ distributuion. This property also holds for the case of the conditional
 Gaussian distribution $p(t | \mathbf{x}, \mathbf{w}, \beta)$ of the linear
 regression model. If we consider the likelihood function (3.10), then
 the conjugate prior for $\mathbf{w}$ and $\beta$ is given by
-\begin{equation}\label{eq:3.112}\tag{3.112}
+\begin{equation*}
     p(\mathbf{w}, \beta) 
     = \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) \text{Gam}(\beta | a_0, b_0)
-\end{equation}
+    \tag{3.112}\label{eq:3.112}
+\end{equation*}
 Show that the corresponding posterior distribution takes the same functional
 form, so that 
-\begin{equation}\label{eq:3.113}\tag{3.113}
+\begin{equation*}
     p(\mathbf{w}, \beta | \mathbf{t}) 
     = \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1} \mathbf{S}_N) \text{Gam}(\beta | a_N, b_N)
-\end{equation}
+    \tag{3.113}\label{eq:3.113}
+\end{equation*}
 and find expressions for the posterior parameters $\mathbf{m}_N$, $\mathbf{S}_N$, $a_N$, 
 and $b_N$.
 
@@ -781,7 +811,7 @@ and $b_N$.
     The logarithms of factors in the prior are given by:
     \[
         \ln \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0) 
-        &= -\frac{\beta}{2} \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w} 
+        = -\frac{\beta}{2} \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{w} 
         + \beta \mathbf{w}^T\mathbf{S}_0^{-1}\mathbf{m}_0 
             - \frac{\beta}{2} \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0
     \] 
@@ -802,19 +832,21 @@ and $b_N$.
     \end{align*}
     The covariance matrix of the posterior is easily found
     from the quadratic term, that is:
-    \begin{equation}\label{eq:3.51*}\tag{3.51*}
+    \begin{equation*}
          \mathbf{S}_N^{-1} = \mathbf{S}_0^{-1} + \mathbf{\Phi}^T\mathbf{\Phi}
-    \end{equation}
+        \label{eq:3.51*}\tag{3.51*}
+    \end{equation*}
     The mean is obtained from the linear term by using the fact that
     \[
         \mathbf{w}^T \mathbf{S}_N^{-1} \mathbf{m}_N
         = \mathbf{w}^T(\mathbf{S}_0^{-1} \mathbf{m}_0 + \mathbf{\Phi}^T \mathbf{t})
     \] 
     so 
-    \begin{equation}\label{eq:3.50*}\tag{3.50*}
+    \begin{equation*}
         \mathbf{m}_N = \mathbf{S}_N 
             (\mathbf{S}_0^{-1} \mathbf{m}_0 + \mathbf{\Phi}^T \mathbf{t})
-    \end{equation}
+        \label{eq:3.50*}\tag{3.50*}
+    \end{equation*}
     From the constant terms with respect to $\mathbf{w}$ we'll obtain the
     parameters of the Gamma distribution. $b_N$ is obtained by using the 
     linear terms containing  $\beta$. Since we already know the covariance and the 
@@ -828,12 +860,13 @@ and $b_N$.
         -\beta b_0
     \]
     which gives
-    \begin{equation}\label{eq:3.12.1}\tag{3.12.1}
+    \begin{equation*}
         b_N 
         = b_0 + \frac{1}{2} \big(
             \mathbf{t}^T\mathbf{t} + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0
             - \mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N\big)
-    \end{equation}
+        \tag{3.12.1}\label{eq:3.12.1}
+    \end{equation*}
     Finally, $a_N$ is given by the terms containing $\ln \beta$. 
     By knowing the $\ln \beta$ terms that will be used in the expansion of the 
     log posterior, we have that
@@ -841,35 +874,39 @@ and $b_N$.
         (a_N - 1) \ln \beta = \frac{N}{2} \ln \beta + (a_0 - 1) \ln \beta
     \] 
     Hence, it is straightforward to obtain the result
-    \begin{equation}\label{eq:2.150}\tag{2.150}
+    \begin{equation*}
         a_N = a_0 + \frac{N}{2}
-    \end{equation}
+        \tag{2.150}\label{eq:2.150}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.13 $\star \star$}
 Show that the predictive distribution $p(t | \mathbf{x}, \mathbf{t})$ for the 
 model discussed in Exercise 3.12 is given by a Student's t-distribution of
 the form
-\begin{equation}\label{eq:3.114}\tag{3.114}
+\begin{equation*}
     p(t | \mathbf{x}, \mathbf{t}) = \text{St}(t | \mu, \lambda, \nu)
-\end{equation}
+    \tag{3.114}\label{eq:3.114}
+\end{equation*}
 and obtain expressions for $\mu, \lambda, \nu$.
 
 \vspace{1em}
 
 \begin{proof}
     The Student's t-distribution is given by
-    \begin{equation}\label{eq:2.159}\tag{2.159}
+    \begin{equation*}
         \text{St}(x | \mu, \lambda, \nu)
         = \frac{\Gamma(\nu/2 + 1/2)}{\Gamma(\nu/2)} \bigg(\frac{\lambda}{\pi \nu}\bigg)^{1/2}
         \bigg[1 + \frac{\lambda(x - \mu)^2}{\nu}\bigg]^{-\nu/2 - 1/2}
-    \end{equation}
+        \tag{2.159}\label{eq:2.159}
+    \end{equation*}
     However, our goal is to obtain it in the form
-    \begin{equation}\label{eq:2.158}\tag{2.158}
+    \begin{equation*}
         \text{St}(x | \mu, \lambda, \nu)
         = \int_{0}^{\infty} \mathcal{N}\big(x | \mu, (\eta\lambda)^{-1}\big)
         \text{Gam}(\eta | \nu/2, \nu/2) \diff \eta
-    \end{equation}
+        \tag{2.158}\label{eq:2.158}
+    \end{equation*}
     which for $\nu = 2a$ and $\lambda = a/b$ is equivalent to ($\ref{eq:2.159}$). 
 
     We have that the predictive distribution is given by
@@ -912,31 +949,35 @@ functions be constant, say $\phi_0(\mathbf{x}) = 1$. By taking suitable
 linear combinations of these basis functions, we can construct a new
 basis set $\psi_j(\mathbf{x})$ spanning the same space but orthonormal,
 so that 
-\begin{equation}\label{eq:3.115}\tag{3.115}
+\begin{equation*}
     \sum_{n=1}^{N} \psi_j(\mathbf{x}_n)\psi_k(\mathbf{x}_n) = \mathbf{I}_{jk}
-\end{equation}
+    \tag{3.115}\label{eq:3.115}
+\end{equation*}
 where $\mathbf{I}_{jk}$ is defined to be 1 if $j = k$ and 0 otherwise,
 and we take $\psi_0(\mathbf{x}) = 1$. Show that for $\alpha = 0$,
 the equivalent kernel can be written as 
 $k(\mathbf{x}, \mathbf{x'}) = \bm{\psi}(\mathbf{x})^T\bm{\psi}(\mathbf{x'})$ 
 where $\bm{\psi} = (\psi_0, \ldots, \psi_{M - 1})^T$. Use this result
 to show that the kernel satisfies the summation constraint
-\begin{equation}\label{eq:3.116}\tag{3.116}
+\begin{equation*}
     \sum_{n=1}^{N} k(\mathbf{x}, \mathbf{x}_n) = 1
-\end{equation}
+    \tag{3.116}\label{eq:3.116}
+\end{equation*}
 
 \vspace{1em}
 
 \begin{proof}
     The equivalent kernel is defined by
-    \begin{equation}\label{eq:3.62}\tag{3.62}
+    \begin{equation*}
         k(\mathbf{x}, \mathbf{x'}) 
         = \beta \bm{\phi}(\mathbf{x})^T\mathbf{S}_N\bm{\phi}(\mathbf{x}')
-    \end{equation}
+        \tag{3.62}\label{eq:3.62}
+    \end{equation*}
     where 
-    \begin{equation}\label{eq:3.54}\tag{3.54}
+    \begin{equation*}
         \mathbf{S}_N^{-1} = \alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi}
-    \end{equation}
+        \tag{3.54}\label{eq:3.54}
+    \end{equation*}
     We'll use the newly defined basis set and
     construct the coresponding \emph{design matrix},
     whose elements are given by $\mathbf{\Psi}_{nj} = \psi_j({\mathbf{x}_n})$,
@@ -988,10 +1029,11 @@ $2E(\mathbf{m}_N) = N$.
 
 \begin{proof}
     Our function is given by
-    \begin{equation}\label{eq:3.82}\tag{3.82}
+    \begin{equation*}
         E(\mathbf{m}_N) = \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{m}_N||^2
         + \frac{\alpha}{2} \mathbf{m}_N^T\mathbf{m}_N
-    \end{equation}
+        \tag{3.82}\label{eq:3.82}
+    \end{equation*}
     We will be using the quantity $\gamma$ defined in Section 3.5.2 to 
     derive our result. From (3.92) we get that
      \[
@@ -1020,10 +1062,11 @@ evaluate the integral $(\ref{eq:3.77})$ directly.
 \begin{proof}
     The marginal likelihood function is given
     by the integral
-    \begin{equation}\label{eq:3.77}\tag{3.77}
+    \begin{equation*}
         p(\mathbf{t} | \alpha, \beta)
         = \int p(\mathbf{t} | \mathbf{w}, \beta) p(\mathbf{w} | \alpha) \diff \mathbf{w} 
-    \end{equation}
+        \tag{3.77}\label{eq:3.77}
+    \end{equation*}
     The first factor under the integral is the likelihood
     (3.10), while the second factor is given
     by (\ref{eq:3.52}). Therefore, the evidence function becomes
@@ -1174,19 +1217,21 @@ $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
 
 \begin{proof}
     The log likelihood is given by
-    \begin{equation}\label{eq:3.11}\tag{3.11}
+    \begin{equation*}
         \ln p(\mathbf{t} | \mathbf{w}, \beta) 
         = \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi) - \beta E_D(\mathbf{w})
-    \end{equation}
+        \tag{3.11}\label{eq:3.11}
+    \end{equation*}
     By applying the exponential function on both sides of the expression, we obtain that
     \[
         p(\mathbf{t} | \mathbf{w}, \beta) 
         = \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} \exp \{-\beta E_D(\mathbf{w})\}
     \] 
     We continue by expanding the Gaussian
-    \begin{equation}\label{eq:3.52}\tag{3.52}
+    \begin{equation*}
         p(\mathbf{w} | \alpha) = \mathcal{N}(\mathbf{w} | \mathbf{0}, \alpha^{-1} \mathbf{I})
-    \end{equation}
+        \tag{3.52}\label{eq:3.52}
+    \end{equation*}
     to get that
     \[
         p(\mathbf{w} | \alpha) 
@@ -1204,12 +1249,13 @@ $E(\mathbf{w})$ is defined by (\ref{eq:3.79}).
         \int \exp\{-E(\mathbf{w})\} \diff \mathbf{w} \label{eq:3.78} \tag{3.78}
     \end{align*}
     where
-    \begin{equation}\label{eq:3.79}\tag{3.79}
+    \begin{equation*}
         E(\mathbf{w}) 
         = \beta E_D(\mathbf{w}) + \alpha E_W(\mathbf{w})
         = \frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2 
         + \frac{\alpha}{2} \mathbf{w}^T\mathbf{w}
-    \end{equation}
+        \tag{3.79}\label{eq:3.79}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.18 $\star \star$}
@@ -1244,13 +1290,15 @@ $(\ref{eq:3.80})$.
     \end{align*}
     $\mathbf{A}$ is a Hessian matrix, so it's symmetric. By using this
     and the expressions
-    \begin{equation}\label{eq:3.81}\tag{3.81}
+    \begin{equation*}
         \mathbf{A} = \alpha \mathbf{I} + \beta \mathbf{\Phi}^T\mathbf{\Phi}
-    \end{equation}
+        \tag{3.81}\label{eq:3.81}
+    \end{equation*}
     \vspace{-1em}
-    \begin{equation}\label{eq:3.84}\tag{3.84}
+    \begin{equation*}
         \mathbf{m}_N = \beta \mathbf{A}^{-1} \mathbf{\Phi}^T\mathbf{t}
-    \end{equation}
+        \tag{3.84}\label{eq:3.84}
+    \end{equation*}
     We notice that the negative terms in the expansions can be written as
     \[
         -\frac{\beta}{2} \mathbf{t}^T\mathbf{\Phi}\mathbf{w}
@@ -1315,10 +1363,11 @@ $(\ref{eq:3.80})$.
         &= \frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
     \end{align*}
     which directly proves that $(\ref{eq:3.79})$ can be written as
-    \begin{equation}\label{eq:3.80}\tag{3.80}
+    \begin{equation*}
         E(\mathbf{w}) = E(\mathbf{m}_N) + 
             \frac{1}{2} (\mathbf{w} - \mathbf{m}_N)^T\mathbf{A}(\mathbf{w} - \mathbf{m}_N)
-    \end{equation}
+        \tag{3.80}\label{eq:3.80}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.19 $\star \star$}
@@ -1356,7 +1405,7 @@ $(\ref{eq:3.86})$.
             \bigg\}\diff \mathbf{w} \\
         &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2}
             \int \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \mathbf{A}^{-1}) \diff \mathbf{w} \\
-        &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2} \label{eq:3.85}\tag{3.85}
+        &= \exp\{-E(\mathbf{m}_N)\} (2\pi)^{M / 2} |\mathbf{A}|^{-1/2} \tag{3.85}\label{eq:3.85}
     \end{align*}
     By substituting this into $(\ref{eq:3.78})$, the evidence function becomes
     \[
@@ -1365,11 +1414,12 @@ $(\ref{eq:3.86})$.
             \exp\{-E(\mathbf{m}_N)\}
     \] 
     Hence, the log marginal likelihood is given by
-    \begin{equation}\label{eq:3.86}\tag{3.86}
+    \begin{equation*}
         \ln p(\mathbf{t} | \alpha, \beta)
         = \frac{M}{2} \ln \alpha + \frac{N}{2} \ln \beta - E(\mathbf{m}_N)
             -\frac{1}{2} \ln|\mathbf{A}| - \frac{N}{2} \ln(2\pi)
-    \end{equation}
+        \tag{3.86}\label{eq:3.86}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.20 $\star \star$}
@@ -1383,9 +1433,10 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
     The steps taken in the maximization of the (\ref{eq:3.86})
     are quite straightforward, so this proof will be very similar 
     to what's in the book. By defining the eigenvector equation
-    \begin{equation}\label{eq:3.87}\tag{3.87}
+    \begin{equation*}
         (\beta \mathbf{\Phi}^T\mathbf{\Phi})\mathbf{u}_i = \lambda_i \mathbf{u}_i
-    \end{equation}
+        \tag{3.87}\label{eq:3.87}
+    \end{equation*}
     we'd have that
     \[
         \mathbf{A}\mathbf{u}_i 
@@ -1397,12 +1448,13 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
     where $\mathbf{A}$ is given by ($\ref{eq:3.81}$).
     Now, since the determinant of a matrix is the product of its eigenvalues, 
     we have that
-    \begin{equation}\label{eq:3.88}\tag{3.88}
+    \begin{equation*}
         \dv{\alpha} \ln|\mathbf{A}| 
         = \dv{\alpha} \ln \prod_{i}(\lambda_i + \alpha)
         = \dv{\alpha} \sum_i \ln(\lambda_i + \alpha)
         = \sum_i \frac{1}{\lambda_i + \alpha}
-    \end{equation}
+        \tag{3.88}\label{eq:3.88}
+    \end{equation*}
     The derivative of $(\ref{eq:3.86})$ with respect to $\alpha$ is given by
     \begin{align*}
         \pdv{\alpha} \ln p(\mathbf{t} | \alpha, \beta)
@@ -1410,10 +1462,11 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
         - \frac{1}{2} \sum_i\frac{1}{\lambda_i + \alpha}
     \end{align*}
     so the stationary points will satisfy
-    \begin{equation}\label{eq:3.89}\tag{3.89}
+    \begin{equation*}
         0 = \frac{M}{2\alpha} - \frac{1}{2} \mathbf{m}_N^T\mathbf{m}_N 
         - \frac{1}{2} \sum_{i} \frac{1}{\lambda_i + \alpha}
-    \end{equation}
+        \tag{3.89}\label{eq:3.89}
+    \end{equation*}
     Multiplying by $2\alpha$ and then rearranging,
     we have that
     \[
@@ -1425,13 +1478,15 @@ respect to $\alpha$ leads to the re-estimation equation (\ref{eq:3.92}).
     \] 
     Therefore, the value of $\alpha$ that maximizes the marginal likelihood
     is given by 
-    \begin{equation}\label{eq:3.92}\tag{3.92}
+    \begin{equation*}
         \alpha = \frac{\gamma}{\mathbf{m}_N^T\mathbf{m}_N}
-    \end{equation}
+        \tag{3.92}\label{eq:3.92}
+    \end{equation*}
     where $\gamma$ is defined by
-    \begin{equation}\label{eq:3.91}\tag{3.91}
+    \begin{equation*}
         \gamma = \sum_i \frac{\lambda_i}{\alpha + \lambda_i}
-    \end{equation}
+        \tag{3.91}\label{eq:3.91}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.21 $\star \star$}
@@ -1440,9 +1495,10 @@ value of $\alpha$ in the evidence framework is to make use of the identity
 (note that we changed the variables $\mathbf{A}$ and $\alpha$ for $\mathbf{D}$ and
 $\delta$ so that there is no confusion with the variables used in our 
 framework)
-\begin{equation}\label{eq:3.117}\tag{3.117}
+\begin{equation*}
     \dv{\delta} \ln |\mathbf{D}| = \text{Tr}\bigg(\mathbf{D}^{-1}\dv{\delta}\mathbf{D}\bigg)
-\end{equation}
+    \tag{3.117}\label{eq:3.117}
+\end{equation*}
 Prove this identity by considering the eigenvalue expansion of a real
 symmetric matrix $\mathbf{D}$, and making use of the standard results
 for the determinant and trace of $\mathbf{D}$ expressed in terms of 
@@ -1492,9 +1548,10 @@ derive $(\ref{eq:3.92})$ starting from $(\ref{eq:3.86})$.
     \end{align*}
     We'll analyze the two sum terms separately. Since the
     eigenvectors were chosen to be orthonormal, we have that
-    \begin{equation}\label{eq:C.33}\tag{C.33}
+    \begin{equation*}
         \mathbf{u}_i^T\mathbf{u}_j = \mathbf{I}_{ij}
-    \end{equation}
+        \label{eq:C.33}\tag{C.33}
+    \end{equation*}
     Therefore, we'll only have to keep the terms for which $i = j$ in 
     the first sum, so
     \[
@@ -1512,37 +1569,41 @@ derive $(\ref{eq:3.92})$ starting from $(\ref{eq:3.86})$.
     of ($\ref{eq:3.117}$), so we'll continue by proving that the second 
     sum term has a trace of 0. The second sum term can then be expanded as
     \begin{align*}
-        \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
-        &\bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T\bigg 
+        \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T 
+        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
         + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg] 
-        = 
-        \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
-        \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)
-        = \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{I}_{ij}
+        &= \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+        \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg) \\
+        &= \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{2\omega_j}{\omega_i} \mathbf{u}_i\mathbf{I}_{ij}
         \bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\\
         &= \sum_{i=1}^{N} 2\mathbf{u}_i\bigg(\dv{\delta} \mathbf{u}_i^T\bigg) 
         = \sum_{i=1}^{N} \bigg[\bigg(\dv{\delta}\mathbf{u}_i\bigg)\mathbf{u}_i^T 
         + \mathbf{u}_i\bigg(\dv{\delta}\mathbf{u}_i^T\bigg)\bigg] \\
         &= \sum_{i=1}^{N} \dv{\delta} (\mathbf{u}_i\mathbf{u}_i^T) 
-        = \dv{\delta}\sum_{i=1}^{N} \mathbf{u}_i\mathbf{u}_i^T = \dv{\delta}\mathbf{I} 
+        = \dv{\delta}\sum_{i=1}^{N} \mathbf{u}_i\mathbf{u}_i^T 
+        = \dv{\delta}\mathbf{I} 
         = \mathbf{0}_N
     \end{align*}
     Finally, we have that
     \begin{align*}
         \text{Tr}\bigg(\mathbf{D}^{-1}\dv{\delta}\mathbf{D}\bigg)
-        &= \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N}  
-            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
-            \mathbf{u}_j\mathbf{u}_j^T 
-        + \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
-        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
-        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} \\
-        &= \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N}  
-            \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
-        \mathbf{u}_j\mathbf{u}_j^T \bigg\}
-        + \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N} 
-            \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
-        \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
-        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} \\
+        &= \begin{aligned}[t] 
+            \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N} & 
+                \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+                \mathbf{u}_j\mathbf{u}_j^T + \\
+                &+ \sum_{i=1}^{N} \sum_{j=1}^{N} \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+            \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
+        + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} 
+        \end{aligned} \\
+        &= \begin{aligned}[t]
+            \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N} &
+                \frac{1}{\omega_i} \bigg(\dv{\delta}\omega_j\bigg) \mathbf{u}_i\mathbf{u}_i^T 
+            \mathbf{u}_j\mathbf{u}_j^T \bigg\} + \\
+                &+ \text{Tr}\bigg\{\sum_{i=1}^{N} \sum_{j=1}^{N} 
+                \frac{\omega_j}{\omega_i} \mathbf{u}_i\mathbf{u}_i^T
+            \bigg[\bigg(\dv{\delta} \mathbf{u}_j\bigg)\mathbf{u}_j^T
+            + \mathbf{u}_j\bigg(\dv{\delta}\mathbf{u}_j^T\bigg)\bigg]\bigg\} 
+        \end{aligned} \\
         &= \text{Tr}\bigg[\sum_{i=1}^{N} \frac{1}{\omega_i}\bigg(\dv{\delta} \omega_i\bigg)
         \mathbf{u}_i\mathbf{u}_i^T\bigg] + \text{Tr}(\mathbf{0}_N) \\
         &= \sum_{i=1}^{N} \frac{1}{\omega_i} \bigg(\dv{\delta} \omega_i\bigg) \\
@@ -1575,11 +1636,12 @@ equation $(\ref{eq:3.95})$.
    As in Exercise 3.20, one could prove that $\mathbf{A}$ has the eigenvalues
    $\lambda_i + \alpha$. Also, from $(\ref{eq:3.87})$ the eigenvalues are proportional
    to $\beta$, so $d\lambda_i / d\beta = \lambda_i/\beta$, so
-   \begin{equation}\label{eq:3.93}\tag{3.93}
+   \begin{equation*}
        \dv{\beta} \ln |\mathbf{A}| = \dv{\beta} \sum_i \ln (\lambda_i + \alpha)
        = \frac{1}{\beta} \sum_i \frac{\lambda_i}{\lambda_i + \alpha}
        = \frac{\gamma}{\beta}
-   \end{equation}
+        \tag{3.93}\label{eq:3.93}
+   \end{equation*}
    where $\gamma$ is given by (\ref{eq:3.91}). Therefore, 
    the derivative of $(\ref{eq:3.87})$ with respect to $\beta$ is given by 
    \[
@@ -1594,19 +1656,21 @@ equation $(\ref{eq:3.95})$.
    \] 
    which after multiplying both sides by $2/(N - \gamma)$ gives 
    us the re-estimation equation
-   \begin{equation}\label{eq:3.95}\tag{3.95}
+   \begin{equation*}
        \frac{1}{\beta} = \frac{1}{N - \gamma} \sum_{n=1}^{N} 
        \{t_n - \mathbf{m}_N^T\bm{\phi}(\mathbf{x}_n)\}^2
-   \end{equation}
+        \tag{3.95}\label{eq:3.95}
+   \end{equation*}
 \end{proof}
 
 \section*{Exercise 3.23 $\star \star$}
 Show that the marginal probability of the data, in other words the model
 evidence, for the model described in Exercise 3.12 is given by
-\begin{equation}\label{eq:3.118}\tag{3.118}
+\begin{equation*}
     p(\mathbf{t}) = \frac{1}{(2\pi)^{N / 2}} \frac{b_0^{a_0}}{b_N^{a_N}}
     \frac{\Gamma(a_N)}{\Gamma(a_0)} \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}}
-\end{equation}
+    \tag{3.118}\label{eq:3.118}
+\end{equation*}
 by first marginalizing with respect to $\mathbf{w}$ and then with
 respect to $\beta$.
 
@@ -1639,10 +1703,10 @@ respect to $\beta$.
     \end{align*}
     By expanding the three distributions, we have that
     \begin{align*}
-        p(\mathbf{t}) = &\frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
-         \frac{1}{|\mathbf{S}_0|^{1/2}} \\
-        &\iint \beta^{a_0 - 1 + N/2 + M/2} \exp\{\beta b_0\}
-         \exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
+        p(\mathbf{t}) = \frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
+         \frac{1}{|\mathbf{S}_0|^{1/2}} 
+        &\iint \beta^{a_0 - 1 + N/2 + M/2} \exp\{\beta b_0\} \\
+        &\exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
          \exp\bigg\{-\frac{\beta}{2}(\mathbf{w} - \mathbf{m}_0)^T
              \mathbf{S}_0^{-1}(\mathbf{w} - \mathbf{m}_0)
          \bigg\} \diff \mathbf{w} \diff \beta
@@ -1668,7 +1732,7 @@ respect to $\beta$.
         &= \exp\bigg\{-\frac{\beta}{2}\big[
         \mathbf{w}^T\big(\mathbf{S}_0^{-1} 
             + \mathbf{\Phi}^T\mathbf{\Phi}\big)\mathbf{w}
-        - 2\mathbf{w}^T\big(\mathbf{S}_0^{-1}\mathbf{m}_0\big 
+        - 2\mathbf{w}^T\big(\mathbf{S}_0^{-1}\mathbf{m}_0\big)
             + \mathbf{\Phi}^T\mathbf{t}\big) 
         + \mathbf{t}^T\mathbf{t}
         + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big]\bigg\} \\
@@ -1681,7 +1745,7 @@ respect to $\beta$.
         (\mathbf{w} - \mathbf{m}_N)^T\mathbf{S}_N^{-1}(\mathbf{w} - \mathbf{m}_N)
         -\mathbf{m}_N^T\mathbf{S}_N^{-1}\mathbf{m}_N
         + \mathbf{t}^T\mathbf{t}
-        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big]\bigg\} \\
+        + \mathbf{m}_0^T\mathbf{S}_0^{-1}\mathbf{m}_0\big]\bigg\}
     \end{align*}
     We can rewrite $(\ref{eq:3.12.1})$ as
     \[
@@ -1704,19 +1768,25 @@ respect to $\beta$.
     what we wanted:
     \begin{align*}
         p(\mathbf{t}) 
-        &= \frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
-         \frac{1}{|\mathbf{S}_0|^{1/2}} 
-        \int \beta^{a_0 - 1 + N/2 + M/2} 
-        \int \exp{\beta b_N}\exp\bigg\{-\frac{\beta}{2}(\mathbf{w} 
-            - \mathbf{m}_N)^T\mathbf{S}_N^{-1}
-            (\mathbf{w} - \mathbf{m}_N)\bigg\} \diff \mathbf{w} \diff \beta \\
-        &= \frac{1}{(2\pi)^{\frac{N + M}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
-         \frac{1}{|\mathbf{S}_0|^{1/2}} 
-        \int \beta^{a_0 - 1+ N/2 + M/2} 
-        \int \bigg(\frac{2\pi}{\beta}\bigg)^{M/2} |\mathbf{S}_N|^{1/2}  
-        \exp\{\beta b_N\}
-        \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
-        \diff \mathbf{w} \diff \beta \\
+        &= \begin{aligned}[t]
+            \frac{1}{(2\pi)^{\frac{N + M}{2}}} &
+            \frac{b_0^{a_0}}{\Gamma(a_0)}
+            \frac{1}{|\mathbf{S}_0|^{1/2}} \\
+                                               & \int \beta^{a_0 - 1 + N/2 + M/2} 
+            \int \exp{\beta b_N}\exp\bigg\{-\frac{\beta}{2}(\mathbf{w} 
+                - \mathbf{m}_N)^T\mathbf{S}_N^{-1}
+            (\mathbf{w} - \mathbf{m}_N)\bigg\} \diff \mathbf{w} \diff \beta 
+        \end{aligned} \\
+        &= \begin{aligned}[t]
+            \frac{1}{(2\pi)^{\frac{N + M}{2}}} &
+            \frac{b_0^{a_0}}{\Gamma(a_0)}
+            \frac{1}{|\mathbf{S}_0|^{1/2}}  \\
+                                               & \int \beta^{a_0 - 1+ N/2 + M/2} 
+            \int \bigg(\frac{2\pi}{\beta}\bigg)^{M/2} |\mathbf{S}_N|^{1/2}  
+            \exp\{\beta b_N\}
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
+            \diff \mathbf{w} \diff \beta \\
+        \end{aligned} \\
         &= \frac{1}{(2\pi)^{\frac{N}{2}}}\frac{b_0^{a_0}}{\Gamma(a_0)}
         \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}} 
         \int \beta^{a_0 - 1 + N/2} 
@@ -1741,11 +1811,12 @@ respect to $\beta$.
 \section*{Exercise 3.24 $\star \star$}
 Repeat the previous exercise but now use Bayes' theorem in 
 the form
-\begin{equation}\label{eq:3.119}\tag{3.119}
+\begin{equation*}
     p(\mathbf{t}) 
     = \frac{p(\mathbf{t} | \mathbf{w}, \beta)p(\mathbf{w}, \beta)}
         {p(\mathbf{w}, \beta | \mathbf{t})}
-\end{equation}
+    \tag{3.119}\label{eq:3.119}
+\end{equation*}
 and then substitute for the prior and posterior distributions and 
 the likelihood function in order to derive the result ($\ref{eq:3.118}$).
 
@@ -1764,15 +1835,15 @@ the likelihood function in order to derive the result ($\ref{eq:3.118}$).
     \] 
     Let's expand the numerator:
     \begin{align*}
-        \mathcal{N}(\mathbf{t} | &\mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})
-            \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
-            \text{Gam}(\beta | a_0, b_0) = \\
-        =& \bigg(\frac{\beta}{2\pi}\bigg)^{M/2} 
-            \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} 
-            \frac{b_0^{a_0}\beta^{a_0 - 1}}{\Gamma(a_0)|\mathbf{S}_0|^{1/2}}
-            \exp\{\beta b_0\}
-            \exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
-            \exp\bigg\{-\frac{\beta}{2} (\mathbf{w} - \mathbf{m}_0)^T\mathbf{S}_0^{-1}
+        \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})
+        \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
+        \text{Gam}(\beta | a_0, b_0) 
+        = \bigg(\frac{\beta}{2\pi}\bigg)^{M/2} 
+        \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} 
+        \frac{b_0^{a_0}\beta^{a_0 - 1}}{\Gamma(a_0)|\mathbf{S}_0|^{1/2}}
+        \exp\{\beta b_0\} \\
+        \exp\bigg\{-\frac{\beta}{2} ||\mathbf{t} - \mathbf{\Phi}\mathbf{w}||^2\bigg\}
+        \exp\bigg\{-\frac{\beta}{2} (\mathbf{w} - \mathbf{m}_0)^T\mathbf{S}_0^{-1}
                 (\mathbf{w} - \mathbf{m}_0)\bigg\}
     \end{align*}
     We've seen in the previous exercise that
@@ -1801,19 +1872,21 @@ the likelihood function in order to derive the result ($\ref{eq:3.118}$).
     dividing by their normalization constants, so:
     \begin{align*}
         \mathcal{N}(\mathbf{t} | \mathbf{\Phi}\mathbf{w},& \beta^{-1}\mathbf{I})
-            \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
-            \text{Gam}(\beta | a_0, b_0) = \\
-        =& \bigg(\frac{\beta}{2\pi}\bigg)^{M/2} 
-            \bigg(\frac{\beta}{2\pi}\bigg)^{N/2} 
-            \frac{b_0^{a_0}\beta^{a_0 - 1}}{\Gamma(a_0)|\mathbf{S}_0|^{1/2}}
-            \bigg[\frac{\Gamma(a_N)}{b_N^{a_N}\beta^{a_N - 1}}
+        \mathcal{N}(\mathbf{w} | \mathbf{m}_0, \beta^{-1}\mathbf{S}_0)
+        \text{Gam}(\beta | a_0, b_0) = \\
+        =& \begin{aligned}[t] 
+            \bigg(\frac{\beta}{2\pi}\bigg)^{M/2} &
+            \bigg(\frac{\beta}{2\pi}\bigg)^{N/2}
+            \frac{b_0^{a_0}\beta^{a_0 - 1}}{\Gamma(a_0)|\mathbf{S}_0|^{1/2}} \\
+            & \bigg[\frac{\Gamma(a_N)}{b_N^{a_N}\beta^{a_N - 1}}
             \text{Gam}(\beta | a_N, b_N)\bigg]
             \bigg[\bigg(\frac{2\pi}{\beta}\bigg)^{M/2} |\mathbf{S}_N|^{1/2}
-            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)\bigg] \\
+            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)\bigg] 
+        \end{aligned} \\
         =& \frac{1}{(2\pi)^{N / 2}} \frac{b_0^{a_0}}{b_N^{a_N}}
-            \frac{\Gamma(a_N)}{\Gamma(a_0)} \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}}
-            \text{Gam}(\beta | a_N, b_N) 
-            \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
+        \frac{\Gamma(a_N)}{\Gamma(a_0)} \frac{|\mathbf{S}_N|^{1/2}}{|\mathbf{S}_0|^{1/2}}
+        \text{Gam}(\beta | a_N, b_N) 
+        \mathcal{N}(\mathbf{w} | \mathbf{m}_N, \beta^{-1}\mathbf{S}_N)
     \end{align*}
     Finally, we substitute the numerator back into the evidence function
     and since the distribution forms factor out, we prove our hypothesis, that:

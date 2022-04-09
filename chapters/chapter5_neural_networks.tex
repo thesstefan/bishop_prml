@@ -1,12 +1,13 @@
 \chapter{Neural Networks}
 
 \section*{Exercise 5.1 $\star \star$}
-Consider a two-layer network function of the form $\eqref{eq:5.7}$ 
+Consider a two-layer network function of the form \eqref{eq:5.7}
 in which the hidden-unit nonlinear activation functions $h(\cdot)$ 
 are given by logistic sigmoid functions of the form
-\begin{equation}\label{eq:5.191}\tag{5.191}
+\begin{equation*}
     \sigma(a) = \frac{1}{1 + \exp(-a)}.
-\end{equation}
+    \tag{5.191}\label{eq:5.191}
+\end{equation*}
 Show that there exists an equivalent network, which computes 
 exactly the same function, but with hidden activation functions
 given by $\tanh(a)$ where the $\tanh$ function is defined by
@@ -18,11 +19,12 @@ networks differ by linear transformations.
 
 \begin{proof}
     The considered two-layer network has the form
-    \begin{equation}\label{eq:5.7}\tag{5.7}
+    \begin{equation*}
         y_k(\mathbf{x}, \mathbf{w}) 
         = \sigma\bigg(\sum_{j=1}^{M} w_{kj}^{(2)} 
         h\bigg(\sum_{i=1}^{D} w_{ji}^{(1)}x_i + w_{j0}^{(1)}\bigg) + w_{k0}^{(2)}\bigg)
-    \end{equation}
+        \tag{5.7}\label{eq:5.7}
+    \end{equation*}
     Now, we've proved in Exercise 3.1 that 
     \[
         \sigma(x) = \frac{1}{2} \tanh \frac{x}{2} + \frac{1}{2}
@@ -37,27 +39,15 @@ networks differ by linear transformations.
         h\bigg(\sum_{i=1}^{D} \omega_{ji}^{(1)}x_i + \omega_{j0}^{(1)}\bigg) + \omega_{k0}^{(2)}\bigg)
     \end{align*}
     where 
-    \newline
-    \begin{minipage}[b]{0.25\textwidth}
     \[
-       \omega_{ji}^{(1)} = \frac{1}{2} w_{ji}^{(1)}
-    \]
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-    \[
+        \omega_{ji}^{(1)} = \frac{1}{2} w_{ji}^{(1)}
+        \hspace{2em}
         \omega_{j0}^{(1)} = \frac{1}{2} w_{j0}^{(1)}
-    \] 
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-    \[
+        \hspace{2em}
         \omega_{kj}^{(2)} = \frac{1}{2} w_{kj}^{(2)}
+        \hspace{2em}
+        \omega_{k0}^{(2)} = \frac{1}{2}\sum_{j = 1}^M w_{kj}^{(2)} + w_{k0}^{(2)}
     \]
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \[
-            \omega_{k0}^{(2)} = \frac{1}{2}\sum_{j = 1}^M w_{kj}^{(2)} + w_{k0}^{(2)}
-        \] 
-    \end{minipage}
     Both new parameter sets can be obtained as linear transformations of the old ones,
     so there exists an equivalent two-layer network using $\tanh$ hidden activation functions,
     but different parameters.
@@ -77,10 +67,11 @@ the sum-of-squares error function (5.11).
         = \prod_{n = 1}^N p(\mathbf{t}_n | \mathbf{x}_n, \mathbf{w}, \beta)
     \] 
     The target variables are assumed to be distributed normally
-    \begin{equation}\label{eq:5.16}\tag{5.16}
+    \begin{equation*}
         p(\mathbf{t}_n | \mathbf{x}_n, \mathbf{w}, \beta) 
         = \mathcal{N}(\mathbf{t}_n | \mathbf{y}(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
-    \end{equation}
+        \tag{5.16}\label{eq:5.16}
+    \end{equation*}
     and since
     \[
         \ln \mathcal{N}(\mathbf{t}_n | y(\mathbf{x}_n, \mathbf{w}), \beta^{-1}\mathbf{I})
@@ -97,20 +88,22 @@ the sum-of-squares error function (5.11).
     Maximization of the likelihood function is equivalent to minimizing the negative 
     log-likelihood.
     Therefore, one can easily find that this is equivalent to minimizing the error function
-    \begin{equation}\label{eq:5.11}\tag{5.11}
+    \begin{equation*}
         E(\mathbf{w}) = \frac{1}{2} \sum_{n=1}^{N} 
         ||\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n||^2
-    \end{equation}
+        \tag{5.11}\label{eq:5.11}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.3 $\star \star$}
 Consider a regression problem involving multiple target variables in which
 it is assumed that the distribution of the targets, conditioned on the input
 vector $\mathbf{x}$, is a Gaussian of the form
-\begin{equation}\label{eq:5.192}\tag{5.192}
+\begin{equation*}
     p(\mathbf{t} | \mathbf{x}, \mathbf{w}) 
     = \mathcal{N}(\mathbf{t} | \mathbf{y}(\mathbf{x}, \mathbf{w}), \mathbf{\Sigma})
-\end{equation}
+    \tag{5.192}\label{eq:5.192}
+\end{equation*}
 where $\mathbf{y(x, w)}$ is the output of a neural network with input vector
 $\mathbf{x}$ and weight vector $\mathbf{w}$, and $ \mathbf{\Sigma}$ is the
 covariance of the assumed Gaussian noise on the targets. Given a set
@@ -161,7 +154,7 @@ case of independent target variables discussed in Section 5.2.
     it to 0 and then solving for $\mathbf{\Sigma}$. Taking the
     derivative of the negative log-likelihood yields
     \begin{align*}
-        \pdv{\mathbf{\Sigma}^{-1}} \ln p(\mathbf{T} | \mathbf{X}, \mathbf{w})
+        \pdv{\ln p(\mathbf{T} | \mathbf{X}, \mathbf{w})}{\mathbf{\Sigma}^{-1}}
         &= \frac{N}{2} \pdv{\mathbf{\Sigma}^{-1}} \ln |\mathbf{\Sigma}| +
         \frac{1}{2}  \sum_{n=1}^{N} \pdv{\mathbf{\Sigma}^{-1}} 
         \big(\mathbf{y}(\mathbf{x}_n, \mathbf{w}) - \mathbf{t}_n\big)^T
@@ -197,11 +190,11 @@ case of independent target variables discussed in Section 5.2.
 Consider a binary classification problem where the target values
 are $t \in \{0, 1\}$, with a network output $y(\mathbf{x}, \mathbf{w})$
 that represents $p(t = 1 | \mathbf{x})$, and suppose that
-there is a probability $\epsiilon$ that the class label
+there is a probability $\epsilon$ that the class label
 on a trainining data point has been incorrectly set.
 Assuming independent and identically distributed data,
 write down the error function corresponding to the negative
-log likelihood. Verify that the error function $\eqref{eq:5.21}$
+log likelihood. Verify that the error function \eqref{eq:5.21}
 is obtained when $\epsilon = 0$. Note that this error function
 makes the model robust to incorrectly labelled data, in contrast
 to the usual error function.
@@ -252,7 +245,7 @@ to the usual error function.
             + (1 - r_n) \ln\big\{(1 - \epsilon)\big(1 - y(\mathbf{x}_n, \mathbf{w})\big)
             + \epsilon y(\mathbf{x}_n, \mathbf{w})\big]
     \] 
-    which for $\epsilon = 0$ is equivalent to $\eqref{eq:5.21}$.
+    which for $\epsilon = 0$ is equivalent to \eqref{eq:5.21}.
 \end{proof}
 
 \section*{Exercise 5.5 $\star$}
@@ -278,14 +271,15 @@ of the cross-entropy function \eqref{eq:5.24}.
     \]
     Therefore, maximizing the likelihood of the model is equivalent to minimization
     of the cross entropy function
-    \begin{equation}\label{eq:5.24}\tag{5.24}
+    \begin{equation*}
         E(\mathbf{w}) 
         = -\sum_{n=1}^{N} \sum_{k=1}^{K} t_{nk} \ln p(t_{nk} = 1 | \mathbf{x}_n) 
-    \end{equation}
+        \tag{5.24}\label{eq:5.24}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.6 $\star$}
-Show the derivative of the error function (5.21) with respect
+Show the derivative of the error function \eqref{eq:5.21} with respect
 to the activation $a_k$ for output units having a softmax activation
 function satisfies \eqref{eq:5.18}.
 
@@ -293,15 +287,16 @@ function satisfies \eqref{eq:5.18}.
 
 \begin{proof}
     The general result for the derivative of the softmax function with respect to the 
-    activation $a_k$ was proved in Exercise 4.17 and is given by $\eqref{eq:4.106}$.
+    activation $a_k$ was proved in Exercise 4.17 and is given by (4:106).
     Therefore, we have that
     \[
         \pdv{y_k}{a_k} = y_k(1 - y_k)
     \] 
     Taking the derivative of 
-    \begin{equation}\label{eq:5.21}\tag{5.21}
+    \begin{equation*}
         E(\mathbf{w}) = -\sum_{n=1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\}
-    \end{equation}
+        \tag{5.21}\label{eq:5.21}
+    \end{equation*}
     with respect to $a_k$ yields
     \begin{align*}
         \pdv{a_k} E(\mathbf{w}) &= -t_k \pdv{a_k} \ln y_k - (1 - t_k) \pdv{a_k} \ln(1 - y_k) 
@@ -309,13 +304,14 @@ function satisfies \eqref{eq:5.18}.
         = y_k - t_k
     \end{align*}
     As a result,
-    \begin{equation}\label{eq:5.18}\tag{5.18}
+    \begin{equation*}
         \pdv{E}{a_k} = y_k - t_k
-    \end{equation}
+        \tag{5.18}\label{eq:5.18}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.7 $\star$}
-Show the derivative of the error function $\eqref{eq:5.21}$ with respect
+Show the derivative of the error function \eqref{eq:5.21} with respect
 to the activation $a_k$ for an output unit having a logistic sigmoid activation
 function satisfies $\eqref{eq:5.18}$.
 
@@ -323,9 +319,9 @@ function satisfies $\eqref{eq:5.18}$.
 
 \begin{proof}
     We've seen in Exercise 4.12 that
-    \begin{equation}\tag{4.88}
+    \begin{equation*}\tag{4.88}
         \pdv{a} \sigma(a) = \sigma(a)(1 - \sigma(a)
-    \end{equation}
+    \end{equation*}
     Since the output unit has a logistic sigmoid activation function, then
     \[
         y_k = \sigma(a_k)
@@ -359,7 +355,7 @@ by (5.59).
 \end{proof}
 
 \section*{Exercise 5.9 $\star$}
-The error function $\eqref{eq:5.21}$ for binary classification problems
+The error function \eqref{eq:5.21} for binary classification problems
 was derived for a network having a logistic-sigmoid output activation
 function, so that $0 \leq y(\mathbf{x}, \mathbf{w}) \leq 1$, and data having
 target values $t \in \{0, 1\}$. Derive the corresponding error function
@@ -408,22 +404,24 @@ and only if, all of its eigenvalues are positive.
 
 \begin{proof}
     Consider the eigenvector equation
-    \begin{equation}\label{eq:5.33}\tag{5.33}
+    \begin{equation*}
         \mathbf{H}\mathbf{u}_i = \lambda_i \mathbf{u}_i
-    \end{equation}
+        \tag{5.33}\label{eq:5.33}
+    \end{equation*}
     \begin{enumerate}
-        \item [\to] Assume that $\mathbf{H}$ is positive definite. Then,
+        \item [$\to$] Assume that $\mathbf{H}$ is positive definite. Then,
     \[
         \mathbf{u}_i^T \mathbf{H} \mathbf{u}_i = \lambda_i ||\mathbf{u}_i||^2 > 0
     \] 
     which happens only if the eigenvalues $\lambda_i$ are positive.
     \vspace{1em}
-    \item [\leftarrow] Suppose that the eigenvalues $\lambda_i$ are positive.
+    \item [$\leftarrow$] Suppose that the eigenvalues $\lambda_i$ are positive.
         Since the eigenvectors form an orthonormal basis, an arbitrary
         vector $\mathbf{v}$ can be written in the form
-        \begin{equation}\label{eq:5.38}\tag{5.38}
+        \begin{equation*}
             \mathbf{v} = \sum_{i} c_i \mathbf{u}_i 
-        \end{equation}
+            \tag{5.38}\label{eq:5.38}
+        \end{equation*}
         Therefore, 
         \begin{align*}
             \mathbf{v}^T\mathbf{H}\mathbf{v}
@@ -454,19 +452,22 @@ to the square root of the corresponding eigenvalues $\lambda_i$.
 \begin{proof}
     Analogously to what we've seen in Section 5.3.2, we're going
     to rewrite 
-    \begin{equation}\label{eq:5.32}\tag{5.32}
+    \begin{equation*}
         E(\mathbf{w}) \simeq E(\mathbf{w}^\star) + 
         \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T\mathbf{H}(\mathbf{w} - \mathbf{w}^\star)
-    \end{equation}
+        \tag{5.32}\label{eq:5.32}
+    \end{equation*}
     as 
-    \begin{equation}\label{eq:5.36}\tag{5.36}
+    \begin{equation*}
         E(\mathbf{w}) \simeq E(\mathbf{w}^\star) + \frac{1}{2} \sum_{i} \lambda_i \alpha_i^2 
-    \end{equation}
+        \tag{5.36}\label{eq:5.36}
+    \end{equation*}
     where we've expanded $(\mathbf{w} - \mathbf{w}^\star)$ as a linear combination
     of $\mathbf{H}$'s eigenvectors:
-    \begin{equation}\label{eq:5.35}\tag{5.35}
+    \begin{equation*}
        \mathbf{w} - \mathbf{w}^\star = \sum_{i} \alpha_i \mathbf{u}_i  
-    \end{equation}
+        \tag{5.35}\label{eq:5.35}
+    \end{equation*}
     Now, since $\mathbf{w}$ and $\mathbf{w}^\star$ are fixed, let 
     $\xi = 2E(\mathbf{w}) - 2E(\mathbf{w}^\star)$.
     Therefore, one can rewrite $\eqref{eq:5.36}$ as
@@ -504,7 +505,7 @@ be positive definite.
 \begin{proof}
     $ $
     \begin{enumerate}
-        \item [\to] Suppose that $\mathbf{H}$ is positive definite. From
+        \item [$\to$] Suppose that $\mathbf{H}$ is positive definite. From
             $\eqref{eq:5.32}$ one could then find that
              \[
                  E(\mathbf{w}) - E(\mathbf{w}^\star) > 0
@@ -512,7 +513,7 @@ be positive definite.
             for $\mathbf{w} \neq  \mathbf{w}^\star$. Therefore, $E(\mathbf{w}^\star)$
             would be the minimum value of E.
         \vspace{1em}
-        \item [\leftarrow] Assume that $\mathbf{w}^\star$
+        \item [$\leftarrow$] Assume that $\mathbf{w}^\star$
             is a local minimum of E. Then,
             \[
                 E(\mathbf{w}) -E(\mathbf{w}^\star) > 0
@@ -538,11 +539,12 @@ is given by $W(W + 3)/2$.
 
 \begin{proof}
     The independent elements in the
-    \begin{equation}\label{eq:5.28}\tag{5.28}
+    \begin{equation*}
         E(\mathbf{w}) \simeq E(\mathbf{\widehat{w}}) + 
         (\mathbf{w} - \widehat{\mathbf{w}})^T\mathbf{b}
         + \frac{1}{2}(\mathbf{w} - \mathbf{\widehat{w}})^T \mathbf{H} (\mathbf{w} - \mathbf{\widehat{w}})
-    \end{equation}
+        \tag{5.28}\label{eq:5.28}
+    \end{equation*}
     are given by the terms containing $\mathbf{b}$ and $\mathbf{H}$.
     Since $\mathbf{b}$ has $W$ elements and $\mathbf{H}$ is a symmetric matrix
     with $W(W + 1) / 2$ independent elements (see Exercise 2.21), one has a total of
@@ -558,10 +560,11 @@ cancel on the right-hand side of $\eqref{eq:5.69}$.
 
 \begin{proof}
     Taking the Taylor expansion around $w_{ji}$ of the terms on the right hand side of
-    \begin{equation}\label{eq:5.69}\tag{5.69}
+    \begin{equation*}
         \pdv{E_n}{w_{ji}} = \frac{E_n(w_{ji} + \epsilon) - E_n(w_{ji} - \epsilon)}{2\epsilon}
         + O(\epsilon^2)
-    \end{equation}
+        \tag{5.69}\label{eq:5.69}
+    \end{equation*}
     yields
     \[
         E_n(w_{ji} + \epsilon) \simeq E_n(w_{ji}) + \epsilon E_n'(w_{ji}) 
@@ -654,18 +657,21 @@ multiple outputs.
 
 \section*{Exercise 5.17 $\star$}
 Consider a squared loss function of the form
-\begin{equation}\label{eq:5.193}\tag{5.193}
-    E = \frac{1}{2} \iint \{y(\mathbf{x}, \mathbf{w}) - t\}^2 p(\mathbf{x}, t) \diff \mathbf{x} \diff t
-\end{equation}
+\begin{equation*}
+    E = \frac{1}{2} \iint \{y(\mathbf{x}, \mathbf{w}) - t\}^2 
+    p(\mathbf{x}, t) \diff \mathbf{x} \diff t
+    \tag{5.193}\label{eq:5.193}
+\end{equation*}
 where $y(\mathbf{x}, \mathbf{w})$ is a parametric function such as a neural
 network. The result (1.89) shows that the function $y(\mathbf{x}, \mathbf{w})$
 that minimizes this error is given by the conditional
 expectation of $t$ given $\mathbf{x}$. Use this result to show
 that the second derivative of $E$ with respect to two elements
 $w_r$ and $w_s$ of the vector $\mathbf{w}$, is given by
-\begin{equation}\label{eq:5.194}\tag{5.194}
+\begin{equation*}
     \pdv{E}{w_r}{w_s} = \int \pdv{y}{w_r} \pdv{y}{w_s} p(\mathbf{x}) \diff \mathbf{x}
-\end{equation}
+    \tag{5.194}\label{eq:5.194}
+\end{equation*}
 Note that, for a finite sample form $p(\mathbf{x})$, we obtain
 (5.84).
 
@@ -735,9 +741,9 @@ sum-of-squares error function.
 \begin{proof}
     For simplicity, let $y_n$ denote $y(\mathbf{x}_n, \mathbf{w)}$.
     Consider a network with the cross-entropy error function
-    \begin{equation}\label{eq:5.21}\tag{5.21}
+    \begin{equation*}\tag{5.21}
         E(\mathbf{w}) = -\sum_{n=1}^{N} \{t_n \ln y_n + (1 - t_n) \ln(1 - y_n)\}
-    \end{equation}
+    \end{equation*}
     and a single output with activation
     \[
         y_n = \sigma(a_n)
@@ -818,7 +824,7 @@ function.
         = -\sum_{k=1}^{K} t_{nk} \pdv{\ln y_{nk}}{a_{ni}}
         = -\sum_{k=1}^{K} \frac{t_{nk}}{y_{nk}} \pdv{y_{nk}}{a_{ni}}
     \end{align*}
-    From Exercise 4.17, respectively $\eqref{eq:4.106}$, we have that
+    From Exercise 4.17, respectively (4.106), we have that
      \[
          \pdv{y_{nk}}{a_{ni}} = y_{nk}(\delta_{ik} - y_{ni})
     \] 
@@ -891,7 +897,7 @@ the chain rule of calculus.
                 &= \pdv{w_{kj}^{(2)}} \bigg(\pdv{E_n}{a_{k'}} z_{j'}\bigg) \\
                 &= z_{j'} \pdv{a_{k'}} \bigg(\pdv{E_n}{a_k} \pdv{a_k}{w_{kj}^{(2)}}\bigg) \\
                 &= z_{j}z_{j'} \pdv{E_n}{a_k}{a_{k'}} \\
-                &= z_j z_{j'} M_{kk'} \label{eq:5.93}\tag{5.93}
+                &= z_j z_{j'} M_{kk'} \tag{5.93}\label{eq:5.93}
             \end{align*}
         \item Both weights are in the first layer:
             \begin{align*}
@@ -910,7 +916,7 @@ the chain rule of calculus.
         For $j \neq j'$ the derivative in the first term is null. As a result, the first term
         can be written as
         \begin{align*}
-            x_{i'} \pdv{w_{ji}^{(1)}} \big(h'(a_{j'})\big) \sum_{k} w_{kj'}^{(2)} \delta_
+            x_{i'} \pdv{w_{ji}^{(1)}} \big(h'(a_{j'})\big) \sum_{k} w_{kj'}^{(2)} \delta_k
             &= \mathbf{I}_{jj'} x_{i'} \pdv{w_{j'i}^{(1)}} \big(h'(a_{j'})\big) \sum_{k} w_{kj'}^{(2)} \delta_k \\
             &= \mathbf{I}_{jj'} x_i x_{i'} h''(a_{j'}) \sum_{k} w_{kj'}^{(2)} \delta_k
         \end{align*}
@@ -927,7 +933,7 @@ the chain rule of calculus.
             \pdv{E_n}{w_{ji}^{(1)}}{w_{j'i'}^{(1)}}
             = \mathbf{I}_{jj'} x_i x_{i'} h''(a_{j'}) \sum_{k} w_{kj'}^{(2)} \delta_k +
             x_i x_{i'} h'(a_j) h'(a_{j'}) \sum_{k} \sum_{k'} w_{kj'}^{(2)} w_{k'j}^{(2)} M_{kk'}
-            \label{eq:5.94}\tag{5.94}
+            \tag{5.94}\label{eq:5.94}
         \end{align*}
         Note that this result is equivalent with the one in the book even if the $k$ and $k'$ are
         interchanged in the second term. This is because the sum ranges are chosen arbitrarily.
@@ -946,7 +952,7 @@ the chain rule of calculus.
             &= z_{j'} x_i h'(a_j) \sum_{k'} M_{kk'} w_{k'j}^{(2)} + 
             \mathbf{I}_{jj'} \delta_k x_i h'(a_j) \\
             &= x_i h'(a_j) \bigg\{\delta_k \mathbf{I}_{jj'} + z_{j'} \sum_{k'} w_{k'j}^{(2)} M_{kk'}\bigg\} 
-            \label{eq:5.95}\tag{5.95}
+            \tag{5.95}\label{eq:5.95}
         \end{align*}
     \end{enumerate}
 \end{proof}
@@ -1052,37 +1058,44 @@ and (5.120) to the second-layer weights and biases.
 
 \section*{Exercise 5.25 $\star \star \star$}
 Consider a quadratic error function of the form
- \begin{equation}\label{eq:5.195}\tag{5.195}
-     E = E_0 + \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T \mathbf{H} (\mathbf{w} - \mathbf{w}^\star)
-\end{equation}
+ \begin{equation*}
+     E = E_0 + \frac{1}{2}(\mathbf{w} - \mathbf{w}^\star)^T 
+     \mathbf{H} (\mathbf{w} - \mathbf{w}^\star)
+    \tag{5.195}\label{eq:5.195}
+\end{equation*}
 where $\mathbf{w}^*$ represents the minimum, and the Hessian matrix $\mathbf{H}$ is positive
 definite and constant. Suppose the initial weight vector $\mathbf{w}^{(0)}$ is chosen to be at the
 origin and is updated using simple gradient descent
-\begin{equation}\label{eq:5.196}\tag{5.196}
+\begin{equation*}
     \mathbf{w}^{(\tau)} = \mathbf{w}^{(\tau - 1)} - \rho \nabla E
-\end{equation}
+    \tag{5.196}\label{eq:5.196}
+\end{equation*}
 where $\tau$ denotes the step number, and $\rho$ is the learning
 rate (which is assumed to be small). Show that, after $\tau$ steps,
 the components of the weight vector parallel to the eigenvectors of 
  $\mathbf{H}$ can be written
- \begin{equation}\label{eq:5.197}\tag{5.197}
+ \begin{equation*}
      w_j^{(\tau)} = \{1 - (1 - \rho \eta_j)^\tau\} w_j^\star
- \end{equation}
+    \tag{5.197}\label{eq:5.197}
+ \end{equation*}
  where $w_j = \mathbf{w}^T \mathbf{u}_j$, $\mathbf{u}_j$ and $\eta_j$ are the eigenvectors and eigenvalues,
  respectively, of $\mathbf{H}$ so that
- \begin{equation}\label{eq:5.198}\tag{5.198}
-     \mathbf{H}\mathbf{u}_j = \eta_j \mathbf{u}_j
- \end{equation}
+ \begin{equation*}
+    \mathbf{H}\mathbf{u}_j = \eta_j \mathbf{u}_j
+    \tag{5.198}\label{eq:5.198}
+ \end{equation*}
  Show that as $\tau \to \infty$, this gives $\mathbf{w}^{(\tau)} \to \mathbf{w}^\star$ as expected,
  provided $|1 - \rho \eta_j| < 1$. Now suppose that training is halted after a finite number $\tau$ 
  of steps. Show that the components of the weight vector parallel to the eigenvectors of the
  Hessian satisfy 
- \begin{equation}\label{eq:5.199}\tag{5.199}
+ \begin{equation*}
      w_j^{(\tau)} \simeq w_j^\star \text{ when } \eta_j \gg (\rho \tau)^{-1}
-\end{equation}
-\begin{equation}\label{eq:5.200}\tag{5.200}
+    \tag{5.199}\label{eq:5.199}
+\end{equation*}
+\begin{equation*}
      |w_j^{(\tau)}| \ll |w_j^\star| \text{ when } \eta_j \ll (\rho \tau)^{-1}
-\end{equation}
+    \tag{5.200}\label{eq:5.200}
+\end{equation*}
 Compare this result with the discussion in Section 3.5.3 of regularization with simple
 weight decay, and hence show that $(\rho \tau)^{-1}$ is analogous to the regularization
 parameter $\lambda$. The above results also show that the effective number of parameters in the 
@@ -1160,43 +1173,50 @@ which is to be trained by minimzing the \emph{tangent propagation} error
 function in which the regularizing function is given by
 $\eqref{eq:5.128}$. Show that the regularization term $\Omega$ can
 be written as a sum over patterns of terms of the form
-\begin{equation}\label{eq:5.201}\tag{5.201}
+\begin{equation*}
     \Omega_n = \frac{1}{2} \sum_{k} (\mathcal{G}y_{nk})^2
-\end{equation}
-where $\mathcal{G}$ is a differential operator defined by
- \begin{equation}\label{eq:5.202}\tag{5.202}
-     \mathcal{G} \equiv \sum_{i} \tau_i \pdv{x_i}
-\end{equation}
+    \tag{5.201}\label{eq:5.201}
+\end{equation*}
+where $\mathcal{G}$ is a differential operator defined by 
+\begin{equation*}
+    \mathcal{G} \equiv \sum_{i} \tau_i \pdv{x_i}
+    \tag{5.202}\label{eq:5.202}
+\end{equation*}
 By acting on the forward propagation equations
-\begin{equation}\label{eq:5.203}\tag{5.203}
+\begin{equation*}
     z_j = h(a_j),
     \hspace{3em}
     a_j = \sum_{i} w_{ji} z_i
-\end{equation}
+    \tag{5.203}\label{eq:5.203}
+\end{equation*}
 with the operator $\mathcal{G}$, show that $\Omega_n$ 
 can be evaluated by forward propagation using the following equations:
-\begin{equation}\label{eq:5.204}\tag{5.204}
+\begin{equation*}
     \alpha_j = h'(a_j) \beta_j,
     \hspace{3em}
     \beta_j = \sum_{i} w_{ji} \alpha_i
-\end{equation}
+    \tag{5.204}\label{eq:5.204}
+\end{equation*}
 where we have defined the new variables
-\begin{equation}\label{eq:5.205}\tag{5.205}
+\begin{equation*}
     \alpha_j \equiv \mathcal{G} z_j,
     \hspace{3em}
     \beta_j \equiv \mathcal{G} a_j
-\end{equation}
+    \tag{5.205}\label{eq:5.205}
+\end{equation*}
 Now show that the derivatives of $\Omega_n$ with respect to a weight $w_{rs}$ in the network 
 can be written in the form  
-\begin{equation}\label{eq:5.206}\tag{5.206}
+\begin{equation*}
     \pdv{\Omega_n}{w_{rs}} = \sum_{k} \alpha_k \{\phi_{kr} z_s + \delta_{kr} \alpha_s\}
-\end{equation}
+    \tag{5.206}\label{eq:5.206}
+\end{equation*}
 where we have defined 
-\begin{equation}\label{eq:5.207}\tag{5.207}
+\begin{equation*}
     \delta_{kr} \equiv \pdv{y_k}{a_r},
     \hspace{3em}
     \phi_{kr} = \mathcal{G} \delta_{kr}.
-\end{equation}
+    \tag{5.207}\label{eq:5.207}
+\end{equation*}
 Write down the backpropagation equations for $\delta_{kr}$, and hence derive
 the set of backpropagation equations for the evaluation of $\phi_{kr}$.
 
@@ -1213,9 +1233,10 @@ the set of backpropagation equations for the evaluation of $\phi_{kr}$.
     where 
     $J_{nki}$ is the $(k, i)$-th element of the Jacobian for the $n$-th observation.
     Summing the above expression over $n$ yields the regularization function:
-    \begin{equation}\label{eq:5.128}\tag{5.128}
+    \begin{equation*}
         \sum_{n} \Omega_n = \frac{1}{2} \sum_{n} \bigg(\sum_{k} \tau_{ni} J_{nki}\bigg)^2 = \Omega
-    \end{equation}
+        \tag{5.128}\label{eq:5.128}
+    \end{equation*}
     By applying the differential operator $\mathcal{G}$ on the forward propagation equations
     \eqref{eq:5.203}, one obtains the same results as \eqref{eq:5.204}:
     \[
@@ -1306,10 +1327,11 @@ from \eqref{eq:5.135}.
 \begin{proof}
     Using the same arguments as in Section 5.5.5, we have that the regularizer
     is given by
-    \begin{equation}\label{eq:5.134}\tag{5.134}
+    \begin{equation*}
         \Omega = \frac{1}{2} \int_{}^{} \big(\bm{\tau}^T 
         \nabla y(\mathbf{x})\big)^2 p(\mathbf{x}) \diff \mathbf{x}
-    \end{equation}
+        \tag{5.134}\label{eq:5.134}
+    \end{equation*}
     Under our specific transformation, we have that
     \[
         \bm{\tau} = \pdv{s(\mathbf{x}, \bm{\xi})}{\bm{\xi}} \bigg|_{\bm{\xi} = \bm{0}}
@@ -1317,9 +1339,10 @@ from \eqref{eq:5.135}.
         = \mathbf{I}
     \] 
     Hence, substituting back into \eqref{eq:5.134} gives the Tikhonov form
-    \begin{equation}\label{eq:5.135}\tag{5.135}
+    \begin{equation*}
         \Omega = \frac{1}{2} \int_{}^{} \norm{\nabla y(\mathbf{x})}^2 p(\mathbf{x}) \diff x
-    \end{equation}
+        \tag{5.135}\label{eq:5.135}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.29 $\star$}
@@ -1330,9 +1353,10 @@ Verify the result \eqref{eq:5.141}. (See PRML errata for the removal of $\lambda
 \begin{proof}
 
     Taking the derivative of the total error function 
-    \begin{equation}\label{eq:5.139}\tag{5.139}
+    \begin{equation*}
         \widetilde{E}(\mathbf{w}) = E(\mathbf{w}) + \Omega(\mathbf{w})
-    \end{equation}
+        \tag{5.139}\label{eq:5.139}
+    \end{equation*}
     with respect to $w_i$ yields
     \begin{align*}
         \pdv{\widetilde{E}}{w_i} = \pdv{E}{w_i} + \pdv{\Omega}{w_i}
@@ -1351,9 +1375,11 @@ Verify the result \eqref{eq:5.141}. (See PRML errata for the removal of $\lambda
     \end{align*}
     where $\gamma_j(w)$ is defined by (5.140). 
     Substituting into the expression above, one obtains
-    \begin{equation}\label{eq:5.141}\tag{5.141}
-        \pdv{\widetilde{E}}{w_i} = \pdv{E}{w_i} + \sum_{j}^{} \gamma_j(w_i) \frac{w_i - \mu_j}{\sigma_j^2}
-    \end{equation}
+    \begin{equation*}
+        \pdv{\widetilde{E}}{w_i} = \pdv{E}{w_i} 
+        + \sum_{j}^{} \gamma_j(w_i) \frac{w_i - \mu_j}{\sigma_j^2}
+        \tag{5.141}\label{eq:5.141}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.30 $\star$}
@@ -1376,11 +1402,12 @@ Verify the result \eqref{eq:5.142}. (See PRML errata for the removal of $\lambda
         &= \sum_{i}^{} \gamma_j(w_i) \frac{\mu_j - w_i}{\sigma_j^2}
     \end{align*}
     Since $E(\mathbf{w})$ has no dependence on $\mu_j$ the derivative term reduces, so
-    \begin{equation}\label{eq:5.142}\tag{5.143}
+    \begin{equation*}
         \pdv{\widetilde{E}}{\mu_j} = \pdv{E}{\mu_j} + \pdv{\Omega}{\mu_j}
         = \pdv{\Omega}{\mu_j}
         = \sum_{i}^{} \gamma_j(w_i) \frac{\mu_j - w_i}{\sigma_j^2}
-    \end{equation}
+        \label{eq:5.142}\tag{5.143}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.31 $\star$}
@@ -1410,20 +1437,22 @@ Verify the result \eqref{eq:5.143}. (See PRML errata for the removal of $\lambda
             \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
     \end{align*}
     Therefore,
-    \begin{equation}\label{eq:5.143}\tag{5.143}
+    \begin{equation*}
         \pdv{\widetilde{E}}{\sigma_j}
         = \sum_{i}^{} \gamma_j(w_i)
             \bigg(\frac{1}{\sigma_j} - \frac{(w_i - \mu_j)^2}{\sigma_j^3}\bigg) 
-    \end{equation}
+        \tag{5.143}\label{eq:5.143}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.32 $\star \star$}
 Show that the derivatives of the mixing coefficients $\{\pi_k\}$, defined
 by \eqref{eq:5.146}, with respect to the auxiliary parameters $\{\eta_j\}$ are 
 given by  
-\begin{equation}\label{eq:5.208}\tag{5.208}
+\begin{equation*}
     \pdv{\pi_k}{\eta_j} = \delta_{jk} \pi_j - \pi_j \pi_k
-\end{equation}
+    \tag{5.208}\label{eq:5.208}
+\end{equation*}
 Hence, by making use of the constraint $\sum_{k}^{} \pi_k = 1$, derive
 the result \eqref{eq:5.147}.
 
@@ -1431,14 +1460,15 @@ the result \eqref{eq:5.147}.
 
 \begin{proof}
     The mixing coefficients are given by the softmax function
-    \begin{equation}\label{eq:5.146}\tag{5.146}
+    \begin{equation*}
         \pi_j = \frac{\exp{\eta_j}}{\sum_{k}^{} \exp{\eta_k}}
-    \end{equation}
+        \tag{5.146}\label{eq:5.146}
+    \end{equation*}
     Therefore, as seen in Exercise 4.17, the derivative of $\pi_j$ is 
     given by 
-    \begin{equation}\label{eq:5.208}\tag{5.208}
+    \begin{equation*}\tag{5.208}
         \pdv{\pi_k}{\eta_j} = \delta_{jk} \pi_j - \pi_j \pi_k
-    \end{equation}
+    \end{equation*}
     Since $E(\mathbf{w})$ does not depend on the distribution of
     $\mathbf{w}$, the derivative of the total error is given by
     \begin{align*}
@@ -1452,7 +1482,7 @@ the result \eqref{eq:5.147}.
             {\sum_{l}^{} \pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)}
             - \pi_j \frac{\sum_{k}^{} \pi_k \mathcal{N}(w_i | \mu_k, \sigma_k^2)}
             {\sum_{l} {\pi_l \mathcal{N}(w_i | \mu_l, \sigma_l^2)}}\bigg) \\
-        &= \sum_{i}^{} \{\pi_j - \gamma_j(w_i)\} \label{eq:5.147}\tag{5.147}
+        &= \sum_{i}^{} \{\pi_j - \gamma_j(w_i)\} \tag{5.147}\label{eq:5.147}
     \end{align*}
 \end{proof}
 
@@ -1464,56 +1494,59 @@ Assume the origin of the coordinate system is given by the attachment point of
 the lower arm. These equations define the `forward kinematics` of the robot arm.
 
 \vspace{1em}
-    \begin{figure}[h]
-        \begin{tikzpicture}
-            \def\figThetaOne{130}
-            \def\figThetaTwo{50}
+\begin{figure}
+    \begin{tikzpicture}
+        \def\figThetaOne{130}
+        \def\figThetaTwo{50}
 
-            \def\LOne{6}
-            \def\LTwo{4}
+        \def\LOne{6}
+        \def\LTwo{4}
 
-            \tkzInit[xmin=-5, xmax=5, ymin=0, ymax=8]
-            \tkzDrawX
+        \tkzInit[xmin=-5, xmax=5, ymin=0, ymax=8]
+        \tkzDrawX
 
-            \tkzDefPoint(0,0){O}
+        \tkzDefPoint(0,0){O}
+        \tkzDefPoint(1,0){Z}
 
-            \tkzDefShiftPoint[O](\figThetaOne:\LOne){A}
-            \tkzDefShiftPoint[A](\figThetaTwo:\LTwo){B}
+        \tkzDefShiftPoint[O](\figThetaOne:\LOne){A}
+        \tkzDefShiftPoint[A](\figThetaTwo:\LTwo){B}
 
-            \tkzDefPointWith[colinear=at B](A,O)
-            \tkzGetPoint{C}
+        \tkzDefPointWith[colinear=at B](A,O)
+        \tkzGetPoint{C}
 
-            \tkzDrawSegment[red, line width=1.5pt, vector style](O,A)
-            \tkzDrawSegment[red, line width=1.5pt, vector style](A,B)
-            \tkzDrawSegment[line width=1pt, vector style](O, C)
-            \tkzDrawSegment(B, C)
+        \tkzDrawSegment[red, line width=1.5pt, vector style](O,A)
+        \tkzDrawSegment[red, line width=1.5pt, vector style](A,B)
+        \tkzDrawSegment[line width=1pt, vector style](O, C)
+        \tkzDrawSegment(B, C)
 
-            \tkzDefRectangle(C,O) \tkzGetPoints{y_C}{E}
-            \tkzDefRectangle(A,O) \tkzGetPoints{y_A}{D}
+        \tkzDefPointBy[projection=onto O--Z](A)
+        \tkzGetPoint{D}
+        \tkzDefPointBy[projection=onto O--Z](C)
+        \tkzGetPoint{E}
 
-            \tkzDrawSegment[dashed](C,E)
-            \tkzDrawSegment[dashed](A,D)
+        \tkzDrawSegment[dashed](C,E)
+        \tkzDrawSegment[dashed](A,D)
 
-            \tkzMarkRightAngle(A,D,O)
-            \tkzMarkRightAngle(C,E,O)
+        \tkzMarkRightAngle(A,D,O)
+        \tkzMarkRightAngle(C,E,O)
 
-            \tkzMarkAngle[arrows=stealth-](O,A,B)
-            \tkzLabelAngle[pos=0.05cm](O,A,B){$\theta_2$}
+        \tkzMarkAngle[arrows=stealth-](O,A,B)
+        \tkzLabelAngle[pos=0.05cm](O,A,B){$\theta_2$}
 
-            \tkzMarkAngle[arrows=stealth-](E,O,A)
-            \tkzLabelAngle[pos=0.05cm](E,O,A){$\theta_1$}
+        \tkzMarkAngle[arrows=stealth-](E,O,A)
+        \tkzLabelAngle[pos=0.05cm](E,O,A){$\theta_1$}
 
-            \tkzLabelSegment(O,A){$L_1$}
-            \tkzLabelSegment(A,B){$L_2$}
+        \tkzLabelSegment(O,A){$L_1$}
+        \tkzLabelSegment(A,B){$L_2$}
 
-            \tkzDrawSegment[line width=1pt, vector style](O, B)
+        \tkzDrawSegment[line width=1pt, vector style](O, B)
 
-            \tkzDrawPoints(O, A, B, C, E, D)
-            \tkzLabelPoints(O, A, B, C, E, D)
-        \end{tikzpicture}
-        \centering
-        \caption{Robot arm geometric interpretation}
-    \end{figure}
+        \tkzDrawPoints(O, A, B, C, E, D)
+        \tkzLabelPoints(O, A, B, C, E, D)
+    \end{tikzpicture}
+    \centering
+    \caption{Robot arm geometric interpretation}
+\end{figure}
 
 \begin{proof}
     Let the origin $O$ be the attachment point of the lower arm 
@@ -1572,13 +1605,14 @@ density network.
 
 \begin{proof}
     The error function for the network takes the form
-    \begin{equation}\label{eq:5.153}\tag{5.153}
+    \begin{equation*}
         E(\mathbf{w}) 
         = -\sum_{n=1}^{N} \ln
         \bigg\{\sum_{k=1}^{K} \pi_k(\mathbf{x}, \mathbf{w}) 
             \mathcal{N}\big(\mathbf{t}_n | \bm{\mu}_k(\mathbf{x}_n, \mathbf{w}),
         \mathbf{I}\sigma_k^2(\mathbf{x}_n, \mathbf{w})\big)\bigg\}
-    \end{equation}
+        \tag{5.153}\label{eq:5.153}
+    \end{equation*}
     Taking the derivative of the error function over an individual data point 
     wrt. to the network output activations controlling the mixing coefficients
     yields:
@@ -1590,7 +1624,8 @@ density network.
         \sum_{l=1}^{K} \big(\delta_{lk} \pi_k - \pi_l \pi_k\big) \mathcal{N}_{nl} \\
         &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
         \bigg(\pi_k \mathcal{N}_{nk} - \pi_k \sum_{l=1}^{K} \pi_l \mathcal{N}_{nl}\bigg) \\
-        &= \pi_k - \gamma_{nk} \label{eq:5.155}\tag{5.155}
+        &= \pi_k - \gamma_{nk} 
+        \tag{5.155}\label{eq:5.155}
     \end{align*}
     where $\mathcal{N}_{nk}$ denotes 
     $\mathcal{N}\big(\mathbf{t}_n | \bm{\mu}_k(\mathbf{x}_n, \mathbf{w}), 
@@ -1623,7 +1658,7 @@ density network.
         &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
         \frac{t_{nl} - \mu_{kl}}{\sigma_k^2} \pi_k\mathcal{N}_{nk} \\
         &= \gamma_{nk} \bigg\{\frac{t_{nl} - \mu_{kl}}{\sigma_k^2}\bigg\} 
-        \label{eq:5.156}\tag{5.156}
+        \tag{5.156}\label{eq:5.156}
     \end{align*}
 \end{proof}
 
@@ -1645,17 +1680,19 @@ the component variances in the mixture density network.
             \sum_{i=1}^{K} \pi_i \pdv{\mathcal{N}_{ni}}{a_{k}^\sigma} \\
         &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
             \pi_k \pdv{\mathcal{N}_{nk}}{a_{k}^\sigma} \\
-        &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
-            \pi_k\bigg[\frac{1}{\sqrt{(2\pi)^L}} \bigg(\pdv{\sigma_k^{-L}}{a_k^\sigma}
-            \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2} +
-            \sigma_k^{L} \pdv{a_k^\sigma} 
+        &= \begin{aligned}[t]
+            -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
+            \pi_k\bigg[&\frac{1}{\sqrt{(2\pi)^L}} \bigg(\pdv{\sigma_k^{-L}}{a_k^\sigma}
+            \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2} + \\
+                        & \sigma_k^{L} \pdv{a_k^\sigma} 
             \exp{-\frac{1}{2\sigma_k^2} \norm{\mathbf{t}_n - \bm{\mu}_k}^2}\bigg)\bigg] \\
+        \end{aligned} \\
         &= -\bigg(\sum_{j=1}^{K} \pi_j \mathcal{N}_{nj}\bigg)^{-1}
             \pi_k\bigg(-L \mathcal{N}_{nk} 
             + \frac{\norm{\mathbf{t}_n - \bm{\mu}_k}^2}{\sigma_k^2} \mathcal{N}_{nk}\bigg) \\
         &= \gamma_{nk}\bigg\{L-
         \frac{\norm{\mathbf{t}_n - \bm{\mu}_k}^2}{\sigma_k^2}\bigg\}
-        \label{eq:5.157}\tag{5.157}
+        \tag{5.157}\label{eq:5.157}
     \end{align*}
 \end{proof}
 
@@ -1678,7 +1715,7 @@ variance of the mixture density network model.
             \mathcal{N}\big(\mathbf{t} | \bm{\mu}_k(\mathbf{x}), \sigma_k^2(\mathbf{x})\big) 
             \diff \mathbf{t} \\
         &= \sum_{k=1}^{K} \pi_k(\mathbf{x}) \bm{\mu}_k(\mathbf{x})
-        \label{eq:5.158}\tag{5.158}
+        \tag{5.158}\label{eq:5.158}
     \end{align*}
     The proof for the variance is a little bit more involved. Note that
     \begin{align*}
@@ -1726,34 +1763,37 @@ variance of the mixture density network model.
             \bigg\Vert
             \bm{\mu}_k(\mathbf{x})
             - \sum_{l=1}^{K} \pi_l(\mathbf{x}) \bm{\mu}_l(\mathbf{x})\bigg\Vert^2\bigg\}
-        \label{eq:5.160}\tag{5.160}
+        \tag{5.160}\label{eq:5.160}
     \end{align*}
 \end{proof}
 
 \section*{Exercise 5.38 $\star$}
-Using the general result \eqref{eq:2.115}, derive the predictive distribution
+Using the general result (2.115), derive the predictive distribution
 \eqref{eq:5.172} for the Laplace approximation to the Bayesian neural network model.
 
 \vspace{1em}
 
 \begin{proof}
     We've seen in Section 5.7.1 that 
-    \begin{equation}\label{eq:5.168}\tag{5.168}
+    \begin{equation*}
         p(t | \mathbf{x}, \mathcal{D}) 
         \simeq
         \int p(t | \mathbf{x}, \mathbf{w}, \beta)q(\mathbf{w} | \mathcal{D}) \diff \mathbf{w}
-    \end{equation}
+        \tag{5.168}\label{eq:5.168}
+    \end{equation*}
     where 
-    \begin{equation}\label{eq:5.167}\tag{5.167}
+    \begin{equation*}
         q(\mathbf{w} | \mathcal{D}) 
         = \mathcal{N}(\mathbf{w} | \mathbf{w}_{\text{MAP}}, \mathbf{A}^{-1})
-    \end{equation}
+        \tag{5.167}\label{eq:5.167}
+    \end{equation*}
     and 
-    \begin{equation}\label{eq:5.171}\tag{5.171}
+    \begin{equation*}
         p(t | \mathbf{x}, \mathbf{w}, \beta)
         \simeq \mathcal{N}(t | y(\mathbf{x}, \mathbf{w}_\text{MAP}) 
         + \mathbf{g}^T(\mathbf{w} - \mathbf{w}_\text{MAP}), \beta^{-1})
-    \end{equation}
+        \tag{5.171}\label{eq:5.171}
+    \end{equation*}
     where $\mathbf{g}$ is defined by (5.170). Therefore, we can rewrite the marginal
     distribution $p(t)$ as 
     \[
@@ -1764,7 +1804,7 @@ Using the general result \eqref{eq:2.115}, derive the predictive distribution
         \mathcal{N}(\mathbf{w} | \mathbf{w}_{\text{MAP}}, \mathbf{A}^{-1})
         \diff \mathbf{w}
     \] 
-    Now, using \eqref{eq:2.115} for the mean of the predictive distribution
+    Now, using (2.115) for the mean of the predictive distribution
     and setting the parameters to their MAP value gives
     \[
         \mu(\mathbf{x}) 
@@ -1772,16 +1812,18 @@ Using the general result \eqref{eq:2.115}, derive the predictive distribution
         + \mathbf{g}^T\mathbf{w}|_{\mathbf{w} = \mathbf{w}_\text{MAP}}
         = y(\mathbf{x}, \mathbf{w}_\text{MAP})
     \] 
-    The input-dependent variance is obtained analogously using $\eqref{eq:2.115}$:
-    \begin{equation}\label{eq:5.173}\tag{5.173}
+    The input-dependent variance is obtained analogously using (2.115):
+    \begin{equation*}
         \sigma^2(\mathbf{x}) = \beta^{-1} + \mathbf{g}^T\mathbf{A}^{-1}\mathbf{g} 
-    \end{equation}
+        \tag{5.173}\label{eq:5.173}
+    \end{equation*}
     Finally, the predictive distribution can be written as
-    \begin{equation}\label{eq:5.172}\tag{5.172}
+    \begin{equation*}
         p(t | \mathbf{x}, \mathcal{D}, \alpha, \beta)
         \simeq \mathcal{N}(t | y(\mathbf{x}, \mathbf{w}_{MAP}), 
         \beta^{-1} + \mathbf{g}^T\mathbf{A}^{-1}\mathbf{g})
-    \end{equation}
+        \tag{5.172}\label{eq:5.172}
+    \end{equation*}
 \end{proof}
 
 \section*{Exercise 5.39 $\star$}
@@ -1793,10 +1835,11 @@ neural network model can be approximated by \eqref{eq:5.175}.
 
 \begin{proof}
     Since the marginal likelihood is given by
-    \begin{equation}\label{eq:5.174}\tag{5.174}
+    \begin{equation*}
         p(\mathcal{D} | \alpha, \beta)
         = \int_{}^{} p(\mathcal{D} | \mathbf{w}, \beta) p(\mathbf{w} | \alpha) \diff \mathbf{w}
-    \end{equation}
+        \tag{5.174}\label{eq:5.174}
+    \end{equation*}
     by identifying $f(\mathbf{w}) = p(\mathcal{D} | \mathbf{w}, \beta)p(\mathbf{w} | \alpha)$
     and $Z = p(\mathcal{D} | \alpha, \beta)$ and then making use of the Laplace approximation
     result (4.135) similarly to Section 4.4.1 gives
@@ -1824,20 +1867,22 @@ neural network model can be approximated by \eqref{eq:5.175}.
         + \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi)
     \] 
     where
-    \begin{equation}\label{eq:5.166}\tag{5.166}
+    \begin{equation*}
         \mathbf{A} = -\nabla \nabla \ln p(\mathbf{w} | \mathcal{D}, \alpha, \beta)
-    \end{equation}
+        \tag{5.166}\label{eq:5.166}
+    \end{equation*}
     From (5.165) and and (5.176), one can easily see that
     \[
         \ln p(\mathbf{w}_\text{MAP} | \mathcal{D}, \alpha, \beta)
         = -E(\mathbf{w}_\text{MAP})
     \]
     so
-    \begin{equation}\label{eq:5.175}\tag{5.175}
+    \begin{equation*}
         \ln p(\mathcal{D} | \alpha, \beta)
         \simeq -E(\mathbf{w}_\text{MAP})
         - \frac{1}{2} \ln |\mathbf{A}|
         + \frac{W}{2} \ln \alpha
         + \frac{N}{2} \ln \beta - \frac{N}{2} \ln(2\pi)
-    \end{equation}
+        \tag{5.175}\label{eq:5.175}
+    \end{equation*}
 \end{proof}
