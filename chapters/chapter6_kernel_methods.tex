@@ -600,3 +600,322 @@ the Cauchy-Schwartz inequality
         \tag{6.96}
     \end{equation*}
 \end{proof}
+
+\section*{Exercise 6.16 $\star \star$}
+Consider a parametric model governed by the parameter vector
+$\mathbf{w}$ together with a data set of input values $\mathbf{x}_1
+\ldots, \mathbf{x}_N$ and a nonlinear feature mapping $\bm{\phi}(\mathbf{x})$.
+Suppose that the dependence of the error function on $\mathbf{w}$ takes the form
+\begin{equation}
+    J(\mathbf{w}) 
+    = f\big(\mathbf{w}^T\bm{\phi}(\mathbf{x}_1), \ldots, \mathbf{w}^T\bm{\phi}(\mathbf{x}_N)\big)
+    + g(\mathbf{w}^T \mathbf{w})
+    \tag{6.97}\label{eq:6.97}
+\end{equation}
+where $g(\cdot)$ is a monotonically increasing function. By writing $\mathbf{w}$ in 
+the form
+\begin{equation}
+    \mathbf{w} = \sum_{n=1}^{N}  \alpha_n \bm{\phi}(\mathbf{x}_n) + \mathbf{w}_\perp
+    \tag{6.98}\label{eq:6.98}
+\end{equation}
+show that the value of $\mathbf{w}$ that minimizes $J(\mathbf{w})$ takes the form of a
+linear combination of the basis functions $\bm{\phi}(\mathbf{x}_n)$ for $n=1,\ldots,N$.
+
+\vspace{1em}
+
+\begin{proof}
+    Taking the derivative of \eqref{eq:6.97} with respect to $\mathbf{w}$ yields:
+    \begin{align*}
+        \dv{\mathbf{w}} J(\mathbf{w})
+        &= \pdv{\mathbf{w}} 
+        f\big(\mathbf{w}^T\bm{\phi}(\mathbf{x}_1), \ldots, \mathbf{w}^T\bm{\phi}(\mathbf{x}_N)\big)
+        + \pdv{\mathbf{w}} g(\mathbf{w}^T \mathbf{w}) \\
+        &= \sum_{i=1}^{N} \pdv{f}{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n)} 
+        \pdv{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n)}{\mathbf{w}}
+        + \pdv{g}{\mathbf{w}^T \mathbf{w}} \pdv{\mathbf{w}^T \mathbf{w}}{\mathbf{w}} \\
+        &= \sum_{i=1}^{N} \pdv{f}{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n)} 
+        \bm{\phi}(\mathbf{x}_n)^T 
+        + \pdv{g}{\mathbf{w}^T \mathbf{w}} 2\mathbf{w}^T
+    \end{align*}
+    Since the error function is convex, it is minimized when the derivative
+    is 0, so when
+    \[
+        \mathbf{w}
+        = -\frac{1}{2}\bigg(\pdv{g}{\mathbf{w}^T \mathbf{w}}\bigg)^{-1}
+        \sum_{i=1}^{N} \pdv{f}{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n)} 
+        \bm{\phi}(\mathbf{x}_n)
+        = \sum_{i=1}^{N} \alpha_n \bm{\phi}(\mathbf{x}_n)
+    \] 
+    with
+    \[
+        \alpha_n = 
+        -\frac{1}{2}\bigg(\pdv{g}{\mathbf{w}^T \mathbf{w}}\bigg)^{-1}
+        \pdv{f}{\mathbf{w}^T \bm{\phi}(\mathbf{x}_n)} 
+    \] 
+    which is equivalent to \eqref{eq:6.98} for $\mathbf{w}_\perp = \mathbf{0}$.
+\end{proof}
+
+\section*{Exercise 6.18 $\star$}
+Consider a Nadaraya-Watson model with one input variable $x$ and one target variable
+$t$ having Gaussian components with isotropic covariances,
+so that the covariance matrix is given by  $\sigma^2\mathbf{I}$ where $\mathbf{I}$ is
+the unit matrix. Write down experssions for the conditional density $p(t | x)$ and
+for the conditional mean $\mathbb{E}[t | x]$ and variance var[$t | x$], in terms of the 
+kernel function $k(x, x_n)$.
+
+\vspace{1em}
+
+\begin{proof}
+To simplify the notation, let
+    \[
+        \mathbf{z} = \begin{pmatrix}
+            x \\
+            t
+        \end{pmatrix}
+    \] 
+Since the model has Gaussian components with isotropic covariances,
+    \[
+        f(x, t) = f(z) = \mathcal{N}(\mathbf{z} | \mathbf{0}, \sigma^2 \mathbf{I})
+    \] 
+and therefore,
+    \[
+        f(x - x_n, t - t_n) 
+        = f(\mathbf{z} - \mathbf{z}_n) 
+        = \mathcal{N}(\mathbf{z} - \mathbf{z}_n | \mathbf{0}, \sigma^2 \mathbf{I})
+        = \mathcal{N}(\mathbf{z} | \mathbf{z}_n, \sigma^2 \mathbf{I})
+    \] 
+To aid computation, we note that
+\begin{align*}
+    f(\mathbf{z} - \mathbf{z}_n) 
+    &= \mathcal{N}(\mathbf{z} | \mathbf{z}_n, \sigma^2 \mathbf{I}) \\
+    &= \frac{1}{2 \pi \sigma^2} \exp{-\frac{1}{2\sigma^2} ||\mathbf{z} - \mathbf{z}_n||^2} \\
+    &= \frac{1}{2 \pi \sigma^2} \exp{-\frac{(x - x_n)^2 + (t - t_n)^2}{2\sigma^2}} \\
+    &= \frac{1}{\sqrt{2\pi\sigma^2}} \exp{-\frac{(x - x_n)^2}{2\sigma^2}}
+    \frac{1}{\sqrt{2\pi\sigma^2}} \exp{-\frac{(t - t_n)^2}{2\sigma^2}} \\
+    &= \mathcal{N}(x | x_n, \sigma^2) \mathcal{N}(t | t_n, \sigma^2)
+\end{align*}
+and
+\[
+    \int f(\mathbf{z} - \mathbf{z}_n) \diff t
+    = \int \mathcal{N}(x | x_n, \sigma^2) \mathcal{N}(t | t_n, \sigma^2) \diff t
+    = \mathcal{N}(x | x_n, \sigma^2) \int \mathcal{N}(t | t_n, \sigma^2) \diff t
+    = \mathcal{N}(x | x_n, \sigma^2)
+\] 
+By the Nadaraya-Watson model, from (6.42) we have that
+\[
+    p(x, t) = \frac{1}{N} \sum_{n=1}^{N} f(x - x_n, t - t_n)
+    = \frac{1}{N} \sum_{n=1}^{N} f(\mathbf{z} - \mathbf{z}_n) 
+    = \frac{1}{N} \sum_{n=1}^{N} \mathcal{N}(x | x_n, \sigma^2) \mathcal{N}(t | t_n, \sigma^2)
+\] 
+The conditional probability is now given by
+\begin{align*}
+    p(t | x) = \frac{p(t, x)}{\displaystyle \int_{}^{} p(t, x) \diff t}
+    = \frac{\displaystyle \sum_{n=1}^{N} f(\mathbf{z} - \mathbf{z}_n)}
+    {\displaystyle \sum_{m=1}^{N} \int f(\mathbf{z} - \mathbf{z}_m) \diff t}
+    &= \sum_{n=1}^{N} \frac{\mathcal{N}(x | x_n, \sigma^2) \mathcal{N}(t | t_n, \sigma^2)}
+    {\displaystyle \sum_{m=1}^{N} \mathcal{N}(x | x_m, \sigma^2)} \\
+    &= \sum_{n=1}^{N} k(x, x_n) \mathcal{N}(t | t_n, \sigma^2)
+\end{align*}
+where 
+\[
+    k(x, x_n) = \frac{\mathcal{N}(x | x_n, \sigma^2)}
+    {\displaystyle \sum_{m=1}^{N} \mathcal{N}(x | x_m, \sigma^2)}
+\] 
+is the kernel function corresponding to the model.
+The conditional expectation is obtained as
+\[
+    \mathbb{E}[t | x] 
+    = \int t p(t | x) \diff t
+    = \sum_{n=1}^{N} \int_{}^{} t k(x, x_n) \mathcal{N}(t | t_n, \sigma^2) \diff t
+    = \sum_{n=1}^{N} k(x, x_n) t_n
+\] 
+The variance is then given by
+\begin{align*}
+    \text{var}[t | x]
+    &= \int_{}^{} (t - \mathbb{E}[t | x])^2 p(t | x) \diff t \\
+    &= \int_{}^{} t^2 p(t | x) \diff t
+    - 2\mathbb{E}[t | x] \int t p(t | x) \diff t + \mathbb{E}[t | x]^2 \int_{}^{} p(t | x) \diff t \\
+    &= \sum_{n=1}^{N} k(x, x_n) \int_{}^{} t^2 \mathcal{N}(t | t_n, \sigma^2) \diff t
+    - \mathbb{E}[t | x]^2 \\
+    &= \sum_{n=1}^{N} k(x, x_n) \big(t_n^2 + \sigma^2\big) 
+    - \bigg[\sum_{n=1}^{N} k(x, x_n)\mathcal{N}(t | t_n, \sigma^2)\bigg]^2
+\end{align*}
+\end{proof}
+
+\section*{Exercise 6.20 $\star \star$}
+Verify the results \eqref{eq:6.66} and \eqref{eq:6.67}.
+
+\vspace{1em}
+
+\begin{proof}
+    By considering the same setup as the one described in Section 6.4.2,
+    e.g. splitting the covariance matrix $\mathbf{C}_{N + 1}$ into (6.65),
+    one has that
+    \[
+        p(\mathbf{t}_N) = \mathcal{N}(\mathbf{t}_N | 0, \mathbf{C}_N)
+    \] 
+    \[
+        p(t_{N + 1}) = \mathcal{N}(t_{N + 1} | 0, c)
+    \] 
+    \[
+        \text{cov}[\mathbf{t}_N, t_{N + 1}] = \mathbf{k}
+    \] 
+    where $\mathbf{k}$ is a $N$-dimensional vector with
+    \[
+        k_i = k(\mathbf{x}_i, \mathbf{x}_{N + 1})
+    \] 
+    and
+    \[
+        c = k(\mathbf{x}_{N + 1}, x_{N + 1}) + \beta^{-1}
+    \]
+    Simply matching our variables with the general formulas
+    (2.81), (2.82) for the mean and covariance of the conditional distribution
+    $p(t_{N + 1} | \mathbf{t}_N)$ gives the desired results
+    \begin{equation}
+        m(\mathbf{x}_{N + 1}) = \mathbb{E}\big[t_{N + 1} | \mathbf{t}_N, \mathbf{x}_{N + 1}\big]
+        = \mathbf{k}^T \mathbf{C}_N^{-1}\mathbf{t}_N
+        \tag{6.66}\label{eq:6.66}
+    \end{equation}
+    \begin{equation}
+        \sigma^2(\mathbf{x}_{N + 1}) 
+        = \text{var}\big[t_{N + 1} | \mathbf{t}_N, \mathbf{x}_{N + 1}\big]
+        = c - \mathbf{k}^T\mathbf{C}_N^{-1}\mathbf{k}
+        \tag{6.67}\label{eq:6.67}
+    \end{equation}
+\end{proof}
+
+\section*{Exercise 6.21 $\star \star$}
+Consider a Gaussian process regression model in which
+the kernel function is defined in terms of a fixed set of nonlinear basis
+functions. Show that the predictive distribution is identical to the result \eqref{eq:3.58}
+obtained in Section 3.3.2 for the prediction distributions, and so it is only necessary
+to show that the conditional mean and variance are the same. For the mean, make
+use of the matrix identity (C.6), and for the variance, make use of the
+matrix identity (C.7).
+
+\vspace{1em}
+
+\begin{proof}
+    Let the kernel function of our Gaussian process regression model be defined
+    by 
+    \[
+        k(\mathbf{x}_n, \mathbf{x}_m) 
+        = \frac{1}{\alpha} \bm{\phi}(\mathbf{x}_n)^T \bm{\phi}(\mathbf{x}_m)
+    \] 
+    where $\bm{\phi}$ are nonlinear basis functions and $\alpha$ represents
+    the precision of $p(\mathbf{w)}$. As stated above, our goal
+    is to show that the mean $m(\mathbf{x}_{N + 1})$ and covariance 
+    $\sigma^2(\mathbf{x}_{N + 1})$ are equivalent to the ones obtained in Section 3.3.2
+    for the predictive distribution given by \eqref{eq:3.58}. Notice that both $\mathbf{k}$ 
+    and $\mathbf{C}_N$ can be rewritten as forms depending on the basis functions. Since
+    \[
+        k_i = k(\mathbf{x}_i, \mathbf{x}_{N + 1})
+        = \frac{1}{\alpha} \bm{\phi}(\mathbf{x}_i)^T \bm{\phi}(\mathbf{x}_{N + 1})
+    \]
+    then $\mathbf{k} = \alpha^{-1} \bm{\Phi}\bm{\phi}(\mathbf{x}_{N + 1})$, where
+    $\bm{\Phi}$ is the design matrix. Now, the elements of 
+    $\mathbf{C}_N$ can be written as
+    \begin{align*}
+        {\mathbf{C}_N}_{nm} 
+        = \mathbf{C}_N(\mathbf{x}_N, \mathbf{x}_M)
+        = k(\mathbf{x}_N, \mathbf{x}_M) + \beta^{-1} I_{nm}
+        = K_{nm} + \beta^{-1} I_{nm}
+        = \frac{1}{\alpha} \big(\bm{\Phi}\bm{\Phi}^T\big)_{nm} + \frac{1}{\beta} I_{nm}
+    \end{align*}
+    where $\mathbf{K}$ is the Gram matrix given by (6.54), so 
+    \[
+        \mathbf{C}_N = \frac{1}{\alpha} \bm{\Phi}\bm{\Phi}^T + \frac{1}{\beta} \mathbf{I}
+    \] 
+    The mean of the predictive distribution in the Gaussian process model is given by 
+    \eqref{eq:6.66} and can be rewritten as
+    \begin{align*}
+        m(\mathbf{x}_{N + 1}) 
+        &= \mathbf{k}^T \mathbf{C}_N^{-1} \mathbf{t} \\
+        &= \frac{1}{\alpha}\bm{\phi}^T(\mathbf{x}_{N + 1})^T \bm{\Phi}
+        \bigg(\frac{1}{\alpha} \bm{\Phi}\bm{\Phi}^T 
+            + \frac{1}{\beta} \mathbf{I}\bigg)^{-1}\mathbf{t} \\
+        &= \bm{\phi}(\mathbf{x}_{N + 1})^T \bm{\Phi}^T
+        \bigg(\bm{\Phi}\bm{\Phi}^T + \frac{\alpha}{\beta} \mathbf{I}\bigg)^{-1}\mathbf{t} \\
+        &= \beta \bm{\phi}(\mathbf{x}_{N + 1})^T \bm{\Phi}^T
+        \big(\beta \bm{\Phi}\bm{\Phi}^T + \alpha \mathbf{I}\big)^{-1}\mathbf{t} \\
+        &= \beta \bm{\phi}(\mathbf{x}_{N + 1})^T \bm{\Phi}^T
+        \big(\beta \bm{\Phi}^T\bm{\Phi} + \alpha \mathbf{I}\big)^{-1}\mathbf{t} \\
+        &= \beta\bm{\phi}(\mathbf{x}_{N + 1})^T \bm{\Phi}^T \mathbf{S}_N \mathbf{t}
+    \end{align*}
+    where $\mathbf{S}_N$ is given by \eqref{eq:3.54} and we've used (C.6) to obtain that
+    \[
+        \bm{\Phi}^T \big(\beta \bm{\Phi}\bm{\Phi}^T + \alpha \mathbf{I}\big)^{-1}
+        = \bm{\Phi}^T \big(\beta \bm{\Phi}^T\bm{\Phi} + \alpha \mathbf{I}\big)^{-1}
+    \] 
+    Starting from \eqref{eq:6.67}, the variance can be obtained as
+    \begin{align*}
+        \sigma^2(\mathbf{x}_{N + 1})
+        &= c - \mathbf{k}^T \mathbf{C}_N^{-1} \mathbf{k} \\
+        &= \frac{1}{\beta} + k(\mathbf{x}_{N + 1}, \mathbf{x}_{N + 1}) 
+        - \frac{\beta}{\alpha} \bm{\phi}(\mathbf{x}_{N + 1})^T
+        \bm{\Phi}^T \mathbf{S}_N \bm{\Phi} \bm{\phi}(\mathbf{x}_{N + 1}) \\
+        &= \frac{1}{\beta} 
+        + \frac{1}{\alpha}\bm{\phi}(\mathbf{x}_{N + 1})^T \bm{\phi}(\mathbf{x}_{N + 1})
+        - \frac{\beta}{\alpha} \bm{\phi}(\mathbf{x}_{N + 1})^T
+        \bm{\Phi}^T \mathbf{S}_N \bm{\Phi} \bm{\phi}(\mathbf{x}_{N + 1}) \\
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_{N + 1})^T \bigg[
+            \frac{1}{\alpha} \mathbf{I} - \frac{\beta}{\alpha} \bm{\Phi}^T \mathbf{S}_N \bm{\Phi}
+        \bigg] \bm{\phi}(\mathbf{x}_{N + 1}) \\
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_{N + 1})^T \bigg[
+            \frac{1}{\alpha} \mathbf{I} - \frac{\beta}{\alpha} \bm{\Phi}^T 
+            \big(\alpha \mathbf{I} + \beta \bm{\Phi}^T\bm{\Phi}\big)^{-1} \bm{\Phi}
+        \bigg] \bm{\phi}(\mathbf{x}_{N + 1}) \\
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_{N + 1})^T \bigg[
+            \frac{1}{\alpha} \mathbf{I} - \frac{\beta}{\alpha} \bm{\Phi}^T 
+            \big(\alpha \mathbf{I} + \beta \bm{\Phi}^T\bm{\Phi}\big)^{-1} \bm{\Phi}
+        \bigg] \bm{\phi}(\mathbf{x}_{N + 1}) \\
+        &= \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_{N + 1})^T \bigg[
+            \frac{1}{\alpha} \mathbf{I} - \frac{1}{\alpha^2} \bm{\Phi}^T 
+            \bigg(\frac{1}{\beta} \mathbf{I} + \frac{1}{\alpha} 
+            \bm{\Phi}^T\bm{\Phi}\bigg)^{-1} \bm{\Phi}
+        \bigg] \bm{\phi}(\mathbf{x}_{N + 1}) 
+    \end{align*}
+    Using the Woodbury identity (C.7) combined with \eqref{eq:3.54}, one could show that
+    \begin{align*}
+       \mathbf{S}_N
+       &= \big(\alpha \mathbf{I} + \beta \bm{\Phi}^T \bm{\Phi}\big)^{-1} \\
+       &= \frac{1}{\alpha} \mathbf{I} - \frac{1}{\alpha^2} \bm{\Phi}^T
+       \bigg(\frac{1}{\beta} \mathbf{I} + \frac{1}{\alpha}\bm{\Phi}^T \bm{\Phi}\bigg)^{-1} 
+       \bm{\Phi} 
+    \end{align*}
+    Hence, the variance is the same as in the result \eqref{eq:3.58}:
+    \[
+        \sigma^2(\mathbf{x}_{N + 1}) 
+        = \frac{1}{\beta} + \bm{\phi}(\mathbf{x}_{N + 1})^T \mathbf{S}_N 
+        \bm{\phi}(\mathbf{x}_{N + 1})
+    \] 
+    Therefore, since both our predictive distributions are Gaussian and
+    have the same mean and variance, they are identical.
+\end{proof}
+
+\section*{Exercise 6.24 $\star$}
+Show that a diagonal matrix $\mathbf{W}$ whose elements satisfy
+$0 < W_{ii} < 1$ is positive definite. Show that the sum of two
+positive definite matrices is itself positive definite.
+
+\vspace{1em}
+
+\begin{proof}
+    Since $\mathbf{W}$ is a $N \cross N$ diagonal matrix with $0 < W_{ii} < 1$,
+    \[
+        \mathbf{a}^T\mathbf{W}\mathbf{a} = \sum_{i=1}^{N} a_i^2 W_{ii} > 0, 
+        \forall \mathbf{a} \in \mathbb{R}^N
+    \] 
+    Therefore, $\mathbf{W}$ is a positive definite matrix. Let 
+    $\mathbf{C}_1, \mathbf{C}_2$ be $N \cross N$ positive definite matrices and 
+    $\mathbf{A} = \mathbf{C}_1 + \mathbf{C}_2$.
+    Then,
+    \[
+        \mathbf{a}^T\mathbf{A}\mathbf{a} 
+        = \mathbf{a}^T\big(\mathbf{C}_1 + \mathbf{C}_2\big)\mathbf{a}
+        = \mathbf{a}^T\mathbf{C}_1\mathbf{a} + \mathbf{a}^T\mathbf{C}_2\mathbf{a} > 0,
+        \forall \mathbf{a} \in \mathbb{R}^N
+    \] 
+    As a result, we showed that the sum of two positive definite matrices is also
+    a positive definite matrix.
+\end{proof}
