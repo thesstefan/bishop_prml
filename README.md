@@ -1,8 +1,7 @@
 # PRML Solution Manual
 
 My own comprehensive solution manual for Chris Bishop's [Pattern Matching and Machine Learning](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
-exercises. The manual is written as a learning exercise, so there may be mistakes. 
-The document is written using LaTeX and the PDF file can be accessed [here](https://github.com/thesstefan/bishop_prml/blob/build/prml_solution_manual.pdf).
+exercises. The document is written using LaTeX and the PDF file can be accessed [here](https://github.com/thesstefan/bishop_prml/blob/build/prml_solution_manual.pdf).
 
 # Progress
 
