@@ -10,5 +10,5 @@ exercises. The document is written using LaTeX and the PDF file can be accessed 
 3. [x] Chapter 3 - Linear Models for Regression: **24/24** 
 4. [x] Chapter 4 - Linear Classification Models for Classification: **20/26** ⮕ 4.2, 4.3, 4.6, 4.20, 4.23, 4.24, 4.26
 5. [x] Chapter 5 - Neural Networks: **37/41** ⮕ 5.22, 5.28, 5.40, 5.41
-6. [ ] Chapter 6 - Kernel Methods: **WIP**
+6. [x] Chapter 6 - Kernel Methods: **18/24**
 7. [ ] Chapter 7 - Sparse Kernel Machines: **WIP**
